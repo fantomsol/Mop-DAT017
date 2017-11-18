@@ -61,7 +61,7 @@ void main(void){
     gotoxy(1, 1);
 20000038:	2101      	movs	r1, #1
 2000003a:	2001      	movs	r0, #1
-2000003c:	f000 f9b1 	bl	200003a2 <gotoxy>
+2000003c:	f000 f9b3 	bl	200003a6 <gotoxy>
     s = test1;
 20000040:	2314      	movs	r3, #20
 20000042:	18fb      	adds	r3, r7, r3
@@ -70,11 +70,11 @@ void main(void){
 20000046:	6a7b      	ldr	r3, [r7, #36]	; 0x24
 20000048:	781b      	ldrb	r3, [r3, #0]
 2000004a:	0018      	movs	r0, r3
-2000004c:	f000 f9dd 	bl	2000040a <ascii_write_string>
+2000004c:	f000 f9df 	bl	2000040e <ascii_write_string>
     gotoxy(1, 2);
 20000050:	2102      	movs	r1, #2
 20000052:	2001      	movs	r0, #1
-20000054:	f000 f9a5 	bl	200003a2 <gotoxy>
+20000054:	f000 f9a7 	bl	200003a6 <gotoxy>
     s = test2;
 20000058:	1d3b      	adds	r3, r7, #4
 2000005a:	627b      	str	r3, [r7, #36]	; 0x24
@@ -82,15 +82,15 @@ void main(void){
 2000005c:	6a7b      	ldr	r3, [r7, #36]	; 0x24
 2000005e:	781b      	ldrb	r3, [r3, #0]
 20000060:	0018      	movs	r0, r3
-20000062:	f000 f9d2 	bl	2000040a <ascii_write_string>
+20000062:	f000 f9d4 	bl	2000040e <ascii_write_string>
 }
 20000066:	46c0      	nop			; (mov r8, r8)
 20000068:	46bd      	mov	sp, r7
 2000006a:	b00b      	add	sp, #44	; 0x2c
 2000006c:	bd90      	pop	{r4, r7, pc}
 2000006e:	46c0      	nop			; (mov r8, r8)
-20000070:	20000434 	andcs	r0, r0, r4, lsr r4
-20000074:	20000444 	andcs	r0, r0, r4, asr #8
+20000070:	20000438 	andcs	r0, r0, r8, lsr r4
+20000074:	20000448 	andcs	r0, r0, r8, asr #8
 
 20000078 <app_init>:
 
@@ -104,36 +104,36 @@ void app_init(void){
 20000080:	601a      	str	r2, [r3, #0]
     
     // ***DISPLAY INIT***
-    // Clear screen
+    // Clear display
     ascii_command(0x1, 2, 0);
 20000082:	2200      	movs	r2, #0
 20000084:	2102      	movs	r1, #2
 20000086:	2001      	movs	r0, #1
-20000088:	f000 f936 	bl	200002f8 <ascii_command>
+20000088:	f000 f938 	bl	200002fc <ascii_command>
     // Set address register to 0, reset cursor
     ascii_command(0x2, 2, 0);
 2000008c:	2200      	movs	r2, #0
 2000008e:	2102      	movs	r1, #2
 20000090:	2002      	movs	r0, #2
-20000092:	f000 f931 	bl	200002f8 <ascii_command>
+20000092:	f000 f933 	bl	200002fc <ascii_command>
     // 2 rows, characters are 5x8 dots
     ascii_command(0x38, 39, 1);
 20000096:	2201      	movs	r2, #1
 20000098:	2127      	movs	r1, #39	; 0x27
 2000009a:	2038      	movs	r0, #56	; 0x38
-2000009c:	f000 f92c 	bl	200002f8 <ascii_command>
+2000009c:	f000 f92e 	bl	200002fc <ascii_command>
     // Turn on display, turn on cursor, cursor not blinking
     ascii_command(0xE, 39, 1);
 200000a0:	2201      	movs	r2, #1
 200000a2:	2127      	movs	r1, #39	; 0x27
 200000a4:	200e      	movs	r0, #14
-200000a6:	f000 f927 	bl	200002f8 <ascii_command>
+200000a6:	f000 f929 	bl	200002fc <ascii_command>
     // Increment mode, no shift
-    ascii_command(0x7, 39, 1);
+    ascii_command(0x6, 39, 1);
 200000aa:	2201      	movs	r2, #1
 200000ac:	2127      	movs	r1, #39	; 0x27
-200000ae:	2007      	movs	r0, #7
-200000b0:	f000 f922 	bl	200002f8 <ascii_command>
+200000ae:	2006      	movs	r0, #6
+200000b0:	f000 f924 	bl	200002fc <ascii_command>
 }
 200000b4:	46c0      	nop			; (mov r8, r8)
 200000b6:	46bd      	mov	sp, r7
@@ -240,524 +240,526 @@ void delay_milli(unsigned int ms){
 20000158:	6078      	str	r0, [r7, #4]
     delay_mikro(ms*MILLI_TO_MIKRO);
 2000015a:	687b      	ldr	r3, [r7, #4]
-2000015c:	0018      	movs	r0, r3
-2000015e:	f7ff ffe3 	bl	20000128 <delay_mikro>
+2000015c:	22fa      	movs	r2, #250	; 0xfa
+2000015e:	0092      	lsls	r2, r2, #2
+20000160:	4353      	muls	r3, r2
+20000162:	0018      	movs	r0, r3
+20000164:	f7ff ffe0 	bl	20000128 <delay_mikro>
 }
-20000162:	46c0      	nop			; (mov r8, r8)
-20000164:	46bd      	mov	sp, r7
-20000166:	b002      	add	sp, #8
-20000168:	bd80      	pop	{r7, pc}
+20000168:	46c0      	nop			; (mov r8, r8)
+2000016a:	46bd      	mov	sp, r7
+2000016c:	b002      	add	sp, #8
+2000016e:	bd80      	pop	{r7, pc}
 
-2000016a <ascii_ctrl_bit_set>:
+20000170 <ascii_ctrl_bit_set>:
 
 void ascii_ctrl_bit_set(unsigned char x){
-2000016a:	b580      	push	{r7, lr}
-2000016c:	b082      	sub	sp, #8
-2000016e:	af00      	add	r7, sp, #0
-20000170:	0002      	movs	r2, r0
-20000172:	1dfb      	adds	r3, r7, #7
-20000174:	701a      	strb	r2, [r3, #0]
+20000170:	b580      	push	{r7, lr}
+20000172:	b082      	sub	sp, #8
+20000174:	af00      	add	r7, sp, #0
+20000176:	0002      	movs	r2, r0
+20000178:	1dfb      	adds	r3, r7, #7
+2000017a:	701a      	strb	r2, [r3, #0]
     // Set bits that are 1 in x to 1, leave rest be
     portOdrLow |= x;
-20000176:	4906      	ldr	r1, [pc, #24]	; (20000190 <ascii_ctrl_bit_set+0x26>)
-20000178:	4b05      	ldr	r3, [pc, #20]	; (20000190 <ascii_ctrl_bit_set+0x26>)
-2000017a:	781a      	ldrb	r2, [r3, #0]
-2000017c:	1dfb      	adds	r3, r7, #7
-2000017e:	781b      	ldrb	r3, [r3, #0]
-20000180:	4313      	orrs	r3, r2
-20000182:	b2db      	uxtb	r3, r3
-20000184:	700b      	strb	r3, [r1, #0]
+2000017c:	4905      	ldr	r1, [pc, #20]	; (20000194 <ascii_ctrl_bit_set+0x24>)
+2000017e:	4b05      	ldr	r3, [pc, #20]	; (20000194 <ascii_ctrl_bit_set+0x24>)
+20000180:	781a      	ldrb	r2, [r3, #0]
+20000182:	1dfb      	adds	r3, r7, #7
+20000184:	781b      	ldrb	r3, [r3, #0]
+20000186:	4313      	orrs	r3, r2
+20000188:	b2db      	uxtb	r3, r3
+2000018a:	700b      	strb	r3, [r1, #0]
 }
-20000186:	46c0      	nop			; (mov r8, r8)
-20000188:	46bd      	mov	sp, r7
-2000018a:	b002      	add	sp, #8
-2000018c:	bd80      	pop	{r7, pc}
-2000018e:	46c0      	nop			; (mov r8, r8)
-20000190:	40021014 	andmi	r1, r2, r4, lsl r0
+2000018c:	46c0      	nop			; (mov r8, r8)
+2000018e:	46bd      	mov	sp, r7
+20000190:	b002      	add	sp, #8
+20000192:	bd80      	pop	{r7, pc}
+20000194:	40021014 	andmi	r1, r2, r4, lsl r0
 
-20000194 <ascii_ctrl_bit_clear>:
+20000198 <ascii_ctrl_bit_clear>:
 
 void ascii_ctrl_bit_clear(unsigned char x){
-20000194:	b580      	push	{r7, lr}
-20000196:	b082      	sub	sp, #8
-20000198:	af00      	add	r7, sp, #0
-2000019a:	0002      	movs	r2, r0
-2000019c:	1dfb      	adds	r3, r7, #7
-2000019e:	701a      	strb	r2, [r3, #0]
+20000198:	b580      	push	{r7, lr}
+2000019a:	b082      	sub	sp, #8
+2000019c:	af00      	add	r7, sp, #0
+2000019e:	0002      	movs	r2, r0
+200001a0:	1dfb      	adds	r3, r7, #7
+200001a2:	701a      	strb	r2, [r3, #0]
     // Set any bits that are 0 in x to 0, leave rest as they were
     portOdrLow &= x;
-200001a0:	4905      	ldr	r1, [pc, #20]	; (200001b8 <ascii_ctrl_bit_clear+0x24>)
-200001a2:	4b05      	ldr	r3, [pc, #20]	; (200001b8 <ascii_ctrl_bit_clear+0x24>)
-200001a4:	781b      	ldrb	r3, [r3, #0]
-200001a6:	1dfa      	adds	r2, r7, #7
-200001a8:	7812      	ldrb	r2, [r2, #0]
-200001aa:	4013      	ands	r3, r2
-200001ac:	b2db      	uxtb	r3, r3
-200001ae:	700b      	strb	r3, [r1, #0]
+200001a4:	4905      	ldr	r1, [pc, #20]	; (200001bc <ascii_ctrl_bit_clear+0x24>)
+200001a6:	4b05      	ldr	r3, [pc, #20]	; (200001bc <ascii_ctrl_bit_clear+0x24>)
+200001a8:	781b      	ldrb	r3, [r3, #0]
+200001aa:	1dfa      	adds	r2, r7, #7
+200001ac:	7812      	ldrb	r2, [r2, #0]
+200001ae:	4013      	ands	r3, r2
+200001b0:	b2db      	uxtb	r3, r3
+200001b2:	700b      	strb	r3, [r1, #0]
 }
-200001b0:	46c0      	nop			; (mov r8, r8)
-200001b2:	46bd      	mov	sp, r7
-200001b4:	b002      	add	sp, #8
-200001b6:	bd80      	pop	{r7, pc}
-200001b8:	40021014 	andmi	r1, r2, r4, lsl r0
+200001b4:	46c0      	nop			; (mov r8, r8)
+200001b6:	46bd      	mov	sp, r7
+200001b8:	b002      	add	sp, #8
+200001ba:	bd80      	pop	{r7, pc}
+200001bc:	40021014 	andmi	r1, r2, r4, lsl r0
 
-200001bc <ascii_write_cmd>:
+200001c0 <ascii_write_cmd>:
 
 void ascii_write_cmd(unsigned char command){
-200001bc:	b580      	push	{r7, lr}
-200001be:	b082      	sub	sp, #8
-200001c0:	af00      	add	r7, sp, #0
-200001c2:	0002      	movs	r2, r0
-200001c4:	1dfb      	adds	r3, r7, #7
-200001c6:	701a      	strb	r2, [r3, #0]
+200001c0:	b580      	push	{r7, lr}
+200001c2:	b082      	sub	sp, #8
+200001c4:	af00      	add	r7, sp, #0
+200001c6:	0002      	movs	r2, r0
+200001c8:	1dfb      	adds	r3, r7, #7
+200001ca:	701a      	strb	r2, [r3, #0]
     // Prepare display for sending command
     ascii_ctrl_bit_clear(B_RS | B_RW);
-200001c8:	2003      	movs	r0, #3
-200001ca:	f7ff ffe3 	bl	20000194 <ascii_ctrl_bit_clear>
+200001cc:	2003      	movs	r0, #3
+200001ce:	f7ff ffe3 	bl	20000198 <ascii_ctrl_bit_clear>
     
     // Write command
     ascii_write_controller(command);
-200001ce:	1dfb      	adds	r3, r7, #7
-200001d0:	781b      	ldrb	r3, [r3, #0]
-200001d2:	0018      	movs	r0, r3
-200001d4:	f000 f85e 	bl	20000294 <ascii_write_controller>
+200001d2:	1dfb      	adds	r3, r7, #7
+200001d4:	781b      	ldrb	r3, [r3, #0]
+200001d6:	0018      	movs	r0, r3
+200001d8:	f000 f85e 	bl	20000298 <ascii_write_controller>
 }
-200001d8:	46c0      	nop			; (mov r8, r8)
-200001da:	46bd      	mov	sp, r7
-200001dc:	b002      	add	sp, #8
-200001de:	bd80      	pop	{r7, pc}
+200001dc:	46c0      	nop			; (mov r8, r8)
+200001de:	46bd      	mov	sp, r7
+200001e0:	b002      	add	sp, #8
+200001e2:	bd80      	pop	{r7, pc}
 
-200001e0 <ascii_write_data>:
+200001e4 <ascii_write_data>:
 
 void ascii_write_data(unsigned char data){
-200001e0:	b580      	push	{r7, lr}
-200001e2:	b082      	sub	sp, #8
-200001e4:	af00      	add	r7, sp, #0
-200001e6:	0002      	movs	r2, r0
-200001e8:	1dfb      	adds	r3, r7, #7
-200001ea:	701a      	strb	r2, [r3, #0]
+200001e4:	b580      	push	{r7, lr}
+200001e6:	b082      	sub	sp, #8
+200001e8:	af00      	add	r7, sp, #0
+200001ea:	0002      	movs	r2, r0
+200001ec:	1dfb      	adds	r3, r7, #7
+200001ee:	701a      	strb	r2, [r3, #0]
     // Prepare display for writing data
     ascii_ctrl_bit_set(B_RS);
-200001ec:	2001      	movs	r0, #1
-200001ee:	f7ff ffbc 	bl	2000016a <ascii_ctrl_bit_set>
+200001f0:	2001      	movs	r0, #1
+200001f2:	f7ff ffbd 	bl	20000170 <ascii_ctrl_bit_set>
     ascii_ctrl_bit_clear(B_RW);
-200001f2:	2002      	movs	r0, #2
-200001f4:	f7ff ffce 	bl	20000194 <ascii_ctrl_bit_clear>
+200001f6:	2002      	movs	r0, #2
+200001f8:	f7ff ffce 	bl	20000198 <ascii_ctrl_bit_clear>
     
     // Write data
     ascii_write_controller(data);
-200001f8:	1dfb      	adds	r3, r7, #7
-200001fa:	781b      	ldrb	r3, [r3, #0]
-200001fc:	0018      	movs	r0, r3
-200001fe:	f000 f849 	bl	20000294 <ascii_write_controller>
+200001fc:	1dfb      	adds	r3, r7, #7
+200001fe:	781b      	ldrb	r3, [r3, #0]
+20000200:	0018      	movs	r0, r3
+20000202:	f000 f849 	bl	20000298 <ascii_write_controller>
 }
-20000202:	46c0      	nop			; (mov r8, r8)
-20000204:	46bd      	mov	sp, r7
-20000206:	b002      	add	sp, #8
-20000208:	bd80      	pop	{r7, pc}
+20000206:	46c0      	nop			; (mov r8, r8)
+20000208:	46bd      	mov	sp, r7
+2000020a:	b002      	add	sp, #8
+2000020c:	bd80      	pop	{r7, pc}
 
-2000020a <ascii_read_data>:
+2000020e <ascii_read_data>:
 
 unsigned char ascii_read_data(void){
-2000020a:	b590      	push	{r4, r7, lr}
-2000020c:	b083      	sub	sp, #12
-2000020e:	af00      	add	r7, sp, #0
+2000020e:	b590      	push	{r4, r7, lr}
+20000210:	b083      	sub	sp, #12
+20000212:	af00      	add	r7, sp, #0
     unsigned char return_value;
     // Port E 8-15 -> input
     portModer &= 0x0000FFFF;
-20000210:	4b0c      	ldr	r3, [pc, #48]	; (20000244 <ascii_read_data+0x3a>)
-20000212:	4a0c      	ldr	r2, [pc, #48]	; (20000244 <ascii_read_data+0x3a>)
-20000214:	6812      	ldr	r2, [r2, #0]
-20000216:	0412      	lsls	r2, r2, #16
-20000218:	0c12      	lsrs	r2, r2, #16
-2000021a:	601a      	str	r2, [r3, #0]
+20000214:	4b0c      	ldr	r3, [pc, #48]	; (20000248 <ascii_read_data+0x3a>)
+20000216:	4a0c      	ldr	r2, [pc, #48]	; (20000248 <ascii_read_data+0x3a>)
+20000218:	6812      	ldr	r2, [r2, #0]
+2000021a:	0412      	lsls	r2, r2, #16
+2000021c:	0c12      	lsrs	r2, r2, #16
+2000021e:	601a      	str	r2, [r3, #0]
     
     // Prepare display for reading data
     ascii_ctrl_bit_set(B_RS | B_RW);
-2000021c:	2003      	movs	r0, #3
-2000021e:	f7ff ffa4 	bl	2000016a <ascii_ctrl_bit_set>
+20000220:	2003      	movs	r0, #3
+20000222:	f7ff ffa5 	bl	20000170 <ascii_ctrl_bit_set>
     
     return_value = ascii_read_controller();
-20000222:	1dfc      	adds	r4, r7, #7
-20000224:	f000 f84e 	bl	200002c4 <ascii_read_controller>
-20000228:	0003      	movs	r3, r0
-2000022a:	7023      	strb	r3, [r4, #0]
+20000226:	1dfc      	adds	r4, r7, #7
+20000228:	f000 f84e 	bl	200002c8 <ascii_read_controller>
+2000022c:	0003      	movs	r3, r0
+2000022e:	7023      	strb	r3, [r4, #0]
     
     // Port E 8-15 -> output
     portModer |= 0x55550000;
-2000022c:	4b05      	ldr	r3, [pc, #20]	; (20000244 <ascii_read_data+0x3a>)
-2000022e:	4a05      	ldr	r2, [pc, #20]	; (20000244 <ascii_read_data+0x3a>)
-20000230:	6812      	ldr	r2, [r2, #0]
-20000232:	4905      	ldr	r1, [pc, #20]	; (20000248 <ascii_read_data+0x3e>)
-20000234:	430a      	orrs	r2, r1
-20000236:	601a      	str	r2, [r3, #0]
+20000230:	4b05      	ldr	r3, [pc, #20]	; (20000248 <ascii_read_data+0x3a>)
+20000232:	4a05      	ldr	r2, [pc, #20]	; (20000248 <ascii_read_data+0x3a>)
+20000234:	6812      	ldr	r2, [r2, #0]
+20000236:	4905      	ldr	r1, [pc, #20]	; (2000024c <ascii_read_data+0x3e>)
+20000238:	430a      	orrs	r2, r1
+2000023a:	601a      	str	r2, [r3, #0]
     
     return return_value;
-20000238:	1dfb      	adds	r3, r7, #7
-2000023a:	781b      	ldrb	r3, [r3, #0]
+2000023c:	1dfb      	adds	r3, r7, #7
+2000023e:	781b      	ldrb	r3, [r3, #0]
 }
-2000023c:	0018      	movs	r0, r3
-2000023e:	46bd      	mov	sp, r7
-20000240:	b003      	add	sp, #12
-20000242:	bd90      	pop	{r4, r7, pc}
-20000244:	40021000 	andmi	r1, r2, r0
-20000248:	55550000 	ldrbpl	r0, [r5, #-0]
+20000240:	0018      	movs	r0, r3
+20000242:	46bd      	mov	sp, r7
+20000244:	b003      	add	sp, #12
+20000246:	bd90      	pop	{r4, r7, pc}
+20000248:	40021000 	andmi	r1, r2, r0
+2000024c:	55550000 	ldrbpl	r0, [r5, #-0]
 
-2000024c <ascii_read_status>:
+20000250 <ascii_read_status>:
 
 unsigned char ascii_read_status(void){
-2000024c:	b590      	push	{r4, r7, lr}
-2000024e:	b083      	sub	sp, #12
-20000250:	af00      	add	r7, sp, #0
+20000250:	b590      	push	{r4, r7, lr}
+20000252:	b083      	sub	sp, #12
+20000254:	af00      	add	r7, sp, #0
     unsigned char return_value;
     // Port E 8-15 -> input
     portModer &= 0x0000FFFF;
-20000252:	4b0e      	ldr	r3, [pc, #56]	; (2000028c <ascii_read_status+0x40>)
-20000254:	4a0d      	ldr	r2, [pc, #52]	; (2000028c <ascii_read_status+0x40>)
-20000256:	6812      	ldr	r2, [r2, #0]
-20000258:	0412      	lsls	r2, r2, #16
-2000025a:	0c12      	lsrs	r2, r2, #16
-2000025c:	601a      	str	r2, [r3, #0]
+20000256:	4b0e      	ldr	r3, [pc, #56]	; (20000290 <ascii_read_status+0x40>)
+20000258:	4a0d      	ldr	r2, [pc, #52]	; (20000290 <ascii_read_status+0x40>)
+2000025a:	6812      	ldr	r2, [r2, #0]
+2000025c:	0412      	lsls	r2, r2, #16
+2000025e:	0c12      	lsrs	r2, r2, #16
+20000260:	601a      	str	r2, [r3, #0]
     
     // Prepare display for reading status and address
     ascii_ctrl_bit_clear(B_RS);
-2000025e:	2001      	movs	r0, #1
-20000260:	f7ff ff98 	bl	20000194 <ascii_ctrl_bit_clear>
+20000262:	2001      	movs	r0, #1
+20000264:	f7ff ff98 	bl	20000198 <ascii_ctrl_bit_clear>
     ascii_ctrl_bit_set(B_RW);
-20000264:	2002      	movs	r0, #2
-20000266:	f7ff ff80 	bl	2000016a <ascii_ctrl_bit_set>
+20000268:	2002      	movs	r0, #2
+2000026a:	f7ff ff81 	bl	20000170 <ascii_ctrl_bit_set>
     
     // Read values from display
     return_value = ascii_read_controller();
-2000026a:	1dfc      	adds	r4, r7, #7
-2000026c:	f000 f82a 	bl	200002c4 <ascii_read_controller>
-20000270:	0003      	movs	r3, r0
-20000272:	7023      	strb	r3, [r4, #0]
+2000026e:	1dfc      	adds	r4, r7, #7
+20000270:	f000 f82a 	bl	200002c8 <ascii_read_controller>
+20000274:	0003      	movs	r3, r0
+20000276:	7023      	strb	r3, [r4, #0]
     
     // Port E 8-15 -> output
     portModer |= 0x55550000;
-20000274:	4b05      	ldr	r3, [pc, #20]	; (2000028c <ascii_read_status+0x40>)
-20000276:	4a05      	ldr	r2, [pc, #20]	; (2000028c <ascii_read_status+0x40>)
-20000278:	6812      	ldr	r2, [r2, #0]
-2000027a:	4905      	ldr	r1, [pc, #20]	; (20000290 <ascii_read_status+0x44>)
-2000027c:	430a      	orrs	r2, r1
-2000027e:	601a      	str	r2, [r3, #0]
+20000278:	4b05      	ldr	r3, [pc, #20]	; (20000290 <ascii_read_status+0x40>)
+2000027a:	4a05      	ldr	r2, [pc, #20]	; (20000290 <ascii_read_status+0x40>)
+2000027c:	6812      	ldr	r2, [r2, #0]
+2000027e:	4905      	ldr	r1, [pc, #20]	; (20000294 <ascii_read_status+0x44>)
+20000280:	430a      	orrs	r2, r1
+20000282:	601a      	str	r2, [r3, #0]
     
     return return_value;
-20000280:	1dfb      	adds	r3, r7, #7
-20000282:	781b      	ldrb	r3, [r3, #0]
+20000284:	1dfb      	adds	r3, r7, #7
+20000286:	781b      	ldrb	r3, [r3, #0]
 }
-20000284:	0018      	movs	r0, r3
-20000286:	46bd      	mov	sp, r7
-20000288:	b003      	add	sp, #12
-2000028a:	bd90      	pop	{r4, r7, pc}
-2000028c:	40021000 	andmi	r1, r2, r0
-20000290:	55550000 	ldrbpl	r0, [r5, #-0]
+20000288:	0018      	movs	r0, r3
+2000028a:	46bd      	mov	sp, r7
+2000028c:	b003      	add	sp, #12
+2000028e:	bd90      	pop	{r4, r7, pc}
+20000290:	40021000 	andmi	r1, r2, r0
+20000294:	55550000 	ldrbpl	r0, [r5, #-0]
 
-20000294 <ascii_write_controller>:
+20000298 <ascii_write_controller>:
 
 void ascii_write_controller(unsigned char byte){
-20000294:	b580      	push	{r7, lr}
-20000296:	b082      	sub	sp, #8
-20000298:	af00      	add	r7, sp, #0
-2000029a:	0002      	movs	r2, r0
-2000029c:	1dfb      	adds	r3, r7, #7
-2000029e:	701a      	strb	r2, [r3, #0]
+20000298:	b580      	push	{r7, lr}
+2000029a:	b082      	sub	sp, #8
+2000029c:	af00      	add	r7, sp, #0
+2000029e:	0002      	movs	r2, r0
+200002a0:	1dfb      	adds	r3, r7, #7
+200002a2:	701a      	strb	r2, [r3, #0]
     // Set enable flag to 1
     ascii_ctrl_bit_set(B_E);
-200002a0:	2040      	movs	r0, #64	; 0x40
-200002a2:	f7ff ff62 	bl	2000016a <ascii_ctrl_bit_set>
+200002a4:	2040      	movs	r0, #64	; 0x40
+200002a6:	f7ff ff63 	bl	20000170 <ascii_ctrl_bit_set>
     
     // Set data register values
     portOdrHigh = byte;
-200002a6:	4a06      	ldr	r2, [pc, #24]	; (200002c0 <ascii_write_controller+0x2c>)
-200002a8:	1dfb      	adds	r3, r7, #7
-200002aa:	781b      	ldrb	r3, [r3, #0]
-200002ac:	7013      	strb	r3, [r2, #0]
+200002aa:	4a06      	ldr	r2, [pc, #24]	; (200002c4 <ascii_write_controller+0x2c>)
+200002ac:	1dfb      	adds	r3, r7, #7
+200002ae:	781b      	ldrb	r3, [r3, #0]
+200002b0:	7013      	strb	r3, [r2, #0]
     
     // Wait for 230ns (here at least 250, hope this should still work)
     delay_250ns();
-200002ae:	f7ff ff09 	bl	200000c4 <delay_250ns>
+200002b2:	f7ff ff07 	bl	200000c4 <delay_250ns>
     
     // Set enable flag to 0
     ascii_ctrl_bit_clear(B_E);
-200002b2:	2040      	movs	r0, #64	; 0x40
-200002b4:	f7ff ff6e 	bl	20000194 <ascii_ctrl_bit_clear>
+200002b6:	2040      	movs	r0, #64	; 0x40
+200002b8:	f7ff ff6e 	bl	20000198 <ascii_ctrl_bit_clear>
 }
-200002b8:	46c0      	nop			; (mov r8, r8)
-200002ba:	46bd      	mov	sp, r7
-200002bc:	b002      	add	sp, #8
-200002be:	bd80      	pop	{r7, pc}
-200002c0:	40021015 	andmi	r1, r2, r5, lsl r0
+200002bc:	46c0      	nop			; (mov r8, r8)
+200002be:	46bd      	mov	sp, r7
+200002c0:	b002      	add	sp, #8
+200002c2:	bd80      	pop	{r7, pc}
+200002c4:	40021015 	andmi	r1, r2, r5, lsl r0
 
-200002c4 <ascii_read_controller>:
+200002c8 <ascii_read_controller>:
 
 unsigned char ascii_read_controller(void){
-200002c4:	b580      	push	{r7, lr}
-200002c6:	b082      	sub	sp, #8
-200002c8:	af00      	add	r7, sp, #0
+200002c8:	b580      	push	{r7, lr}
+200002ca:	b082      	sub	sp, #8
+200002cc:	af00      	add	r7, sp, #0
     unsigned char return_value;
     
     // Set enable flag to 1
     ascii_ctrl_bit_set(B_E);
-200002ca:	2040      	movs	r0, #64	; 0x40
-200002cc:	f7ff ff4d 	bl	2000016a <ascii_ctrl_bit_set>
+200002ce:	2040      	movs	r0, #64	; 0x40
+200002d0:	f7ff ff4e 	bl	20000170 <ascii_ctrl_bit_set>
     
     // Wait for at least 360ns, here at least 500
     delay_250ns();
-200002d0:	f7ff fef8 	bl	200000c4 <delay_250ns>
-    delay_250ns();
 200002d4:	f7ff fef6 	bl	200000c4 <delay_250ns>
+    delay_250ns();
+200002d8:	f7ff fef4 	bl	200000c4 <delay_250ns>
     
     // Read data register
     return_value = portIdrHigh;
-200002d8:	4a06      	ldr	r2, [pc, #24]	; (200002f4 <ascii_read_controller+0x30>)
-200002da:	1dfb      	adds	r3, r7, #7
-200002dc:	7812      	ldrb	r2, [r2, #0]
-200002de:	701a      	strb	r2, [r3, #0]
+200002dc:	4a06      	ldr	r2, [pc, #24]	; (200002f8 <ascii_read_controller+0x30>)
+200002de:	1dfb      	adds	r3, r7, #7
+200002e0:	7812      	ldrb	r2, [r2, #0]
+200002e2:	701a      	strb	r2, [r3, #0]
     
     // Set enable flag to 0
     ascii_ctrl_bit_clear(B_E);
-200002e0:	2040      	movs	r0, #64	; 0x40
-200002e2:	f7ff ff57 	bl	20000194 <ascii_ctrl_bit_clear>
+200002e4:	2040      	movs	r0, #64	; 0x40
+200002e6:	f7ff ff57 	bl	20000198 <ascii_ctrl_bit_clear>
     
     return return_value;
-200002e6:	1dfb      	adds	r3, r7, #7
-200002e8:	781b      	ldrb	r3, [r3, #0]
+200002ea:	1dfb      	adds	r3, r7, #7
+200002ec:	781b      	ldrb	r3, [r3, #0]
 }
-200002ea:	0018      	movs	r0, r3
-200002ec:	46bd      	mov	sp, r7
-200002ee:	b002      	add	sp, #8
-200002f0:	bd80      	pop	{r7, pc}
-200002f2:	46c0      	nop			; (mov r8, r8)
-200002f4:	40021011 	andmi	r1, r2, r1, lsl r0
+200002ee:	0018      	movs	r0, r3
+200002f0:	46bd      	mov	sp, r7
+200002f2:	b002      	add	sp, #8
+200002f4:	bd80      	pop	{r7, pc}
+200002f6:	46c0      	nop			; (mov r8, r8)
+200002f8:	40021011 	andmi	r1, r2, r1, lsl r0
 
-200002f8 <ascii_command>:
+200002fc <ascii_command>:
 
 void ascii_command(unsigned char command, unsigned int post_command_delay, unsigned short us){
-200002f8:	b580      	push	{r7, lr}
-200002fa:	b082      	sub	sp, #8
-200002fc:	af00      	add	r7, sp, #0
-200002fe:	6039      	str	r1, [r7, #0]
-20000300:	0011      	movs	r1, r2
-20000302:	1dfb      	adds	r3, r7, #7
-20000304:	1c02      	adds	r2, r0, #0
-20000306:	701a      	strb	r2, [r3, #0]
-20000308:	1d3b      	adds	r3, r7, #4
-2000030a:	1c0a      	adds	r2, r1, #0
-2000030c:	801a      	strh	r2, [r3, #0]
+200002fc:	b580      	push	{r7, lr}
+200002fe:	b082      	sub	sp, #8
+20000300:	af00      	add	r7, sp, #0
+20000302:	6039      	str	r1, [r7, #0]
+20000304:	0011      	movs	r1, r2
+20000306:	1dfb      	adds	r3, r7, #7
+20000308:	1c02      	adds	r2, r0, #0
+2000030a:	701a      	strb	r2, [r3, #0]
+2000030c:	1d3b      	adds	r3, r7, #4
+2000030e:	1c0a      	adds	r2, r1, #0
+20000310:	801a      	strh	r2, [r3, #0]
     // Prepare to check if display ready
     ascii_ctrl_bit_set(B_RW);
-2000030e:	2002      	movs	r0, #2
-20000310:	f7ff ff2b 	bl	2000016a <ascii_ctrl_bit_set>
+20000312:	2002      	movs	r0, #2
+20000314:	f7ff ff2c 	bl	20000170 <ascii_ctrl_bit_set>
     ascii_ctrl_bit_clear(B_RS);
-20000314:	2001      	movs	r0, #1
-20000316:	f7ff ff3d 	bl	20000194 <ascii_ctrl_bit_clear>
+20000318:	2001      	movs	r0, #1
+2000031a:	f7ff ff3d 	bl	20000198 <ascii_ctrl_bit_clear>
     
     // Wait until MSB in data register is 0, which means that the display ready to receive a command in 8us
     while(ascii_read_status() & 0x80 != 0);
-2000031a:	46c0      	nop			; (mov r8, r8)
-2000031c:	f7ff ff96 	bl	2000024c <ascii_read_status>
-20000320:	0003      	movs	r3, r0
-20000322:	001a      	movs	r2, r3
-20000324:	2301      	movs	r3, #1
-20000326:	4013      	ands	r3, r2
-20000328:	d1f8      	bne.n	2000031c <ascii_command+0x24>
+2000031e:	46c0      	nop			; (mov r8, r8)
+20000320:	f7ff ff96 	bl	20000250 <ascii_read_status>
+20000324:	0003      	movs	r3, r0
+20000326:	001a      	movs	r2, r3
+20000328:	2301      	movs	r3, #1
+2000032a:	4013      	ands	r3, r2
+2000032c:	d1f8      	bne.n	20000320 <ascii_command+0x24>
     delay_mikro(8);
-2000032a:	2008      	movs	r0, #8
-2000032c:	f7ff fefc 	bl	20000128 <delay_mikro>
+2000032e:	2008      	movs	r0, #8
+20000330:	f7ff fefa 	bl	20000128 <delay_mikro>
     
     // Send command
     ascii_write_cmd(command);
-20000330:	1dfb      	adds	r3, r7, #7
-20000332:	781b      	ldrb	r3, [r3, #0]
-20000334:	0018      	movs	r0, r3
-20000336:	f7ff ff41 	bl	200001bc <ascii_write_cmd>
+20000334:	1dfb      	adds	r3, r7, #7
+20000336:	781b      	ldrb	r3, [r3, #0]
+20000338:	0018      	movs	r0, r3
+2000033a:	f7ff ff41 	bl	200001c0 <ascii_write_cmd>
     
     // Wait for the entered amount of time
     if(us == 1){
-2000033a:	1d3b      	adds	r3, r7, #4
-2000033c:	881b      	ldrh	r3, [r3, #0]
-2000033e:	2b01      	cmp	r3, #1
-20000340:	d104      	bne.n	2000034c <ascii_command+0x54>
+2000033e:	1d3b      	adds	r3, r7, #4
+20000340:	881b      	ldrh	r3, [r3, #0]
+20000342:	2b01      	cmp	r3, #1
+20000344:	d104      	bne.n	20000350 <ascii_command+0x54>
         delay_mikro(post_command_delay);
-20000342:	683b      	ldr	r3, [r7, #0]
-20000344:	0018      	movs	r0, r3
-20000346:	f7ff feef 	bl	20000128 <delay_mikro>
+20000346:	683b      	ldr	r3, [r7, #0]
+20000348:	0018      	movs	r0, r3
+2000034a:	f7ff feed 	bl	20000128 <delay_mikro>
     } else {
         delay_milli(post_command_delay);
     }
 }
-2000034a:	e003      	b.n	20000354 <ascii_command+0x5c>
+2000034e:	e003      	b.n	20000358 <ascii_command+0x5c>
         delay_milli(post_command_delay);
-2000034c:	683b      	ldr	r3, [r7, #0]
-2000034e:	0018      	movs	r0, r3
-20000350:	f7ff feff 	bl	20000152 <delay_milli>
+20000350:	683b      	ldr	r3, [r7, #0]
+20000352:	0018      	movs	r0, r3
+20000354:	f7ff fefd 	bl	20000152 <delay_milli>
 }
-20000354:	46c0      	nop			; (mov r8, r8)
-20000356:	46bd      	mov	sp, r7
-20000358:	b002      	add	sp, #8
-2000035a:	bd80      	pop	{r7, pc}
+20000358:	46c0      	nop			; (mov r8, r8)
+2000035a:	46bd      	mov	sp, r7
+2000035c:	b002      	add	sp, #8
+2000035e:	bd80      	pop	{r7, pc}
 
-2000035c <ascii_write_char>:
+20000360 <ascii_write_char>:
 
 void ascii_write_char(unsigned char character){
-2000035c:	b580      	push	{r7, lr}
-2000035e:	b082      	sub	sp, #8
-20000360:	af00      	add	r7, sp, #0
-20000362:	0002      	movs	r2, r0
-20000364:	1dfb      	adds	r3, r7, #7
-20000366:	701a      	strb	r2, [r3, #0]
+20000360:	b580      	push	{r7, lr}
+20000362:	b082      	sub	sp, #8
+20000364:	af00      	add	r7, sp, #0
+20000366:	0002      	movs	r2, r0
+20000368:	1dfb      	adds	r3, r7, #7
+2000036a:	701a      	strb	r2, [r3, #0]
     // Prepare to check if display ready
     ascii_ctrl_bit_set(B_RW);
-20000368:	2002      	movs	r0, #2
-2000036a:	f7ff fefe 	bl	2000016a <ascii_ctrl_bit_set>
+2000036c:	2002      	movs	r0, #2
+2000036e:	f7ff feff 	bl	20000170 <ascii_ctrl_bit_set>
     ascii_ctrl_bit_clear(B_RS);
-2000036e:	2001      	movs	r0, #1
-20000370:	f7ff ff10 	bl	20000194 <ascii_ctrl_bit_clear>
+20000372:	2001      	movs	r0, #1
+20000374:	f7ff ff10 	bl	20000198 <ascii_ctrl_bit_clear>
     
     // Wait until MSB in data register is 0, which means that the display ready to receive a command in 8us
     while(ascii_read_status() & 0x80 != 0);
-20000374:	46c0      	nop			; (mov r8, r8)
-20000376:	f7ff ff69 	bl	2000024c <ascii_read_status>
-2000037a:	0003      	movs	r3, r0
-2000037c:	001a      	movs	r2, r3
-2000037e:	2301      	movs	r3, #1
-20000380:	4013      	ands	r3, r2
-20000382:	d1f8      	bne.n	20000376 <ascii_write_char+0x1a>
+20000378:	46c0      	nop			; (mov r8, r8)
+2000037a:	f7ff ff69 	bl	20000250 <ascii_read_status>
+2000037e:	0003      	movs	r3, r0
+20000380:	001a      	movs	r2, r3
+20000382:	2301      	movs	r3, #1
+20000384:	4013      	ands	r3, r2
+20000386:	d1f8      	bne.n	2000037a <ascii_write_char+0x1a>
     delay_mikro(8);
-20000384:	2008      	movs	r0, #8
-20000386:	f7ff fecf 	bl	20000128 <delay_mikro>
+20000388:	2008      	movs	r0, #8
+2000038a:	f7ff fecd 	bl	20000128 <delay_mikro>
     
     // Write character do display
     ascii_write_data(character);
-2000038a:	1dfb      	adds	r3, r7, #7
-2000038c:	781b      	ldrb	r3, [r3, #0]
-2000038e:	0018      	movs	r0, r3
-20000390:	f7ff ff26 	bl	200001e0 <ascii_write_data>
+2000038e:	1dfb      	adds	r3, r7, #7
+20000390:	781b      	ldrb	r3, [r3, #0]
+20000392:	0018      	movs	r0, r3
+20000394:	f7ff ff26 	bl	200001e4 <ascii_write_data>
     
     // Delay for 43us
     delay_mikro(43);
-20000394:	202b      	movs	r0, #43	; 0x2b
-20000396:	f7ff fec7 	bl	20000128 <delay_mikro>
+20000398:	202b      	movs	r0, #43	; 0x2b
+2000039a:	f7ff fec5 	bl	20000128 <delay_mikro>
 }
-2000039a:	46c0      	nop			; (mov r8, r8)
-2000039c:	46bd      	mov	sp, r7
-2000039e:	b002      	add	sp, #8
-200003a0:	bd80      	pop	{r7, pc}
+2000039e:	46c0      	nop			; (mov r8, r8)
+200003a0:	46bd      	mov	sp, r7
+200003a2:	b002      	add	sp, #8
+200003a4:	bd80      	pop	{r7, pc}
 
-200003a2 <gotoxy>:
+200003a6 <gotoxy>:
 
 void gotoxy(unsigned int row, unsigned int column){
-200003a2:	b580      	push	{r7, lr}
-200003a4:	b084      	sub	sp, #16
-200003a6:	af00      	add	r7, sp, #0
-200003a8:	6078      	str	r0, [r7, #4]
-200003aa:	6039      	str	r1, [r7, #0]
+200003a6:	b580      	push	{r7, lr}
+200003a8:	b084      	sub	sp, #16
+200003aa:	af00      	add	r7, sp, #0
+200003ac:	6078      	str	r0, [r7, #4]
+200003ae:	6039      	str	r1, [r7, #0]
     // Make sure row not out of bounds
     if(row < 1 || row > 20){
-200003ac:	687b      	ldr	r3, [r7, #4]
-200003ae:	2b00      	cmp	r3, #0
-200003b0:	d025      	beq.n	200003fe <gotoxy+0x5c>
-200003b2:	687b      	ldr	r3, [r7, #4]
-200003b4:	2b14      	cmp	r3, #20
-200003b6:	d822      	bhi.n	200003fe <gotoxy+0x5c>
+200003b0:	687b      	ldr	r3, [r7, #4]
+200003b2:	2b00      	cmp	r3, #0
+200003b4:	d025      	beq.n	20000402 <gotoxy+0x5c>
+200003b6:	687b      	ldr	r3, [r7, #4]
+200003b8:	2b14      	cmp	r3, #20
+200003ba:	d822      	bhi.n	20000402 <gotoxy+0x5c>
         return;
     }
     // Make sure column not out of bounds
     if(column < 1 || column > 2){
-200003b8:	683b      	ldr	r3, [r7, #0]
-200003ba:	2b00      	cmp	r3, #0
-200003bc:	d021      	beq.n	20000402 <gotoxy+0x60>
-200003be:	683b      	ldr	r3, [r7, #0]
-200003c0:	2b02      	cmp	r3, #2
-200003c2:	d81e      	bhi.n	20000402 <gotoxy+0x60>
+200003bc:	683b      	ldr	r3, [r7, #0]
+200003be:	2b00      	cmp	r3, #0
+200003c0:	d021      	beq.n	20000406 <gotoxy+0x60>
+200003c2:	683b      	ldr	r3, [r7, #0]
+200003c4:	2b02      	cmp	r3, #2
+200003c6:	d81e      	bhi.n	20000406 <gotoxy+0x60>
         return;
     }
     
     // Set address to the correct location
     unsigned char address = row - 1;
-200003c4:	687b      	ldr	r3, [r7, #4]
-200003c6:	b2da      	uxtb	r2, r3
-200003c8:	230f      	movs	r3, #15
-200003ca:	18fb      	adds	r3, r7, r3
-200003cc:	3a01      	subs	r2, #1
-200003ce:	701a      	strb	r2, [r3, #0]
+200003c8:	687b      	ldr	r3, [r7, #4]
+200003ca:	b2da      	uxtb	r2, r3
+200003cc:	230f      	movs	r3, #15
+200003ce:	18fb      	adds	r3, r7, r3
+200003d0:	3a01      	subs	r2, #1
+200003d2:	701a      	strb	r2, [r3, #0]
     if(column == 2){
-200003d0:	683b      	ldr	r3, [r7, #0]
-200003d2:	2b02      	cmp	r3, #2
-200003d4:	d106      	bne.n	200003e4 <gotoxy+0x42>
+200003d4:	683b      	ldr	r3, [r7, #0]
+200003d6:	2b02      	cmp	r3, #2
+200003d8:	d106      	bne.n	200003e8 <gotoxy+0x42>
         address += 0x40;
-200003d6:	230f      	movs	r3, #15
-200003d8:	18fb      	adds	r3, r7, r3
-200003da:	220f      	movs	r2, #15
-200003dc:	18ba      	adds	r2, r7, r2
-200003de:	7812      	ldrb	r2, [r2, #0]
-200003e0:	3240      	adds	r2, #64	; 0x40
-200003e2:	701a      	strb	r2, [r3, #0]
+200003da:	230f      	movs	r3, #15
+200003dc:	18fb      	adds	r3, r7, r3
+200003de:	220f      	movs	r2, #15
+200003e0:	18ba      	adds	r2, r7, r2
+200003e2:	7812      	ldrb	r2, [r2, #0]
+200003e4:	3240      	adds	r2, #64	; 0x40
+200003e6:	701a      	strb	r2, [r3, #0]
     }
     
     // Send command to mark correct spot
     ascii_command(0x80 | address, 39, 1);
-200003e4:	230f      	movs	r3, #15
-200003e6:	18fb      	adds	r3, r7, r3
-200003e8:	781b      	ldrb	r3, [r3, #0]
-200003ea:	2280      	movs	r2, #128	; 0x80
-200003ec:	4252      	negs	r2, r2
-200003ee:	4313      	orrs	r3, r2
-200003f0:	b2db      	uxtb	r3, r3
-200003f2:	2201      	movs	r2, #1
-200003f4:	2127      	movs	r1, #39	; 0x27
-200003f6:	0018      	movs	r0, r3
-200003f8:	f7ff ff7e 	bl	200002f8 <ascii_command>
-200003fc:	e002      	b.n	20000404 <gotoxy+0x62>
-        return;
-200003fe:	46c0      	nop			; (mov r8, r8)
-20000400:	e000      	b.n	20000404 <gotoxy+0x62>
+200003e8:	230f      	movs	r3, #15
+200003ea:	18fb      	adds	r3, r7, r3
+200003ec:	781b      	ldrb	r3, [r3, #0]
+200003ee:	2280      	movs	r2, #128	; 0x80
+200003f0:	4252      	negs	r2, r2
+200003f2:	4313      	orrs	r3, r2
+200003f4:	b2db      	uxtb	r3, r3
+200003f6:	2201      	movs	r2, #1
+200003f8:	2127      	movs	r1, #39	; 0x27
+200003fa:	0018      	movs	r0, r3
+200003fc:	f7ff ff7e 	bl	200002fc <ascii_command>
+20000400:	e002      	b.n	20000408 <gotoxy+0x62>
         return;
 20000402:	46c0      	nop			; (mov r8, r8)
+20000404:	e000      	b.n	20000408 <gotoxy+0x62>
+        return;
+20000406:	46c0      	nop			; (mov r8, r8)
 }
-20000404:	46bd      	mov	sp, r7
-20000406:	b004      	add	sp, #16
-20000408:	bd80      	pop	{r7, pc}
+20000408:	46bd      	mov	sp, r7
+2000040a:	b004      	add	sp, #16
+2000040c:	bd80      	pop	{r7, pc}
 
-2000040a <ascii_write_string>:
+2000040e <ascii_write_string>:
 
 void ascii_write_string(char *s){
-2000040a:	b580      	push	{r7, lr}
-2000040c:	b082      	sub	sp, #8
-2000040e:	af00      	add	r7, sp, #0
-20000410:	6078      	str	r0, [r7, #4]
+2000040e:	b580      	push	{r7, lr}
+20000410:	b082      	sub	sp, #8
+20000412:	af00      	add	r7, sp, #0
+20000414:	6078      	str	r0, [r7, #4]
     // Write each character onto the display until the finishing character is reached
     while(*s != 0){
-20000412:	e006      	b.n	20000422 <ascii_write_string+0x18>
+20000416:	e006      	b.n	20000426 <ascii_write_string+0x18>
         ascii_write_char(*s++);
-20000414:	687b      	ldr	r3, [r7, #4]
-20000416:	1c5a      	adds	r2, r3, #1
-20000418:	607a      	str	r2, [r7, #4]
-2000041a:	781b      	ldrb	r3, [r3, #0]
-2000041c:	0018      	movs	r0, r3
-2000041e:	f7ff ff9d 	bl	2000035c <ascii_write_char>
+20000418:	687b      	ldr	r3, [r7, #4]
+2000041a:	1c5a      	adds	r2, r3, #1
+2000041c:	607a      	str	r2, [r7, #4]
+2000041e:	781b      	ldrb	r3, [r3, #0]
+20000420:	0018      	movs	r0, r3
+20000422:	f7ff ff9d 	bl	20000360 <ascii_write_char>
     while(*s != 0){
-20000422:	687b      	ldr	r3, [r7, #4]
-20000424:	781b      	ldrb	r3, [r3, #0]
-20000426:	2b00      	cmp	r3, #0
-20000428:	d1f4      	bne.n	20000414 <ascii_write_string+0xa>
+20000426:	687b      	ldr	r3, [r7, #4]
+20000428:	781b      	ldrb	r3, [r3, #0]
+2000042a:	2b00      	cmp	r3, #0
+2000042c:	d1f4      	bne.n	20000418 <ascii_write_string+0xa>
     }
 }
-2000042a:	46c0      	nop			; (mov r8, r8)
-2000042c:	46bd      	mov	sp, r7
-2000042e:	b002      	add	sp, #8
-20000430:	bd80      	pop	{r7, pc}
-20000432:	46c0      	nop			; (mov r8, r8)
-20000434:	61666c41 	cmnvs	r6, r1, asr #24
-20000438:	656d756e 	strbvs	r7, [sp, #-1390]!	; 0xfffffa92
-2000043c:	6b736972 	blvs	21cdaa0c <ascii_write_string+0x1cda602>
-20000440:	00000020 	andeq	r0, r0, r0, lsr #32
-20000444:	70736944 	rsbsvc	r6, r3, r4, asr #18
-20000448:	2079616c 	rsbscs	r6, r9, ip, ror #2
-2000044c:	6574202d 	ldrbvs	r2, [r4, #-45]!	; 0xffffffd3
-20000450:	00007473 	andeq	r7, r0, r3, ror r4
+2000042e:	46c0      	nop			; (mov r8, r8)
+20000430:	46bd      	mov	sp, r7
+20000432:	b002      	add	sp, #8
+20000434:	bd80      	pop	{r7, pc}
+20000436:	46c0      	nop			; (mov r8, r8)
+20000438:	61666c41 	cmnvs	r6, r1, asr #24
+2000043c:	656d756e 	strbvs	r7, [sp, #-1390]!	; 0xfffffa92
+20000440:	6b736972 	blvs	21cdaa10 <ascii_write_string+0x1cda602>
+20000444:	00000020 	andeq	r0, r0, r0, lsr #32
+20000448:	70736944 	rsbsvc	r6, r3, r4, asr #18
+2000044c:	2079616c 	rsbscs	r6, r9, ip, ror #2
+20000450:	6574202d 	ldrbvs	r2, [r4, #-45]!	; 0xffffffd3
+20000454:	00007473 	andeq	r7, r0, r3, ror r4
 
 Disassembly of section .debug_info:
 
@@ -770,7 +772,7 @@ Disassembly of section .debug_info:
 	...
   20:	018b0200 	orreq	r0, fp, r0, lsl #4
   24:	07010000 	streq	r0, [r1, -r0]
-  28:	00040a01 	andeq	r0, r4, r1, lsl #20
+  28:	00040e01 	andeq	r0, r4, r1, lsl #28
   2c:	00002820 	andeq	r2, r0, r0, lsr #16
   30:	459c0100 	ldrmi	r0, [ip, #256]	; 0x100
   34:	03000000 	movweq	r0, #0
@@ -782,7 +784,7 @@ Disassembly of section .debug_info:
   4c:	00ee0801 	rsceq	r0, lr, r1, lsl #16
   50:	d9060000 	stmdble	r6, {}	; <UNPREDICTABLE>
   54:	01000001 	tsteq	r0, r1
-  58:	0003a2f3 	strdeq	sl, [r3], -r3
+  58:	0003a6f3 	strdeq	sl, [r3], -r3
   5c:	00006820 	andeq	r6, r0, r0, lsr #16
   60:	929c0100 	addsls	r0, ip, #0, 2
   64:	07000000 	streq	r0, [r0, -r0]
@@ -801,7 +803,7 @@ Disassembly of section .debug_info:
   98:	08010500 	stmdaeq	r1, {r8, sl}
   9c:	000000e5 	andeq	r0, r0, r5, ror #1
   a0:	00022f06 	andeq	r2, r2, r6, lsl #30
-  a4:	5ce30100 	stfple	f0, [r3]
+  a4:	60e30100 	rscvs	r0, r3, r0, lsl #2
   a8:	46200003 	strtmi	r0, [r0], -r3
   ac:	01000000 	mrseq	r0, (UNDEF: 0)
   b0:	0000c49c 	muleq	r0, ip, r4
@@ -810,7 +812,7 @@ Disassembly of section .debug_info:
   bc:	00000099 	muleq	r0, r9, r0
   c0:	00779102 	rsbseq	r9, r7, r2, lsl #2
   c4:	0000c706 	andeq	ip, r0, r6, lsl #14
-  c8:	f8cf0100 			; <UNDEFINED> instruction: 0xf8cf0100
+  c8:	fccf0100 	stc2l	1, cr0, [pc], {0}
   cc:	64200002 	strtvs	r0, [r0], #-2
   d0:	01000000 	mrseq	r0, (UNDEF: 0)
   d4:	0001039c 	muleq	r1, ip, r3
@@ -829,7 +831,7 @@ Disassembly of section .debug_info:
  108:	400a0000 	andmi	r0, sl, r0
  10c:	01000000 	mrseq	r0, (UNDEF: 0)
  110:	000099bc 			; <UNDEFINED> instruction: 0x000099bc
- 114:	0002c400 	andeq	ip, r2, r0, lsl #8
+ 114:	0002c800 	andeq	ip, r2, r0, lsl #16
  118:	00003420 	andeq	r3, r0, r0, lsr #8
  11c:	329c0100 	addscc	r0, ip, #0, 2
  120:	09000001 	stmdbeq	r0, {r0}
@@ -838,7 +840,7 @@ Disassembly of section .debug_info:
  12c:	91020000 	mrsls	r0, (UNDEF: 2)
  130:	56060077 			; <UNDEFINED> instruction: 0x56060077
  134:	01000000 	mrseq	r0, (UNDEF: 0)
- 138:	000294ae 	andeq	r9, r2, lr, lsr #9
+ 138:	000298ae 	andeq	r9, r2, lr, lsr #17
  13c:	00003020 	andeq	r3, r0, r0, lsr #32
  140:	569c0100 	ldrpl	r0, [ip], r0, lsl #2
  144:	08000001 	stmdaeq	r0, {r0}
@@ -848,7 +850,7 @@ Disassembly of section .debug_info:
  154:	860a0077 			; <UNDEFINED> instruction: 0x860a0077
  158:	01000000 	mrseq	r0, (UNDEF: 0)
  15c:	0000999c 	muleq	r0, ip, r9
- 160:	00024c00 	andeq	r4, r2, r0, lsl #24
+ 160:	00025000 	andeq	r5, r2, r0
  164:	00004820 	andeq	r4, r0, r0, lsr #16
  168:	7e9c0100 	fmlvce	f0, f4, f0
  16c:	09000001 	stmdbeq	r0, {r0}
@@ -858,7 +860,7 @@ Disassembly of section .debug_info:
  17c:	d50a006f 	strle	r0, [sl, #-111]	; 0xffffff91
  180:	01000000 	mrseq	r0, (UNDEF: 0)
  184:	0000998c 	andeq	r9, r0, ip, lsl #19
- 188:	00020a00 	andeq	r0, r2, r0, lsl #20
+ 188:	00020e00 	andeq	r0, r2, r0, lsl #28
  18c:	00004220 	andeq	r4, r0, r0, lsr #4
  190:	a69c0100 	ldrge	r0, [ip], r0, lsl #2
  194:	09000001 	stmdbeq	r0, {r0}
@@ -867,16 +869,16 @@ Disassembly of section .debug_info:
  1a0:	91020000 	mrsls	r0, (UNDEF: 2)
  1a4:	9806006f 	stmdals	r6, {r0, r1, r2, r3, r5, r6}
  1a8:	01000000 	mrseq	r0, (UNDEF: 0)
- 1ac:	0001e083 	andeq	lr, r1, r3, lsl #1
+ 1ac:	0001e483 	andeq	lr, r1, r3, lsl #9
  1b0:	00002a20 	andeq	r2, r0, r0, lsr #20
- 1b4:	ca9c0100 	bgt	fe7005bc <ascii_write_string+0xde7001b2>
+ 1b4:	ca9c0100 	bgt	fe7005bc <ascii_write_string+0xde7001ae>
  1b8:	08000001 	stmdaeq	r0, {r0}
  1bc:	000000e0 	andeq	r0, r0, r0, ror #1
  1c0:	00998301 	addseq	r8, r9, r1, lsl #6
  1c4:	91020000 	mrsls	r0, (UNDEF: 2)
  1c8:	9e060077 	mcrls	0, 0, r0, cr6, cr7, {3}
  1cc:	01000001 	tsteq	r0, r1
- 1d0:	0001bc7b 	andeq	fp, r1, fp, ror ip
+ 1d0:	0001c07b 	andeq	ip, r1, fp, ror r0
  1d4:	00002420 	andeq	r2, r0, r0, lsr #8
  1d8:	ee9c0100 	fmle	f0, f4, f0
  1dc:	08000001 	stmdaeq	r0, {r0}
@@ -885,7 +887,7 @@ Disassembly of section .debug_info:
  1e8:	91020000 	mrsls	r0, (UNDEF: 2)
  1ec:	1f0b0077 	svcne	0x000b0077
  1f0:	01000000 	mrseq	r0, (UNDEF: 0)
- 1f4:	00019476 	andeq	r9, r1, r6, ror r4
+ 1f4:	00019876 	andeq	r9, r1, r6, ror r8
  1f8:	00002820 	andeq	r2, r0, r0, lsr #16
  1fc:	109c0100 	addsne	r0, ip, r0, lsl #2
  200:	07000002 	streq	r0, [r0, -r2]
@@ -893,8 +895,8 @@ Disassembly of section .debug_info:
  208:	00000099 	muleq	r0, r9, r0
  20c:	00779102 	rsbseq	r9, r7, r2, lsl #2
  210:	0002400b 	andeq	r4, r2, fp
- 214:	6a710100 	bvs	1c4061c <startup-0x1e3bf9e4>
- 218:	2a200001 	bcs	800224 <startup-0x1f7ffddc>
+ 214:	70710100 	rsbsvc	r0, r1, r0, lsl #2
+ 218:	28200001 	stmdacs	r0!, {r0}
  21c:	01000000 	mrseq	r0, (UNDEF: 0)
  220:	0002329c 	muleq	r2, ip, r2
  224:	00780700 	rsbseq	r0, r8, r0, lsl #14
@@ -903,7 +905,7 @@ Disassembly of section .debug_info:
  230:	00060077 	andeq	r0, r6, r7, ror r0
  234:	01000000 	mrseq	r0, (UNDEF: 0)
  238:	0001526d 	andeq	r5, r1, sp, ror #4
- 23c:	00001820 	andeq	r1, r0, r0, lsr #16
+ 23c:	00001e20 	andeq	r1, r0, r0, lsr #28
  240:	559c0100 	ldrpl	r0, [ip, #256]	; 0x100
  244:	07000002 	streq	r0, [r0, -r2]
  248:	0100736d 	tsteq	r0, sp, ror #6
@@ -1055,7 +1057,7 @@ Disassembly of section .debug_aranges:
    8:	00040000 	andeq	r0, r4, r0
    c:	00000000 	andeq	r0, r0, r0
   10:	20000010 	andcs	r0, r0, r0, lsl r0
-  14:	00000422 	andeq	r0, r0, r2, lsr #8
+  14:	00000426 	andeq	r0, r0, r6, lsr #8
   18:	20000000 	andcs	r0, r0, r0
   1c:	0000000c 	andeq	r0, r0, ip
 	...
@@ -1064,7 +1066,7 @@ Disassembly of section .debug_ranges:
 
 00000000 <.debug_ranges>:
    0:	20000010 	andcs	r0, r0, r0, lsl r0
-   4:	20000432 	andcs	r0, r0, r2, lsr r4
+   4:	20000436 	andcs	r0, r0, r6, lsr r4
    8:	20000000 	andcs	r0, r0, r0
    c:	2000000c 	andcs	r0, r0, ip
 	...
@@ -1080,12 +1082,12 @@ Disassembly of section .debug_line:
   14:	01000000 	mrseq	r0, (UNDEF: 0)
   18:	43010000 	movwmi	r0, #4096	; 0x1000
   1c:	63532f3a 	cmpvs	r3, #58, 30	; 0xe8
-  20:	6c6f6f68 	stclvs	15, cr6, [pc], #-416	; fffffe88 <ascii_write_string+0xdffffa7e>
+  20:	6c6f6f68 	stclvs	15, cr6, [pc], #-416	; fffffe88 <ascii_write_string+0xdffffa7a>
   24:	5441442f 	strbpl	r4, [r1], #-1071	; 0xfffffbd1
   28:	2f373130 	svccs	0x00373130
   2c:	2d706f4d 	ldclcs	15, cr6, [r0, #-308]!	; 0xfffffecc
   30:	30544144 	subscc	r4, r4, r4, asr #2
-  34:	4c2f3731 	stcmi	7, cr3, [pc], #-196	; ffffff78 <ascii_write_string+0xdffffb6e>
+  34:	4c2f3731 	stcmi	7, cr3, [pc], #-196	; ffffff78 <ascii_write_string+0xdffffb6a>
   38:	20736261 	rsbscs	r6, r3, r1, ror #4
   3c:	20646e61 	rsbcs	r6, r4, r1, ror #28
   40:	72657865 	rsbvc	r7, r5, #6619136	; 0x650000
@@ -1110,14 +1112,14 @@ Disassembly of section .debug_line:
   8c:	5a5a5a5a 	bpl	16969fc <startup-0x1e969604>
   90:	672f8459 			; <UNDEFINED> instruction: 0x672f8459
   94:	683d6767 	ldmdavs	sp!, {r0, r1, r2, r5, r6, r8, r9, sl, sp, lr}
-  98:	4bbc673e 	blmi	fef19d98 <ascii_write_string+0xdef1998e>
+  98:	4bbc673e 	blmi	fef19d98 <ascii_write_string+0xdef1998a>
   9c:	03040200 	movweq	r0, #16896	; 0x4200
   a0:	0402003d 	streq	r0, [r2], #-61	; 0xffffffc3
   a4:	02002d03 	andeq	r2, r0, #3, 26	; 0xc0
   a8:	3c060104 	stfccs	f0, [r6], {4}
   ac:	4b4c5b06 	blmi	1316ccc <startup-0x1ece9334>
-  b0:	83684c4b 	cmnhi	r8, #19200	; 0x4b00
-  b4:	68836876 	stmvs	r3, {r1, r2, r4, r5, r6, fp, sp, lr}
+  b0:	83684c75 	cmnhi	r8, #29952	; 0x7500
+  b4:	68836868 	stmvs	r3, {r3, r5, r6, fp, sp, lr}
   b8:	4c593f68 	mrrcmi	15, 6, r3, r9, cr8
   bc:	593f3d68 	ldmdbpl	pc!, {r3, r5, r6, r8, sl, fp, ip, sp}	; <UNPREDICTABLE>
   c0:	3e693f4c 	cdpcc	15, 6, cr3, cr9, cr12, {2}
@@ -1200,7 +1202,7 @@ Disassembly of section .debug_str:
   c0:	616d0073 	smcvs	53251	; 0xd003
   c4:	61006e69 	tstvs	r0, r9, ror #28
   c8:	69696373 	stmdbvs	r9!, {r0, r1, r4, r5, r6, r8, r9, sp, lr}^
-  cc:	6d6f635f 	stclvs	3, cr6, [pc, #-380]!	; ffffff58 <ascii_write_string+0xdffffb4e>
+  cc:	6d6f635f 	stclvs	3, cr6, [pc, #-380]!	; ffffff58 <ascii_write_string+0xdffffb4a>
   d0:	646e616d 	strbtvs	r6, [lr], #-365	; 0xfffffe93
   d4:	63736100 	cmnvs	r3, #0, 2
   d8:	725f6969 	subsvc	r6, pc, #1720320	; 0x1a4000
@@ -1400,22 +1402,22 @@ Disassembly of section .debug_frame:
   9c:	0000001c 	andeq	r0, r0, ip, lsl r0
   a0:	00000000 	andeq	r0, r0, r0
   a4:	20000152 	andcs	r0, r0, r2, asr r1
-  a8:	00000018 	andeq	r0, r0, r8, lsl r0
+  a8:	0000001e 	andeq	r0, r0, lr, lsl r0
   ac:	40080e41 	andmi	r0, r8, r1, asr #28
   b0:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
   b4:	100e4101 	andne	r4, lr, r1, lsl #2
   b8:	00070d41 	andeq	r0, r7, r1, asr #26
   bc:	0000001c 	andeq	r0, r0, ip, lsl r0
   c0:	00000000 	andeq	r0, r0, r0
-  c4:	2000016a 	andcs	r0, r0, sl, ror #2
-  c8:	0000002a 	andeq	r0, r0, sl, lsr #32
+  c4:	20000170 	andcs	r0, r0, r0, ror r1
+  c8:	00000028 	andeq	r0, r0, r8, lsr #32
   cc:	40080e41 	andmi	r0, r8, r1, asr #28
   d0:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
   d4:	100e4101 	andne	r4, lr, r1, lsl #2
   d8:	00070d41 	andeq	r0, r7, r1, asr #26
   dc:	0000001c 	andeq	r0, r0, ip, lsl r0
   e0:	00000000 	andeq	r0, r0, r0
-  e4:	20000194 	mulcs	r0, r4, r1
+  e4:	20000198 	mulcs	r0, r8, r1
   e8:	00000028 	andeq	r0, r0, r8, lsr #32
   ec:	40080e41 	andmi	r0, r8, r1, asr #28
   f0:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
@@ -1423,7 +1425,7 @@ Disassembly of section .debug_frame:
   f8:	00070d41 	andeq	r0, r7, r1, asr #26
   fc:	0000001c 	andeq	r0, r0, ip, lsl r0
  100:	00000000 	andeq	r0, r0, r0
- 104:	200001bc 			; <UNDEFINED> instruction: 0x200001bc
+ 104:	200001c0 	andcs	r0, r0, r0, asr #3
  108:	00000024 	andeq	r0, r0, r4, lsr #32
  10c:	40080e41 	andmi	r0, r8, r1, asr #28
  110:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
@@ -1431,7 +1433,7 @@ Disassembly of section .debug_frame:
  118:	00070d41 	andeq	r0, r7, r1, asr #26
  11c:	0000001c 	andeq	r0, r0, ip, lsl r0
  120:	00000000 	andeq	r0, r0, r0
- 124:	200001e0 	andcs	r0, r0, r0, ror #3
+ 124:	200001e4 	andcs	r0, r0, r4, ror #3
  128:	0000002a 	andeq	r0, r0, sl, lsr #32
  12c:	40080e41 	andmi	r0, r8, r1, asr #28
  130:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
@@ -1439,7 +1441,7 @@ Disassembly of section .debug_frame:
  138:	00070d41 	andeq	r0, r7, r1, asr #26
  13c:	00000020 	andeq	r0, r0, r0, lsr #32
  140:	00000000 	andeq	r0, r0, r0
- 144:	2000020a 	andcs	r0, r0, sl, lsl #4
+ 144:	2000020e 	andcs	r0, r0, lr, lsl #4
  148:	00000042 	andeq	r0, r0, r2, asr #32
  14c:	400c0e41 	andmi	r0, ip, r1, asr #28
  150:	87400384 	strbhi	r0, [r0, -r4, lsl #7]
@@ -1448,7 +1450,7 @@ Disassembly of section .debug_frame:
  15c:	0000070d 	andeq	r0, r0, sp, lsl #14
  160:	00000020 	andeq	r0, r0, r0, lsr #32
  164:	00000000 	andeq	r0, r0, r0
- 168:	2000024c 	andcs	r0, r0, ip, asr #4
+ 168:	20000250 	andcs	r0, r0, r0, asr r2
  16c:	00000048 	andeq	r0, r0, r8, asr #32
  170:	400c0e41 	andmi	r0, ip, r1, asr #28
  174:	87400384 	strbhi	r0, [r0, -r4, lsl #7]
@@ -1457,7 +1459,7 @@ Disassembly of section .debug_frame:
  180:	0000070d 	andeq	r0, r0, sp, lsl #14
  184:	0000001c 	andeq	r0, r0, ip, lsl r0
  188:	00000000 	andeq	r0, r0, r0
- 18c:	20000294 	mulcs	r0, r4, r2
+ 18c:	20000298 	mulcs	r0, r8, r2
  190:	00000030 	andeq	r0, r0, r0, lsr r0
  194:	40080e41 	andmi	r0, r8, r1, asr #28
  198:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
@@ -1465,7 +1467,7 @@ Disassembly of section .debug_frame:
  1a0:	00070d41 	andeq	r0, r7, r1, asr #26
  1a4:	0000001c 	andeq	r0, r0, ip, lsl r0
  1a8:	00000000 	andeq	r0, r0, r0
- 1ac:	200002c4 	andcs	r0, r0, r4, asr #5
+ 1ac:	200002c8 	andcs	r0, r0, r8, asr #5
  1b0:	00000034 	andeq	r0, r0, r4, lsr r0
  1b4:	40080e41 	andmi	r0, r8, r1, asr #28
  1b8:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
@@ -1473,7 +1475,7 @@ Disassembly of section .debug_frame:
  1c0:	00070d41 	andeq	r0, r7, r1, asr #26
  1c4:	0000001c 	andeq	r0, r0, ip, lsl r0
  1c8:	00000000 	andeq	r0, r0, r0
- 1cc:	200002f8 	strdcs	r0, [r0], -r8
+ 1cc:	200002fc 	strdcs	r0, [r0], -ip
  1d0:	00000064 	andeq	r0, r0, r4, rrx
  1d4:	40080e41 	andmi	r0, r8, r1, asr #28
  1d8:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
@@ -1481,7 +1483,7 @@ Disassembly of section .debug_frame:
  1e0:	00070d41 	andeq	r0, r7, r1, asr #26
  1e4:	0000001c 	andeq	r0, r0, ip, lsl r0
  1e8:	00000000 	andeq	r0, r0, r0
- 1ec:	2000035c 	andcs	r0, r0, ip, asr r3
+ 1ec:	20000360 	andcs	r0, r0, r0, ror #6
  1f0:	00000046 	andeq	r0, r0, r6, asr #32
  1f4:	40080e41 	andmi	r0, r8, r1, asr #28
  1f8:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
@@ -1489,7 +1491,7 @@ Disassembly of section .debug_frame:
  200:	00070d41 	andeq	r0, r7, r1, asr #26
  204:	0000001c 	andeq	r0, r0, ip, lsl r0
  208:	00000000 	andeq	r0, r0, r0
- 20c:	200003a2 	andcs	r0, r0, r2, lsr #7
+ 20c:	200003a6 	andcs	r0, r0, r6, lsr #7
  210:	00000068 	andeq	r0, r0, r8, rrx
  214:	40080e41 	andmi	r0, r8, r1, asr #28
  218:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}
@@ -1497,7 +1499,7 @@ Disassembly of section .debug_frame:
  220:	00070d41 	andeq	r0, r7, r1, asr #26
  224:	0000001c 	andeq	r0, r0, ip, lsl r0
  228:	00000000 	andeq	r0, r0, r0
- 22c:	2000040a 	andcs	r0, r0, sl, lsl #8
+ 22c:	2000040e 	andcs	r0, r0, lr, lsl #8
  230:	00000028 	andeq	r0, r0, r8, lsr #32
  234:	40080e41 	andmi	r0, r8, r1, asr #28
  238:	8e400287 	cdphi	2, 4, cr0, cr0, cr7, {4}

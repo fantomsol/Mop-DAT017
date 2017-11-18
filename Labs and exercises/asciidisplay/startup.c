@@ -76,7 +76,7 @@ void app_init(void){
     portModer = 0x55555555;
     
     // ***DISPLAY INIT***
-    // Clear screen
+    // Clear display
     ascii_command(0x1, 2, 0);
     // Set address register to 0, reset cursor
     ascii_command(0x2, 2, 0);
@@ -85,7 +85,7 @@ void app_init(void){
     // Turn on display, turn on cursor, cursor not blinking
     ascii_command(0xE, 39, 1);
     // Increment mode, no shift
-    ascii_command(0x7, 39, 1);
+    ascii_command(0x6, 39, 1);
 }
 
 void delay_250ns(void){

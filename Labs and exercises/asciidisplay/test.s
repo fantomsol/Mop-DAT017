@@ -86,7 +86,7 @@
   20:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** #define STK_VAL *((volatile unsigned int*)(SYSTIK+0x8))
   21:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
   22:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** #define COUNT_VAL ((unsigned int)(42))
-  23:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** #define MILLI_TO_MIKRO 1
+  23:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** #define MILLI_TO_MIKRO 1000
   24:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
   25:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** #define PORT_E 0x40021000
   26:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
@@ -234,7 +234,7 @@
  157 0070 1A60     		str	r2, [r3]
   77:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
   78:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // ***DISPLAY INIT***
-  79:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Clear screen
+  79:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Clear display
   80:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_command(0x1, 2, 0);
  158              		.loc 1 80 0
  159 0072 0022     		movs	r2, #0
@@ -263,11 +263,11 @@
  176 0094 0E20     		movs	r0, #14
  177 0096 FFF7FEFF 		bl	ascii_command
   87:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Increment mode, no shift
-  88:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_command(0x7, 39, 1);
+  88:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_command(0x6, 39, 1);
  178              		.loc 1 88 0
  179 009a 0122     		movs	r2, #1
  180 009c 2721     		movs	r1, #39
- 181 009e 0720     		movs	r0, #7
+ 181 009e 0620     		movs	r0, #6
  182 00a0 FFF7FEFF 		bl	ascii_command
   89:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
  183              		.loc 1 89 0
@@ -452,830 +452,833 @@
  110:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     delay_mikro(ms*MILLI_TO_MIKRO);
  346              		.loc 1 110 0
  347 014a 7B68     		ldr	r3, [r7, #4]
- 348 014c 1800     		movs	r0, r3
- 349 014e FFF7FEFF 		bl	delay_mikro
+ 348 014c FA22     		movs	r2, #250
+ 349 014e 9200     		lsls	r2, r2, #2
+ 350 0150 5343     		muls	r3, r2
+ 351 0152 1800     		movs	r0, r3
+ 352 0154 FFF7FEFF 		bl	delay_mikro
  111:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 350              		.loc 1 111 0
- 351 0152 C046     		nop
- 352 0154 BD46     		mov	sp, r7
- 353 0156 02B0     		add	sp, sp, #8
- 354              		@ sp needed
- 355 0158 80BD     		pop	{r7, pc}
- 356              		.cfi_endproc
- 357              	.LFE5:
- 359              		.align	1
- 360              		.global	ascii_ctrl_bit_set
- 361              		.syntax unified
- 362              		.code	16
- 363              		.thumb_func
- 364              		.fpu softvfp
- 366              	ascii_ctrl_bit_set:
- 367              	.LFB6:
+ 353              		.loc 1 111 0
+ 354 0158 C046     		nop
+ 355 015a BD46     		mov	sp, r7
+ 356 015c 02B0     		add	sp, sp, #8
+ 357              		@ sp needed
+ 358 015e 80BD     		pop	{r7, pc}
+ 359              		.cfi_endproc
+ 360              	.LFE5:
+ 362              		.align	1
+ 363              		.global	ascii_ctrl_bit_set
+ 364              		.syntax unified
+ 365              		.code	16
+ 366              		.thumb_func
+ 367              		.fpu softvfp
+ 369              	ascii_ctrl_bit_set:
+ 370              	.LFB6:
  112:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  113:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void ascii_ctrl_bit_set(unsigned char x){
- 368              		.loc 1 113 0
- 369              		.cfi_startproc
- 370              		@ args = 0, pretend = 0, frame = 8
- 371              		@ frame_needed = 1, uses_anonymous_args = 0
- 372 015a 80B5     		push	{r7, lr}
- 373              		.cfi_def_cfa_offset 8
- 374              		.cfi_offset 7, -8
- 375              		.cfi_offset 14, -4
- 376 015c 82B0     		sub	sp, sp, #8
- 377              		.cfi_def_cfa_offset 16
- 378 015e 00AF     		add	r7, sp, #0
- 379              		.cfi_def_cfa_register 7
- 380 0160 0200     		movs	r2, r0
- 381 0162 FB1D     		adds	r3, r7, #7
- 382 0164 1A70     		strb	r2, [r3]
+ 371              		.loc 1 113 0
+ 372              		.cfi_startproc
+ 373              		@ args = 0, pretend = 0, frame = 8
+ 374              		@ frame_needed = 1, uses_anonymous_args = 0
+ 375 0160 80B5     		push	{r7, lr}
+ 376              		.cfi_def_cfa_offset 8
+ 377              		.cfi_offset 7, -8
+ 378              		.cfi_offset 14, -4
+ 379 0162 82B0     		sub	sp, sp, #8
+ 380              		.cfi_def_cfa_offset 16
+ 381 0164 00AF     		add	r7, sp, #0
+ 382              		.cfi_def_cfa_register 7
+ 383 0166 0200     		movs	r2, r0
+ 384 0168 FB1D     		adds	r3, r7, #7
+ 385 016a 1A70     		strb	r2, [r3]
  114:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Set bits that are 1 in x to 1, leave rest be
  115:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     portOdrLow |= x;
- 383              		.loc 1 115 0
- 384 0166 0649     		ldr	r1, .L16
- 385 0168 054B     		ldr	r3, .L16
- 386 016a 1A78     		ldrb	r2, [r3]
- 387 016c FB1D     		adds	r3, r7, #7
- 388 016e 1B78     		ldrb	r3, [r3]
- 389 0170 1343     		orrs	r3, r2
- 390 0172 DBB2     		uxtb	r3, r3
- 391 0174 0B70     		strb	r3, [r1]
+ 386              		.loc 1 115 0
+ 387 016c 0549     		ldr	r1, .L16
+ 388 016e 054B     		ldr	r3, .L16
+ 389 0170 1A78     		ldrb	r2, [r3]
+ 390 0172 FB1D     		adds	r3, r7, #7
+ 391 0174 1B78     		ldrb	r3, [r3]
+ 392 0176 1343     		orrs	r3, r2
+ 393 0178 DBB2     		uxtb	r3, r3
+ 394 017a 0B70     		strb	r3, [r1]
  116:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 392              		.loc 1 116 0
- 393 0176 C046     		nop
- 394 0178 BD46     		mov	sp, r7
- 395 017a 02B0     		add	sp, sp, #8
- 396              		@ sp needed
- 397 017c 80BD     		pop	{r7, pc}
- 398              	.L17:
- 399 017e C046     		.align	2
- 400              	.L16:
- 401 0180 14100240 		.word	1073877012
- 402              		.cfi_endproc
- 403              	.LFE6:
- 405              		.align	1
- 406              		.global	ascii_ctrl_bit_clear
- 407              		.syntax unified
- 408              		.code	16
- 409              		.thumb_func
- 410              		.fpu softvfp
- 412              	ascii_ctrl_bit_clear:
- 413              	.LFB7:
+ 395              		.loc 1 116 0
+ 396 017c C046     		nop
+ 397 017e BD46     		mov	sp, r7
+ 398 0180 02B0     		add	sp, sp, #8
+ 399              		@ sp needed
+ 400 0182 80BD     		pop	{r7, pc}
+ 401              	.L17:
+ 402              		.align	2
+ 403              	.L16:
+ 404 0184 14100240 		.word	1073877012
+ 405              		.cfi_endproc
+ 406              	.LFE6:
+ 408              		.align	1
+ 409              		.global	ascii_ctrl_bit_clear
+ 410              		.syntax unified
+ 411              		.code	16
+ 412              		.thumb_func
+ 413              		.fpu softvfp
+ 415              	ascii_ctrl_bit_clear:
+ 416              	.LFB7:
  117:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  118:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void ascii_ctrl_bit_clear(unsigned char x){
- 414              		.loc 1 118 0
- 415              		.cfi_startproc
- 416              		@ args = 0, pretend = 0, frame = 8
- 417              		@ frame_needed = 1, uses_anonymous_args = 0
- 418 0184 80B5     		push	{r7, lr}
- 419              		.cfi_def_cfa_offset 8
- 420              		.cfi_offset 7, -8
- 421              		.cfi_offset 14, -4
- 422 0186 82B0     		sub	sp, sp, #8
- 423              		.cfi_def_cfa_offset 16
- 424 0188 00AF     		add	r7, sp, #0
- 425              		.cfi_def_cfa_register 7
- 426 018a 0200     		movs	r2, r0
- 427 018c FB1D     		adds	r3, r7, #7
- 428 018e 1A70     		strb	r2, [r3]
+ 417              		.loc 1 118 0
+ 418              		.cfi_startproc
+ 419              		@ args = 0, pretend = 0, frame = 8
+ 420              		@ frame_needed = 1, uses_anonymous_args = 0
+ 421 0188 80B5     		push	{r7, lr}
+ 422              		.cfi_def_cfa_offset 8
+ 423              		.cfi_offset 7, -8
+ 424              		.cfi_offset 14, -4
+ 425 018a 82B0     		sub	sp, sp, #8
+ 426              		.cfi_def_cfa_offset 16
+ 427 018c 00AF     		add	r7, sp, #0
+ 428              		.cfi_def_cfa_register 7
+ 429 018e 0200     		movs	r2, r0
+ 430 0190 FB1D     		adds	r3, r7, #7
+ 431 0192 1A70     		strb	r2, [r3]
  119:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Set any bits that are 0 in x to 0, leave rest as they were
  120:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     portOdrLow &= x;
- 429              		.loc 1 120 0
- 430 0190 0549     		ldr	r1, .L19
- 431 0192 054B     		ldr	r3, .L19
- 432 0194 1B78     		ldrb	r3, [r3]
- 433 0196 FA1D     		adds	r2, r7, #7
- 434 0198 1278     		ldrb	r2, [r2]
- 435 019a 1340     		ands	r3, r2
- 436 019c DBB2     		uxtb	r3, r3
- 437 019e 0B70     		strb	r3, [r1]
+ 432              		.loc 1 120 0
+ 433 0194 0549     		ldr	r1, .L19
+ 434 0196 054B     		ldr	r3, .L19
+ 435 0198 1B78     		ldrb	r3, [r3]
+ 436 019a FA1D     		adds	r2, r7, #7
+ 437 019c 1278     		ldrb	r2, [r2]
+ 438 019e 1340     		ands	r3, r2
+ 439 01a0 DBB2     		uxtb	r3, r3
+ 440 01a2 0B70     		strb	r3, [r1]
  121:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 438              		.loc 1 121 0
- 439 01a0 C046     		nop
- 440 01a2 BD46     		mov	sp, r7
- 441 01a4 02B0     		add	sp, sp, #8
- 442              		@ sp needed
- 443 01a6 80BD     		pop	{r7, pc}
- 444              	.L20:
- 445              		.align	2
- 446              	.L19:
- 447 01a8 14100240 		.word	1073877012
- 448              		.cfi_endproc
- 449              	.LFE7:
- 451              		.align	1
- 452              		.global	ascii_write_cmd
- 453              		.syntax unified
- 454              		.code	16
- 455              		.thumb_func
- 456              		.fpu softvfp
- 458              	ascii_write_cmd:
- 459              	.LFB8:
+ 441              		.loc 1 121 0
+ 442 01a4 C046     		nop
+ 443 01a6 BD46     		mov	sp, r7
+ 444 01a8 02B0     		add	sp, sp, #8
+ 445              		@ sp needed
+ 446 01aa 80BD     		pop	{r7, pc}
+ 447              	.L20:
+ 448              		.align	2
+ 449              	.L19:
+ 450 01ac 14100240 		.word	1073877012
+ 451              		.cfi_endproc
+ 452              	.LFE7:
+ 454              		.align	1
+ 455              		.global	ascii_write_cmd
+ 456              		.syntax unified
+ 457              		.code	16
+ 458              		.thumb_func
+ 459              		.fpu softvfp
+ 461              	ascii_write_cmd:
+ 462              	.LFB8:
  122:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  123:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void ascii_write_cmd(unsigned char command){
- 460              		.loc 1 123 0
- 461              		.cfi_startproc
- 462              		@ args = 0, pretend = 0, frame = 8
- 463              		@ frame_needed = 1, uses_anonymous_args = 0
- 464 01ac 80B5     		push	{r7, lr}
- 465              		.cfi_def_cfa_offset 8
- 466              		.cfi_offset 7, -8
- 467              		.cfi_offset 14, -4
- 468 01ae 82B0     		sub	sp, sp, #8
- 469              		.cfi_def_cfa_offset 16
- 470 01b0 00AF     		add	r7, sp, #0
- 471              		.cfi_def_cfa_register 7
- 472 01b2 0200     		movs	r2, r0
- 473 01b4 FB1D     		adds	r3, r7, #7
- 474 01b6 1A70     		strb	r2, [r3]
+ 463              		.loc 1 123 0
+ 464              		.cfi_startproc
+ 465              		@ args = 0, pretend = 0, frame = 8
+ 466              		@ frame_needed = 1, uses_anonymous_args = 0
+ 467 01b0 80B5     		push	{r7, lr}
+ 468              		.cfi_def_cfa_offset 8
+ 469              		.cfi_offset 7, -8
+ 470              		.cfi_offset 14, -4
+ 471 01b2 82B0     		sub	sp, sp, #8
+ 472              		.cfi_def_cfa_offset 16
+ 473 01b4 00AF     		add	r7, sp, #0
+ 474              		.cfi_def_cfa_register 7
+ 475 01b6 0200     		movs	r2, r0
+ 476 01b8 FB1D     		adds	r3, r7, #7
+ 477 01ba 1A70     		strb	r2, [r3]
  124:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Prepare display for sending command
  125:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_clear(B_RS | B_RW);
- 475              		.loc 1 125 0
- 476 01b8 0320     		movs	r0, #3
- 477 01ba FFF7FEFF 		bl	ascii_ctrl_bit_clear
+ 478              		.loc 1 125 0
+ 479 01bc 0320     		movs	r0, #3
+ 480 01be FFF7FEFF 		bl	ascii_ctrl_bit_clear
  126:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  127:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Write command
  128:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_write_controller(command);
- 478              		.loc 1 128 0
- 479 01be FB1D     		adds	r3, r7, #7
- 480 01c0 1B78     		ldrb	r3, [r3]
- 481 01c2 1800     		movs	r0, r3
- 482 01c4 FFF7FEFF 		bl	ascii_write_controller
+ 481              		.loc 1 128 0
+ 482 01c2 FB1D     		adds	r3, r7, #7
+ 483 01c4 1B78     		ldrb	r3, [r3]
+ 484 01c6 1800     		movs	r0, r3
+ 485 01c8 FFF7FEFF 		bl	ascii_write_controller
  129:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 483              		.loc 1 129 0
- 484 01c8 C046     		nop
- 485 01ca BD46     		mov	sp, r7
- 486 01cc 02B0     		add	sp, sp, #8
- 487              		@ sp needed
- 488 01ce 80BD     		pop	{r7, pc}
- 489              		.cfi_endproc
- 490              	.LFE8:
- 492              		.align	1
- 493              		.global	ascii_write_data
- 494              		.syntax unified
- 495              		.code	16
- 496              		.thumb_func
- 497              		.fpu softvfp
- 499              	ascii_write_data:
- 500              	.LFB9:
+ 486              		.loc 1 129 0
+ 487 01cc C046     		nop
+ 488 01ce BD46     		mov	sp, r7
+ 489 01d0 02B0     		add	sp, sp, #8
+ 490              		@ sp needed
+ 491 01d2 80BD     		pop	{r7, pc}
+ 492              		.cfi_endproc
+ 493              	.LFE8:
+ 495              		.align	1
+ 496              		.global	ascii_write_data
+ 497              		.syntax unified
+ 498              		.code	16
+ 499              		.thumb_func
+ 500              		.fpu softvfp
+ 502              	ascii_write_data:
+ 503              	.LFB9:
  130:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  131:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void ascii_write_data(unsigned char data){
- 501              		.loc 1 131 0
- 502              		.cfi_startproc
- 503              		@ args = 0, pretend = 0, frame = 8
- 504              		@ frame_needed = 1, uses_anonymous_args = 0
- 505 01d0 80B5     		push	{r7, lr}
- 506              		.cfi_def_cfa_offset 8
- 507              		.cfi_offset 7, -8
- 508              		.cfi_offset 14, -4
- 509 01d2 82B0     		sub	sp, sp, #8
- 510              		.cfi_def_cfa_offset 16
- 511 01d4 00AF     		add	r7, sp, #0
- 512              		.cfi_def_cfa_register 7
- 513 01d6 0200     		movs	r2, r0
- 514 01d8 FB1D     		adds	r3, r7, #7
- 515 01da 1A70     		strb	r2, [r3]
+ 504              		.loc 1 131 0
+ 505              		.cfi_startproc
+ 506              		@ args = 0, pretend = 0, frame = 8
+ 507              		@ frame_needed = 1, uses_anonymous_args = 0
+ 508 01d4 80B5     		push	{r7, lr}
+ 509              		.cfi_def_cfa_offset 8
+ 510              		.cfi_offset 7, -8
+ 511              		.cfi_offset 14, -4
+ 512 01d6 82B0     		sub	sp, sp, #8
+ 513              		.cfi_def_cfa_offset 16
+ 514 01d8 00AF     		add	r7, sp, #0
+ 515              		.cfi_def_cfa_register 7
+ 516 01da 0200     		movs	r2, r0
+ 517 01dc FB1D     		adds	r3, r7, #7
+ 518 01de 1A70     		strb	r2, [r3]
  132:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Prepare display for writing data
  133:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_set(B_RS);
- 516              		.loc 1 133 0
- 517 01dc 0120     		movs	r0, #1
- 518 01de FFF7FEFF 		bl	ascii_ctrl_bit_set
+ 519              		.loc 1 133 0
+ 520 01e0 0120     		movs	r0, #1
+ 521 01e2 FFF7FEFF 		bl	ascii_ctrl_bit_set
  134:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_clear(B_RW);
- 519              		.loc 1 134 0
- 520 01e2 0220     		movs	r0, #2
- 521 01e4 FFF7FEFF 		bl	ascii_ctrl_bit_clear
+ 522              		.loc 1 134 0
+ 523 01e6 0220     		movs	r0, #2
+ 524 01e8 FFF7FEFF 		bl	ascii_ctrl_bit_clear
  135:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  136:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Write data
  137:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_write_controller(data);
- 522              		.loc 1 137 0
- 523 01e8 FB1D     		adds	r3, r7, #7
- 524 01ea 1B78     		ldrb	r3, [r3]
- 525 01ec 1800     		movs	r0, r3
- 526 01ee FFF7FEFF 		bl	ascii_write_controller
+ 525              		.loc 1 137 0
+ 526 01ec FB1D     		adds	r3, r7, #7
+ 527 01ee 1B78     		ldrb	r3, [r3]
+ 528 01f0 1800     		movs	r0, r3
+ 529 01f2 FFF7FEFF 		bl	ascii_write_controller
  138:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 527              		.loc 1 138 0
- 528 01f2 C046     		nop
- 529 01f4 BD46     		mov	sp, r7
- 530 01f6 02B0     		add	sp, sp, #8
- 531              		@ sp needed
- 532 01f8 80BD     		pop	{r7, pc}
- 533              		.cfi_endproc
- 534              	.LFE9:
- 536              		.align	1
- 537              		.global	ascii_read_data
- 538              		.syntax unified
- 539              		.code	16
- 540              		.thumb_func
- 541              		.fpu softvfp
- 543              	ascii_read_data:
- 544              	.LFB10:
+ 530              		.loc 1 138 0
+ 531 01f6 C046     		nop
+ 532 01f8 BD46     		mov	sp, r7
+ 533 01fa 02B0     		add	sp, sp, #8
+ 534              		@ sp needed
+ 535 01fc 80BD     		pop	{r7, pc}
+ 536              		.cfi_endproc
+ 537              	.LFE9:
+ 539              		.align	1
+ 540              		.global	ascii_read_data
+ 541              		.syntax unified
+ 542              		.code	16
+ 543              		.thumb_func
+ 544              		.fpu softvfp
+ 546              	ascii_read_data:
+ 547              	.LFB10:
  139:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  140:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** unsigned char ascii_read_data(void){
- 545              		.loc 1 140 0
- 546              		.cfi_startproc
- 547              		@ args = 0, pretend = 0, frame = 8
- 548              		@ frame_needed = 1, uses_anonymous_args = 0
- 549 01fa 90B5     		push	{r4, r7, lr}
- 550              		.cfi_def_cfa_offset 12
- 551              		.cfi_offset 4, -12
- 552              		.cfi_offset 7, -8
- 553              		.cfi_offset 14, -4
- 554 01fc 83B0     		sub	sp, sp, #12
- 555              		.cfi_def_cfa_offset 24
- 556 01fe 00AF     		add	r7, sp, #0
- 557              		.cfi_def_cfa_register 7
+ 548              		.loc 1 140 0
+ 549              		.cfi_startproc
+ 550              		@ args = 0, pretend = 0, frame = 8
+ 551              		@ frame_needed = 1, uses_anonymous_args = 0
+ 552 01fe 90B5     		push	{r4, r7, lr}
+ 553              		.cfi_def_cfa_offset 12
+ 554              		.cfi_offset 4, -12
+ 555              		.cfi_offset 7, -8
+ 556              		.cfi_offset 14, -4
+ 557 0200 83B0     		sub	sp, sp, #12
+ 558              		.cfi_def_cfa_offset 24
+ 559 0202 00AF     		add	r7, sp, #0
+ 560              		.cfi_def_cfa_register 7
  141:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     unsigned char return_value;
  142:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Port E 8-15 -> input
  143:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     portModer &= 0x0000FFFF;
- 558              		.loc 1 143 0
- 559 0200 0C4B     		ldr	r3, .L25
- 560 0202 0C4A     		ldr	r2, .L25
- 561 0204 1268     		ldr	r2, [r2]
- 562 0206 1204     		lsls	r2, r2, #16
- 563 0208 120C     		lsrs	r2, r2, #16
- 564 020a 1A60     		str	r2, [r3]
+ 561              		.loc 1 143 0
+ 562 0204 0C4B     		ldr	r3, .L25
+ 563 0206 0C4A     		ldr	r2, .L25
+ 564 0208 1268     		ldr	r2, [r2]
+ 565 020a 1204     		lsls	r2, r2, #16
+ 566 020c 120C     		lsrs	r2, r2, #16
+ 567 020e 1A60     		str	r2, [r3]
  144:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  145:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Prepare display for reading data
  146:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_set(B_RS | B_RW);
- 565              		.loc 1 146 0
- 566 020c 0320     		movs	r0, #3
- 567 020e FFF7FEFF 		bl	ascii_ctrl_bit_set
+ 568              		.loc 1 146 0
+ 569 0210 0320     		movs	r0, #3
+ 570 0212 FFF7FEFF 		bl	ascii_ctrl_bit_set
  147:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  148:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     return_value = ascii_read_controller();
- 568              		.loc 1 148 0
- 569 0212 FC1D     		adds	r4, r7, #7
- 570 0214 FFF7FEFF 		bl	ascii_read_controller
- 571 0218 0300     		movs	r3, r0
- 572 021a 2370     		strb	r3, [r4]
+ 571              		.loc 1 148 0
+ 572 0216 FC1D     		adds	r4, r7, #7
+ 573 0218 FFF7FEFF 		bl	ascii_read_controller
+ 574 021c 0300     		movs	r3, r0
+ 575 021e 2370     		strb	r3, [r4]
  149:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  150:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Port E 8-15 -> output
  151:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     portModer |= 0x55550000;
- 573              		.loc 1 151 0
- 574 021c 054B     		ldr	r3, .L25
- 575 021e 054A     		ldr	r2, .L25
- 576 0220 1268     		ldr	r2, [r2]
- 577 0222 0549     		ldr	r1, .L25+4
- 578 0224 0A43     		orrs	r2, r1
- 579 0226 1A60     		str	r2, [r3]
+ 576              		.loc 1 151 0
+ 577 0220 054B     		ldr	r3, .L25
+ 578 0222 054A     		ldr	r2, .L25
+ 579 0224 1268     		ldr	r2, [r2]
+ 580 0226 0549     		ldr	r1, .L25+4
+ 581 0228 0A43     		orrs	r2, r1
+ 582 022a 1A60     		str	r2, [r3]
  152:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  153:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     return return_value;
- 580              		.loc 1 153 0
- 581 0228 FB1D     		adds	r3, r7, #7
- 582 022a 1B78     		ldrb	r3, [r3]
+ 583              		.loc 1 153 0
+ 584 022c FB1D     		adds	r3, r7, #7
+ 585 022e 1B78     		ldrb	r3, [r3]
  154:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 583              		.loc 1 154 0
- 584 022c 1800     		movs	r0, r3
- 585 022e BD46     		mov	sp, r7
- 586 0230 03B0     		add	sp, sp, #12
- 587              		@ sp needed
- 588 0232 90BD     		pop	{r4, r7, pc}
- 589              	.L26:
- 590              		.align	2
- 591              	.L25:
- 592 0234 00100240 		.word	1073876992
- 593 0238 00005555 		.word	1431633920
- 594              		.cfi_endproc
- 595              	.LFE10:
- 597              		.align	1
- 598              		.global	ascii_read_status
- 599              		.syntax unified
- 600              		.code	16
- 601              		.thumb_func
- 602              		.fpu softvfp
- 604              	ascii_read_status:
- 605              	.LFB11:
+ 586              		.loc 1 154 0
+ 587 0230 1800     		movs	r0, r3
+ 588 0232 BD46     		mov	sp, r7
+ 589 0234 03B0     		add	sp, sp, #12
+ 590              		@ sp needed
+ 591 0236 90BD     		pop	{r4, r7, pc}
+ 592              	.L26:
+ 593              		.align	2
+ 594              	.L25:
+ 595 0238 00100240 		.word	1073876992
+ 596 023c 00005555 		.word	1431633920
+ 597              		.cfi_endproc
+ 598              	.LFE10:
+ 600              		.align	1
+ 601              		.global	ascii_read_status
+ 602              		.syntax unified
+ 603              		.code	16
+ 604              		.thumb_func
+ 605              		.fpu softvfp
+ 607              	ascii_read_status:
+ 608              	.LFB11:
  155:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  156:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** unsigned char ascii_read_status(void){
- 606              		.loc 1 156 0
- 607              		.cfi_startproc
- 608              		@ args = 0, pretend = 0, frame = 8
- 609              		@ frame_needed = 1, uses_anonymous_args = 0
- 610 023c 90B5     		push	{r4, r7, lr}
- 611              		.cfi_def_cfa_offset 12
- 612              		.cfi_offset 4, -12
- 613              		.cfi_offset 7, -8
- 614              		.cfi_offset 14, -4
- 615 023e 83B0     		sub	sp, sp, #12
- 616              		.cfi_def_cfa_offset 24
- 617 0240 00AF     		add	r7, sp, #0
- 618              		.cfi_def_cfa_register 7
+ 609              		.loc 1 156 0
+ 610              		.cfi_startproc
+ 611              		@ args = 0, pretend = 0, frame = 8
+ 612              		@ frame_needed = 1, uses_anonymous_args = 0
+ 613 0240 90B5     		push	{r4, r7, lr}
+ 614              		.cfi_def_cfa_offset 12
+ 615              		.cfi_offset 4, -12
+ 616              		.cfi_offset 7, -8
+ 617              		.cfi_offset 14, -4
+ 618 0242 83B0     		sub	sp, sp, #12
+ 619              		.cfi_def_cfa_offset 24
+ 620 0244 00AF     		add	r7, sp, #0
+ 621              		.cfi_def_cfa_register 7
  157:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     unsigned char return_value;
  158:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Port E 8-15 -> input
  159:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     portModer &= 0x0000FFFF;
- 619              		.loc 1 159 0
- 620 0242 0E4B     		ldr	r3, .L29
- 621 0244 0D4A     		ldr	r2, .L29
- 622 0246 1268     		ldr	r2, [r2]
- 623 0248 1204     		lsls	r2, r2, #16
- 624 024a 120C     		lsrs	r2, r2, #16
- 625 024c 1A60     		str	r2, [r3]
+ 622              		.loc 1 159 0
+ 623 0246 0E4B     		ldr	r3, .L29
+ 624 0248 0D4A     		ldr	r2, .L29
+ 625 024a 1268     		ldr	r2, [r2]
+ 626 024c 1204     		lsls	r2, r2, #16
+ 627 024e 120C     		lsrs	r2, r2, #16
+ 628 0250 1A60     		str	r2, [r3]
  160:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  161:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Prepare display for reading status and address
  162:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_clear(B_RS);
- 626              		.loc 1 162 0
- 627 024e 0120     		movs	r0, #1
- 628 0250 FFF7FEFF 		bl	ascii_ctrl_bit_clear
+ 629              		.loc 1 162 0
+ 630 0252 0120     		movs	r0, #1
+ 631 0254 FFF7FEFF 		bl	ascii_ctrl_bit_clear
  163:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_set(B_RW);
- 629              		.loc 1 163 0
- 630 0254 0220     		movs	r0, #2
- 631 0256 FFF7FEFF 		bl	ascii_ctrl_bit_set
+ 632              		.loc 1 163 0
+ 633 0258 0220     		movs	r0, #2
+ 634 025a FFF7FEFF 		bl	ascii_ctrl_bit_set
  164:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  165:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Read values from display
  166:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     return_value = ascii_read_controller();
- 632              		.loc 1 166 0
- 633 025a FC1D     		adds	r4, r7, #7
- 634 025c FFF7FEFF 		bl	ascii_read_controller
- 635 0260 0300     		movs	r3, r0
- 636 0262 2370     		strb	r3, [r4]
+ 635              		.loc 1 166 0
+ 636 025e FC1D     		adds	r4, r7, #7
+ 637 0260 FFF7FEFF 		bl	ascii_read_controller
+ 638 0264 0300     		movs	r3, r0
+ 639 0266 2370     		strb	r3, [r4]
  167:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  168:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Port E 8-15 -> output
  169:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     portModer |= 0x55550000;
- 637              		.loc 1 169 0
- 638 0264 054B     		ldr	r3, .L29
- 639 0266 054A     		ldr	r2, .L29
- 640 0268 1268     		ldr	r2, [r2]
- 641 026a 0549     		ldr	r1, .L29+4
- 642 026c 0A43     		orrs	r2, r1
- 643 026e 1A60     		str	r2, [r3]
+ 640              		.loc 1 169 0
+ 641 0268 054B     		ldr	r3, .L29
+ 642 026a 054A     		ldr	r2, .L29
+ 643 026c 1268     		ldr	r2, [r2]
+ 644 026e 0549     		ldr	r1, .L29+4
+ 645 0270 0A43     		orrs	r2, r1
+ 646 0272 1A60     		str	r2, [r3]
  170:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  171:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     return return_value;
- 644              		.loc 1 171 0
- 645 0270 FB1D     		adds	r3, r7, #7
- 646 0272 1B78     		ldrb	r3, [r3]
+ 647              		.loc 1 171 0
+ 648 0274 FB1D     		adds	r3, r7, #7
+ 649 0276 1B78     		ldrb	r3, [r3]
  172:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 647              		.loc 1 172 0
- 648 0274 1800     		movs	r0, r3
- 649 0276 BD46     		mov	sp, r7
- 650 0278 03B0     		add	sp, sp, #12
- 651              		@ sp needed
- 652 027a 90BD     		pop	{r4, r7, pc}
- 653              	.L30:
- 654              		.align	2
- 655              	.L29:
- 656 027c 00100240 		.word	1073876992
- 657 0280 00005555 		.word	1431633920
- 658              		.cfi_endproc
- 659              	.LFE11:
- 661              		.align	1
- 662              		.global	ascii_write_controller
- 663              		.syntax unified
- 664              		.code	16
- 665              		.thumb_func
- 666              		.fpu softvfp
- 668              	ascii_write_controller:
- 669              	.LFB12:
+ 650              		.loc 1 172 0
+ 651 0278 1800     		movs	r0, r3
+ 652 027a BD46     		mov	sp, r7
+ 653 027c 03B0     		add	sp, sp, #12
+ 654              		@ sp needed
+ 655 027e 90BD     		pop	{r4, r7, pc}
+ 656              	.L30:
+ 657              		.align	2
+ 658              	.L29:
+ 659 0280 00100240 		.word	1073876992
+ 660 0284 00005555 		.word	1431633920
+ 661              		.cfi_endproc
+ 662              	.LFE11:
+ 664              		.align	1
+ 665              		.global	ascii_write_controller
+ 666              		.syntax unified
+ 667              		.code	16
+ 668              		.thumb_func
+ 669              		.fpu softvfp
+ 671              	ascii_write_controller:
+ 672              	.LFB12:
  173:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  174:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void ascii_write_controller(unsigned char byte){
- 670              		.loc 1 174 0
- 671              		.cfi_startproc
- 672              		@ args = 0, pretend = 0, frame = 8
- 673              		@ frame_needed = 1, uses_anonymous_args = 0
- 674 0284 80B5     		push	{r7, lr}
- 675              		.cfi_def_cfa_offset 8
- 676              		.cfi_offset 7, -8
- 677              		.cfi_offset 14, -4
- 678 0286 82B0     		sub	sp, sp, #8
- 679              		.cfi_def_cfa_offset 16
- 680 0288 00AF     		add	r7, sp, #0
- 681              		.cfi_def_cfa_register 7
- 682 028a 0200     		movs	r2, r0
- 683 028c FB1D     		adds	r3, r7, #7
- 684 028e 1A70     		strb	r2, [r3]
+ 673              		.loc 1 174 0
+ 674              		.cfi_startproc
+ 675              		@ args = 0, pretend = 0, frame = 8
+ 676              		@ frame_needed = 1, uses_anonymous_args = 0
+ 677 0288 80B5     		push	{r7, lr}
+ 678              		.cfi_def_cfa_offset 8
+ 679              		.cfi_offset 7, -8
+ 680              		.cfi_offset 14, -4
+ 681 028a 82B0     		sub	sp, sp, #8
+ 682              		.cfi_def_cfa_offset 16
+ 683 028c 00AF     		add	r7, sp, #0
+ 684              		.cfi_def_cfa_register 7
+ 685 028e 0200     		movs	r2, r0
+ 686 0290 FB1D     		adds	r3, r7, #7
+ 687 0292 1A70     		strb	r2, [r3]
  175:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Set enable flag to 1
  176:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_set(B_E);
- 685              		.loc 1 176 0
- 686 0290 4020     		movs	r0, #64
- 687 0292 FFF7FEFF 		bl	ascii_ctrl_bit_set
+ 688              		.loc 1 176 0
+ 689 0294 4020     		movs	r0, #64
+ 690 0296 FFF7FEFF 		bl	ascii_ctrl_bit_set
  177:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  178:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Set data register values
  179:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     portOdrHigh = byte;
- 688              		.loc 1 179 0
- 689 0296 064A     		ldr	r2, .L32
- 690 0298 FB1D     		adds	r3, r7, #7
- 691 029a 1B78     		ldrb	r3, [r3]
- 692 029c 1370     		strb	r3, [r2]
+ 691              		.loc 1 179 0
+ 692 029a 064A     		ldr	r2, .L32
+ 693 029c FB1D     		adds	r3, r7, #7
+ 694 029e 1B78     		ldrb	r3, [r3]
+ 695 02a0 1370     		strb	r3, [r2]
  180:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  181:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Wait for 230ns (here at least 250, hope this should still work)
  182:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     delay_250ns();
- 693              		.loc 1 182 0
- 694 029e FFF7FEFF 		bl	delay_250ns
+ 696              		.loc 1 182 0
+ 697 02a2 FFF7FEFF 		bl	delay_250ns
  183:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  184:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Set enable flag to 0
  185:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_clear(B_E);
- 695              		.loc 1 185 0
- 696 02a2 4020     		movs	r0, #64
- 697 02a4 FFF7FEFF 		bl	ascii_ctrl_bit_clear
+ 698              		.loc 1 185 0
+ 699 02a6 4020     		movs	r0, #64
+ 700 02a8 FFF7FEFF 		bl	ascii_ctrl_bit_clear
  186:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 698              		.loc 1 186 0
- 699 02a8 C046     		nop
- 700 02aa BD46     		mov	sp, r7
- 701 02ac 02B0     		add	sp, sp, #8
- 702              		@ sp needed
- 703 02ae 80BD     		pop	{r7, pc}
- 704              	.L33:
- 705              		.align	2
- 706              	.L32:
- 707 02b0 15100240 		.word	1073877013
- 708              		.cfi_endproc
- 709              	.LFE12:
- 711              		.align	1
- 712              		.global	ascii_read_controller
- 713              		.syntax unified
- 714              		.code	16
- 715              		.thumb_func
- 716              		.fpu softvfp
- 718              	ascii_read_controller:
- 719              	.LFB13:
+ 701              		.loc 1 186 0
+ 702 02ac C046     		nop
+ 703 02ae BD46     		mov	sp, r7
+ 704 02b0 02B0     		add	sp, sp, #8
+ 705              		@ sp needed
+ 706 02b2 80BD     		pop	{r7, pc}
+ 707              	.L33:
+ 708              		.align	2
+ 709              	.L32:
+ 710 02b4 15100240 		.word	1073877013
+ 711              		.cfi_endproc
+ 712              	.LFE12:
+ 714              		.align	1
+ 715              		.global	ascii_read_controller
+ 716              		.syntax unified
+ 717              		.code	16
+ 718              		.thumb_func
+ 719              		.fpu softvfp
+ 721              	ascii_read_controller:
+ 722              	.LFB13:
  187:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  188:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** unsigned char ascii_read_controller(void){
- 720              		.loc 1 188 0
- 721              		.cfi_startproc
- 722              		@ args = 0, pretend = 0, frame = 8
- 723              		@ frame_needed = 1, uses_anonymous_args = 0
- 724 02b4 80B5     		push	{r7, lr}
- 725              		.cfi_def_cfa_offset 8
- 726              		.cfi_offset 7, -8
- 727              		.cfi_offset 14, -4
- 728 02b6 82B0     		sub	sp, sp, #8
- 729              		.cfi_def_cfa_offset 16
- 730 02b8 00AF     		add	r7, sp, #0
- 731              		.cfi_def_cfa_register 7
+ 723              		.loc 1 188 0
+ 724              		.cfi_startproc
+ 725              		@ args = 0, pretend = 0, frame = 8
+ 726              		@ frame_needed = 1, uses_anonymous_args = 0
+ 727 02b8 80B5     		push	{r7, lr}
+ 728              		.cfi_def_cfa_offset 8
+ 729              		.cfi_offset 7, -8
+ 730              		.cfi_offset 14, -4
+ 731 02ba 82B0     		sub	sp, sp, #8
+ 732              		.cfi_def_cfa_offset 16
+ 733 02bc 00AF     		add	r7, sp, #0
+ 734              		.cfi_def_cfa_register 7
  189:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     unsigned char return_value;
  190:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  191:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Set enable flag to 1
  192:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_set(B_E);
- 732              		.loc 1 192 0
- 733 02ba 4020     		movs	r0, #64
- 734 02bc FFF7FEFF 		bl	ascii_ctrl_bit_set
+ 735              		.loc 1 192 0
+ 736 02be 4020     		movs	r0, #64
+ 737 02c0 FFF7FEFF 		bl	ascii_ctrl_bit_set
  193:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  194:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Wait for at least 360ns, here at least 500
  195:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     delay_250ns();
- 735              		.loc 1 195 0
- 736 02c0 FFF7FEFF 		bl	delay_250ns
+ 738              		.loc 1 195 0
+ 739 02c4 FFF7FEFF 		bl	delay_250ns
  196:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     delay_250ns();
- 737              		.loc 1 196 0
- 738 02c4 FFF7FEFF 		bl	delay_250ns
+ 740              		.loc 1 196 0
+ 741 02c8 FFF7FEFF 		bl	delay_250ns
  197:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  198:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Read data register
  199:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     return_value = portIdrHigh;
- 739              		.loc 1 199 0
- 740 02c8 064A     		ldr	r2, .L36
- 741 02ca FB1D     		adds	r3, r7, #7
- 742 02cc 1278     		ldrb	r2, [r2]
- 743 02ce 1A70     		strb	r2, [r3]
+ 742              		.loc 1 199 0
+ 743 02cc 064A     		ldr	r2, .L36
+ 744 02ce FB1D     		adds	r3, r7, #7
+ 745 02d0 1278     		ldrb	r2, [r2]
+ 746 02d2 1A70     		strb	r2, [r3]
  200:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  201:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Set enable flag to 0
  202:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_clear(B_E);
- 744              		.loc 1 202 0
- 745 02d0 4020     		movs	r0, #64
- 746 02d2 FFF7FEFF 		bl	ascii_ctrl_bit_clear
+ 747              		.loc 1 202 0
+ 748 02d4 4020     		movs	r0, #64
+ 749 02d6 FFF7FEFF 		bl	ascii_ctrl_bit_clear
  203:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  204:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     return return_value;
- 747              		.loc 1 204 0
- 748 02d6 FB1D     		adds	r3, r7, #7
- 749 02d8 1B78     		ldrb	r3, [r3]
+ 750              		.loc 1 204 0
+ 751 02da FB1D     		adds	r3, r7, #7
+ 752 02dc 1B78     		ldrb	r3, [r3]
  205:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 750              		.loc 1 205 0
- 751 02da 1800     		movs	r0, r3
- 752 02dc BD46     		mov	sp, r7
- 753 02de 02B0     		add	sp, sp, #8
- 754              		@ sp needed
- 755 02e0 80BD     		pop	{r7, pc}
- 756              	.L37:
- 757 02e2 C046     		.align	2
- 758              	.L36:
- 759 02e4 11100240 		.word	1073877009
- 760              		.cfi_endproc
- 761              	.LFE13:
- 763              		.align	1
- 764              		.global	ascii_command
- 765              		.syntax unified
- 766              		.code	16
- 767              		.thumb_func
- 768              		.fpu softvfp
- 770              	ascii_command:
- 771              	.LFB14:
+ 753              		.loc 1 205 0
+ 754 02de 1800     		movs	r0, r3
+ 755 02e0 BD46     		mov	sp, r7
+ 756 02e2 02B0     		add	sp, sp, #8
+ 757              		@ sp needed
+ 758 02e4 80BD     		pop	{r7, pc}
+ 759              	.L37:
+ 760 02e6 C046     		.align	2
+ 761              	.L36:
+ 762 02e8 11100240 		.word	1073877009
+ 763              		.cfi_endproc
+ 764              	.LFE13:
+ 766              		.align	1
+ 767              		.global	ascii_command
+ 768              		.syntax unified
+ 769              		.code	16
+ 770              		.thumb_func
+ 771              		.fpu softvfp
+ 773              	ascii_command:
+ 774              	.LFB14:
  206:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  207:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void ascii_command(unsigned char command, unsigned int post_command_delay, unsigned short us){
- 772              		.loc 1 207 0
- 773              		.cfi_startproc
- 774              		@ args = 0, pretend = 0, frame = 8
- 775              		@ frame_needed = 1, uses_anonymous_args = 0
- 776 02e8 80B5     		push	{r7, lr}
- 777              		.cfi_def_cfa_offset 8
- 778              		.cfi_offset 7, -8
- 779              		.cfi_offset 14, -4
- 780 02ea 82B0     		sub	sp, sp, #8
- 781              		.cfi_def_cfa_offset 16
- 782 02ec 00AF     		add	r7, sp, #0
- 783              		.cfi_def_cfa_register 7
- 784 02ee 3960     		str	r1, [r7]
- 785 02f0 1100     		movs	r1, r2
- 786 02f2 FB1D     		adds	r3, r7, #7
- 787 02f4 021C     		adds	r2, r0, #0
- 788 02f6 1A70     		strb	r2, [r3]
- 789 02f8 3B1D     		adds	r3, r7, #4
- 790 02fa 0A1C     		adds	r2, r1, #0
- 791 02fc 1A80     		strh	r2, [r3]
+ 775              		.loc 1 207 0
+ 776              		.cfi_startproc
+ 777              		@ args = 0, pretend = 0, frame = 8
+ 778              		@ frame_needed = 1, uses_anonymous_args = 0
+ 779 02ec 80B5     		push	{r7, lr}
+ 780              		.cfi_def_cfa_offset 8
+ 781              		.cfi_offset 7, -8
+ 782              		.cfi_offset 14, -4
+ 783 02ee 82B0     		sub	sp, sp, #8
+ 784              		.cfi_def_cfa_offset 16
+ 785 02f0 00AF     		add	r7, sp, #0
+ 786              		.cfi_def_cfa_register 7
+ 787 02f2 3960     		str	r1, [r7]
+ 788 02f4 1100     		movs	r1, r2
+ 789 02f6 FB1D     		adds	r3, r7, #7
+ 790 02f8 021C     		adds	r2, r0, #0
+ 791 02fa 1A70     		strb	r2, [r3]
+ 792 02fc 3B1D     		adds	r3, r7, #4
+ 793 02fe 0A1C     		adds	r2, r1, #0
+ 794 0300 1A80     		strh	r2, [r3]
  208:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Prepare to check if display ready
  209:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_set(B_RW);
- 792              		.loc 1 209 0
- 793 02fe 0220     		movs	r0, #2
- 794 0300 FFF7FEFF 		bl	ascii_ctrl_bit_set
+ 795              		.loc 1 209 0
+ 796 0302 0220     		movs	r0, #2
+ 797 0304 FFF7FEFF 		bl	ascii_ctrl_bit_set
  210:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_clear(B_RS);
- 795              		.loc 1 210 0
- 796 0304 0120     		movs	r0, #1
- 797 0306 FFF7FEFF 		bl	ascii_ctrl_bit_clear
+ 798              		.loc 1 210 0
+ 799 0308 0120     		movs	r0, #1
+ 800 030a FFF7FEFF 		bl	ascii_ctrl_bit_clear
  211:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  212:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Wait until MSB in data register is 0, which means that the display ready to receive a comman
  213:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     while(ascii_read_status() & 0x80 != 0);
- 798              		.loc 1 213 0
- 799 030a C046     		nop
- 800              	.L39:
- 801              		.loc 1 213 0 is_stmt 0 discriminator 1
- 802 030c FFF7FEFF 		bl	ascii_read_status
- 803 0310 0300     		movs	r3, r0
- 804 0312 1A00     		movs	r2, r3
- 805 0314 0123     		movs	r3, #1
- 806 0316 1340     		ands	r3, r2
- 807 0318 F8D1     		bne	.L39
+ 801              		.loc 1 213 0
+ 802 030e C046     		nop
+ 803              	.L39:
+ 804              		.loc 1 213 0 is_stmt 0 discriminator 1
+ 805 0310 FFF7FEFF 		bl	ascii_read_status
+ 806 0314 0300     		movs	r3, r0
+ 807 0316 1A00     		movs	r2, r3
+ 808 0318 0123     		movs	r3, #1
+ 809 031a 1340     		ands	r3, r2
+ 810 031c F8D1     		bne	.L39
  214:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     delay_mikro(8);
- 808              		.loc 1 214 0 is_stmt 1
- 809 031a 0820     		movs	r0, #8
- 810 031c FFF7FEFF 		bl	delay_mikro
+ 811              		.loc 1 214 0 is_stmt 1
+ 812 031e 0820     		movs	r0, #8
+ 813 0320 FFF7FEFF 		bl	delay_mikro
  215:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  216:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Send command
  217:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_write_cmd(command);
- 811              		.loc 1 217 0
- 812 0320 FB1D     		adds	r3, r7, #7
- 813 0322 1B78     		ldrb	r3, [r3]
- 814 0324 1800     		movs	r0, r3
- 815 0326 FFF7FEFF 		bl	ascii_write_cmd
+ 814              		.loc 1 217 0
+ 815 0324 FB1D     		adds	r3, r7, #7
+ 816 0326 1B78     		ldrb	r3, [r3]
+ 817 0328 1800     		movs	r0, r3
+ 818 032a FFF7FEFF 		bl	ascii_write_cmd
  218:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  219:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Wait for the entered amount of time
  220:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     if(us == 1){
- 816              		.loc 1 220 0
- 817 032a 3B1D     		adds	r3, r7, #4
- 818 032c 1B88     		ldrh	r3, [r3]
- 819 032e 012B     		cmp	r3, #1
- 820 0330 04D1     		bne	.L40
+ 819              		.loc 1 220 0
+ 820 032e 3B1D     		adds	r3, r7, #4
+ 821 0330 1B88     		ldrh	r3, [r3]
+ 822 0332 012B     		cmp	r3, #1
+ 823 0334 04D1     		bne	.L40
  221:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****         delay_mikro(post_command_delay);
- 821              		.loc 1 221 0
- 822 0332 3B68     		ldr	r3, [r7]
- 823 0334 1800     		movs	r0, r3
- 824 0336 FFF7FEFF 		bl	delay_mikro
+ 824              		.loc 1 221 0
+ 825 0336 3B68     		ldr	r3, [r7]
+ 826 0338 1800     		movs	r0, r3
+ 827 033a FFF7FEFF 		bl	delay_mikro
  222:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     } else {
  223:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****         delay_milli(post_command_delay);
  224:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     }
  225:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 825              		.loc 1 225 0
- 826 033a 03E0     		b	.L42
- 827              	.L40:
+ 828              		.loc 1 225 0
+ 829 033e 03E0     		b	.L42
+ 830              	.L40:
  223:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     }
- 828              		.loc 1 223 0
- 829 033c 3B68     		ldr	r3, [r7]
- 830 033e 1800     		movs	r0, r3
- 831 0340 FFF7FEFF 		bl	delay_milli
- 832              	.L42:
- 833              		.loc 1 225 0
- 834 0344 C046     		nop
- 835 0346 BD46     		mov	sp, r7
- 836 0348 02B0     		add	sp, sp, #8
- 837              		@ sp needed
- 838 034a 80BD     		pop	{r7, pc}
- 839              		.cfi_endproc
- 840              	.LFE14:
- 842              		.align	1
- 843              		.global	ascii_write_char
- 844              		.syntax unified
- 845              		.code	16
- 846              		.thumb_func
- 847              		.fpu softvfp
- 849              	ascii_write_char:
- 850              	.LFB15:
+ 831              		.loc 1 223 0
+ 832 0340 3B68     		ldr	r3, [r7]
+ 833 0342 1800     		movs	r0, r3
+ 834 0344 FFF7FEFF 		bl	delay_milli
+ 835              	.L42:
+ 836              		.loc 1 225 0
+ 837 0348 C046     		nop
+ 838 034a BD46     		mov	sp, r7
+ 839 034c 02B0     		add	sp, sp, #8
+ 840              		@ sp needed
+ 841 034e 80BD     		pop	{r7, pc}
+ 842              		.cfi_endproc
+ 843              	.LFE14:
+ 845              		.align	1
+ 846              		.global	ascii_write_char
+ 847              		.syntax unified
+ 848              		.code	16
+ 849              		.thumb_func
+ 850              		.fpu softvfp
+ 852              	ascii_write_char:
+ 853              	.LFB15:
  226:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  227:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void ascii_write_char(unsigned char character){
- 851              		.loc 1 227 0
- 852              		.cfi_startproc
- 853              		@ args = 0, pretend = 0, frame = 8
- 854              		@ frame_needed = 1, uses_anonymous_args = 0
- 855 034c 80B5     		push	{r7, lr}
- 856              		.cfi_def_cfa_offset 8
- 857              		.cfi_offset 7, -8
- 858              		.cfi_offset 14, -4
- 859 034e 82B0     		sub	sp, sp, #8
- 860              		.cfi_def_cfa_offset 16
- 861 0350 00AF     		add	r7, sp, #0
- 862              		.cfi_def_cfa_register 7
- 863 0352 0200     		movs	r2, r0
- 864 0354 FB1D     		adds	r3, r7, #7
- 865 0356 1A70     		strb	r2, [r3]
+ 854              		.loc 1 227 0
+ 855              		.cfi_startproc
+ 856              		@ args = 0, pretend = 0, frame = 8
+ 857              		@ frame_needed = 1, uses_anonymous_args = 0
+ 858 0350 80B5     		push	{r7, lr}
+ 859              		.cfi_def_cfa_offset 8
+ 860              		.cfi_offset 7, -8
+ 861              		.cfi_offset 14, -4
+ 862 0352 82B0     		sub	sp, sp, #8
+ 863              		.cfi_def_cfa_offset 16
+ 864 0354 00AF     		add	r7, sp, #0
+ 865              		.cfi_def_cfa_register 7
+ 866 0356 0200     		movs	r2, r0
+ 867 0358 FB1D     		adds	r3, r7, #7
+ 868 035a 1A70     		strb	r2, [r3]
  228:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Prepare to check if display ready
  229:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_set(B_RW);
- 866              		.loc 1 229 0
- 867 0358 0220     		movs	r0, #2
- 868 035a FFF7FEFF 		bl	ascii_ctrl_bit_set
+ 869              		.loc 1 229 0
+ 870 035c 0220     		movs	r0, #2
+ 871 035e FFF7FEFF 		bl	ascii_ctrl_bit_set
  230:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_ctrl_bit_clear(B_RS);
- 869              		.loc 1 230 0
- 870 035e 0120     		movs	r0, #1
- 871 0360 FFF7FEFF 		bl	ascii_ctrl_bit_clear
+ 872              		.loc 1 230 0
+ 873 0362 0120     		movs	r0, #1
+ 874 0364 FFF7FEFF 		bl	ascii_ctrl_bit_clear
  231:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  232:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Wait until MSB in data register is 0, which means that the display ready to receive a comman
  233:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     while(ascii_read_status() & 0x80 != 0);
- 872              		.loc 1 233 0
- 873 0364 C046     		nop
- 874              	.L44:
- 875              		.loc 1 233 0 is_stmt 0 discriminator 1
- 876 0366 FFF7FEFF 		bl	ascii_read_status
- 877 036a 0300     		movs	r3, r0
- 878 036c 1A00     		movs	r2, r3
- 879 036e 0123     		movs	r3, #1
- 880 0370 1340     		ands	r3, r2
- 881 0372 F8D1     		bne	.L44
+ 875              		.loc 1 233 0
+ 876 0368 C046     		nop
+ 877              	.L44:
+ 878              		.loc 1 233 0 is_stmt 0 discriminator 1
+ 879 036a FFF7FEFF 		bl	ascii_read_status
+ 880 036e 0300     		movs	r3, r0
+ 881 0370 1A00     		movs	r2, r3
+ 882 0372 0123     		movs	r3, #1
+ 883 0374 1340     		ands	r3, r2
+ 884 0376 F8D1     		bne	.L44
  234:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     delay_mikro(8);
- 882              		.loc 1 234 0 is_stmt 1
- 883 0374 0820     		movs	r0, #8
- 884 0376 FFF7FEFF 		bl	delay_mikro
+ 885              		.loc 1 234 0 is_stmt 1
+ 886 0378 0820     		movs	r0, #8
+ 887 037a FFF7FEFF 		bl	delay_mikro
  235:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  236:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Write character do display
  237:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_write_data(character);
- 885              		.loc 1 237 0
- 886 037a FB1D     		adds	r3, r7, #7
- 887 037c 1B78     		ldrb	r3, [r3]
- 888 037e 1800     		movs	r0, r3
- 889 0380 FFF7FEFF 		bl	ascii_write_data
+ 888              		.loc 1 237 0
+ 889 037e FB1D     		adds	r3, r7, #7
+ 890 0380 1B78     		ldrb	r3, [r3]
+ 891 0382 1800     		movs	r0, r3
+ 892 0384 FFF7FEFF 		bl	ascii_write_data
  238:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  239:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Delay for 43us
  240:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     delay_mikro(43);
- 890              		.loc 1 240 0
- 891 0384 2B20     		movs	r0, #43
- 892 0386 FFF7FEFF 		bl	delay_mikro
+ 893              		.loc 1 240 0
+ 894 0388 2B20     		movs	r0, #43
+ 895 038a FFF7FEFF 		bl	delay_mikro
  241:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 893              		.loc 1 241 0
- 894 038a C046     		nop
- 895 038c BD46     		mov	sp, r7
- 896 038e 02B0     		add	sp, sp, #8
- 897              		@ sp needed
- 898 0390 80BD     		pop	{r7, pc}
- 899              		.cfi_endproc
- 900              	.LFE15:
- 902              		.align	1
- 903              		.global	gotoxy
- 904              		.syntax unified
- 905              		.code	16
- 906              		.thumb_func
- 907              		.fpu softvfp
- 909              	gotoxy:
- 910              	.LFB16:
+ 896              		.loc 1 241 0
+ 897 038e C046     		nop
+ 898 0390 BD46     		mov	sp, r7
+ 899 0392 02B0     		add	sp, sp, #8
+ 900              		@ sp needed
+ 901 0394 80BD     		pop	{r7, pc}
+ 902              		.cfi_endproc
+ 903              	.LFE15:
+ 905              		.align	1
+ 906              		.global	gotoxy
+ 907              		.syntax unified
+ 908              		.code	16
+ 909              		.thumb_func
+ 910              		.fpu softvfp
+ 912              	gotoxy:
+ 913              	.LFB16:
  242:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  243:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void gotoxy(unsigned int row, unsigned int column){
- 911              		.loc 1 243 0
- 912              		.cfi_startproc
- 913              		@ args = 0, pretend = 0, frame = 16
- 914              		@ frame_needed = 1, uses_anonymous_args = 0
- 915 0392 80B5     		push	{r7, lr}
- 916              		.cfi_def_cfa_offset 8
- 917              		.cfi_offset 7, -8
- 918              		.cfi_offset 14, -4
- 919 0394 84B0     		sub	sp, sp, #16
- 920              		.cfi_def_cfa_offset 24
- 921 0396 00AF     		add	r7, sp, #0
- 922              		.cfi_def_cfa_register 7
- 923 0398 7860     		str	r0, [r7, #4]
- 924 039a 3960     		str	r1, [r7]
+ 914              		.loc 1 243 0
+ 915              		.cfi_startproc
+ 916              		@ args = 0, pretend = 0, frame = 16
+ 917              		@ frame_needed = 1, uses_anonymous_args = 0
+ 918 0396 80B5     		push	{r7, lr}
+ 919              		.cfi_def_cfa_offset 8
+ 920              		.cfi_offset 7, -8
+ 921              		.cfi_offset 14, -4
+ 922 0398 84B0     		sub	sp, sp, #16
+ 923              		.cfi_def_cfa_offset 24
+ 924 039a 00AF     		add	r7, sp, #0
+ 925              		.cfi_def_cfa_register 7
+ 926 039c 7860     		str	r0, [r7, #4]
+ 927 039e 3960     		str	r1, [r7]
  244:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Make sure row not out of bounds
  245:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     if(row < 1 || row > 20){
- 925              		.loc 1 245 0
- 926 039c 7B68     		ldr	r3, [r7, #4]
- 927 039e 002B     		cmp	r3, #0
- 928 03a0 25D0     		beq	.L52
- 929              		.loc 1 245 0 is_stmt 0 discriminator 1
- 930 03a2 7B68     		ldr	r3, [r7, #4]
- 931 03a4 142B     		cmp	r3, #20
- 932 03a6 22D8     		bhi	.L52
+ 928              		.loc 1 245 0
+ 929 03a0 7B68     		ldr	r3, [r7, #4]
+ 930 03a2 002B     		cmp	r3, #0
+ 931 03a4 25D0     		beq	.L52
+ 932              		.loc 1 245 0 is_stmt 0 discriminator 1
+ 933 03a6 7B68     		ldr	r3, [r7, #4]
+ 934 03a8 142B     		cmp	r3, #20
+ 935 03aa 22D8     		bhi	.L52
  246:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****         return;
  247:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     }
  248:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Make sure column not out of bounds
  249:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     if(column < 1 || column > 2){
- 933              		.loc 1 249 0 is_stmt 1
- 934 03a8 3B68     		ldr	r3, [r7]
- 935 03aa 002B     		cmp	r3, #0
- 936 03ac 21D0     		beq	.L53
- 937              		.loc 1 249 0 is_stmt 0 discriminator 1
- 938 03ae 3B68     		ldr	r3, [r7]
- 939 03b0 022B     		cmp	r3, #2
- 940 03b2 1ED8     		bhi	.L53
+ 936              		.loc 1 249 0 is_stmt 1
+ 937 03ac 3B68     		ldr	r3, [r7]
+ 938 03ae 002B     		cmp	r3, #0
+ 939 03b0 21D0     		beq	.L53
+ 940              		.loc 1 249 0 is_stmt 0 discriminator 1
+ 941 03b2 3B68     		ldr	r3, [r7]
+ 942 03b4 022B     		cmp	r3, #2
+ 943 03b6 1ED8     		bhi	.L53
  250:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****         return;
  251:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     }
  252:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  253:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Set address to the correct location
  254:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     unsigned char address = row - 1;
- 941              		.loc 1 254 0 is_stmt 1
- 942 03b4 7B68     		ldr	r3, [r7, #4]
- 943 03b6 DAB2     		uxtb	r2, r3
- 944 03b8 0F23     		movs	r3, #15
- 945 03ba FB18     		adds	r3, r7, r3
- 946 03bc 013A     		subs	r2, r2, #1
- 947 03be 1A70     		strb	r2, [r3]
+ 944              		.loc 1 254 0 is_stmt 1
+ 945 03b8 7B68     		ldr	r3, [r7, #4]
+ 946 03ba DAB2     		uxtb	r2, r3
+ 947 03bc 0F23     		movs	r3, #15
+ 948 03be FB18     		adds	r3, r7, r3
+ 949 03c0 013A     		subs	r2, r2, #1
+ 950 03c2 1A70     		strb	r2, [r3]
  255:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     if(column == 2){
- 948              		.loc 1 255 0
- 949 03c0 3B68     		ldr	r3, [r7]
- 950 03c2 022B     		cmp	r3, #2
- 951 03c4 06D1     		bne	.L51
+ 951              		.loc 1 255 0
+ 952 03c4 3B68     		ldr	r3, [r7]
+ 953 03c6 022B     		cmp	r3, #2
+ 954 03c8 06D1     		bne	.L51
  256:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****         address += 0x40;
- 952              		.loc 1 256 0
- 953 03c6 0F23     		movs	r3, #15
- 954 03c8 FB18     		adds	r3, r7, r3
- 955 03ca 0F22     		movs	r2, #15
- 956 03cc BA18     		adds	r2, r7, r2
- 957 03ce 1278     		ldrb	r2, [r2]
- 958 03d0 4032     		adds	r2, r2, #64
- 959 03d2 1A70     		strb	r2, [r3]
- 960              	.L51:
+ 955              		.loc 1 256 0
+ 956 03ca 0F23     		movs	r3, #15
+ 957 03cc FB18     		adds	r3, r7, r3
+ 958 03ce 0F22     		movs	r2, #15
+ 959 03d0 BA18     		adds	r2, r7, r2
+ 960 03d2 1278     		ldrb	r2, [r2]
+ 961 03d4 4032     		adds	r2, r2, #64
+ 962 03d6 1A70     		strb	r2, [r3]
+ 963              	.L51:
  257:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     }
  258:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     
  259:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Send command to mark correct spot
  260:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     ascii_command(0x80 | address, 39, 1);
- 961              		.loc 1 260 0
- 962 03d4 0F23     		movs	r3, #15
- 963 03d6 FB18     		adds	r3, r7, r3
- 964 03d8 1B78     		ldrb	r3, [r3]
- 965 03da 8022     		movs	r2, #128
- 966 03dc 5242     		rsbs	r2, r2, #0
- 967 03de 1343     		orrs	r3, r2
- 968 03e0 DBB2     		uxtb	r3, r3
- 969 03e2 0122     		movs	r2, #1
- 970 03e4 2721     		movs	r1, #39
- 971 03e6 1800     		movs	r0, r3
- 972 03e8 FFF7FEFF 		bl	ascii_command
- 973 03ec 02E0     		b	.L45
- 974              	.L52:
+ 964              		.loc 1 260 0
+ 965 03d8 0F23     		movs	r3, #15
+ 966 03da FB18     		adds	r3, r7, r3
+ 967 03dc 1B78     		ldrb	r3, [r3]
+ 968 03de 8022     		movs	r2, #128
+ 969 03e0 5242     		rsbs	r2, r2, #0
+ 970 03e2 1343     		orrs	r3, r2
+ 971 03e4 DBB2     		uxtb	r3, r3
+ 972 03e6 0122     		movs	r2, #1
+ 973 03e8 2721     		movs	r1, #39
+ 974 03ea 1800     		movs	r0, r3
+ 975 03ec FFF7FEFF 		bl	ascii_command
+ 976 03f0 02E0     		b	.L45
+ 977              	.L52:
  246:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     }
- 975              		.loc 1 246 0
- 976 03ee C046     		nop
- 977 03f0 00E0     		b	.L45
- 978              	.L53:
+ 978              		.loc 1 246 0
+ 979 03f2 C046     		nop
+ 980 03f4 00E0     		b	.L45
+ 981              	.L53:
  250:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     }
- 979              		.loc 1 250 0
- 980 03f2 C046     		nop
- 981              	.L45:
+ 982              		.loc 1 250 0
+ 983 03f6 C046     		nop
+ 984              	.L45:
  261:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 982              		.loc 1 261 0
- 983 03f4 BD46     		mov	sp, r7
- 984 03f6 04B0     		add	sp, sp, #16
- 985              		@ sp needed
- 986 03f8 80BD     		pop	{r7, pc}
- 987              		.cfi_endproc
- 988              	.LFE16:
- 990              		.align	1
- 991              		.global	ascii_write_string
- 992              		.syntax unified
- 993              		.code	16
- 994              		.thumb_func
- 995              		.fpu softvfp
- 997              	ascii_write_string:
- 998              	.LFB17:
+ 985              		.loc 1 261 0
+ 986 03f8 BD46     		mov	sp, r7
+ 987 03fa 04B0     		add	sp, sp, #16
+ 988              		@ sp needed
+ 989 03fc 80BD     		pop	{r7, pc}
+ 990              		.cfi_endproc
+ 991              	.LFE16:
+ 993              		.align	1
+ 994              		.global	ascii_write_string
+ 995              		.syntax unified
+ 996              		.code	16
+ 997              		.thumb_func
+ 998              		.fpu softvfp
+ 1000              	ascii_write_string:
+ 1001              	.LFB17:
  262:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** 
  263:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** void ascii_write_string(char *s){
- 999              		.loc 1 263 0
- 1000              		.cfi_startproc
- 1001              		@ args = 0, pretend = 0, frame = 8
- 1002              		@ frame_needed = 1, uses_anonymous_args = 0
- 1003 03fa 80B5     		push	{r7, lr}
- 1004              		.cfi_def_cfa_offset 8
- 1005              		.cfi_offset 7, -8
- 1006              		.cfi_offset 14, -4
- 1007 03fc 82B0     		sub	sp, sp, #8
- 1008              		.cfi_def_cfa_offset 16
- 1009 03fe 00AF     		add	r7, sp, #0
- 1010              		.cfi_def_cfa_register 7
- 1011 0400 7860     		str	r0, [r7, #4]
+ 1002              		.loc 1 263 0
+ 1003              		.cfi_startproc
+ 1004              		@ args = 0, pretend = 0, frame = 8
+ 1005              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1006 03fe 80B5     		push	{r7, lr}
+ 1007              		.cfi_def_cfa_offset 8
+ 1008              		.cfi_offset 7, -8
+ 1009              		.cfi_offset 14, -4
+ 1010 0400 82B0     		sub	sp, sp, #8
+ 1011              		.cfi_def_cfa_offset 16
+ 1012 0402 00AF     		add	r7, sp, #0
+ 1013              		.cfi_def_cfa_register 7
+ 1014 0404 7860     		str	r0, [r7, #4]
  264:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     // Write each character onto the display until the finishing character is reached
  265:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     while(*s != 0){
- 1012              		.loc 1 265 0
- 1013 0402 06E0     		b	.L55
- 1014              	.L56:
+ 1015              		.loc 1 265 0
+ 1016 0406 06E0     		b	.L55
+ 1017              	.L56:
  266:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****         ascii_write_char(*s++);
- 1015              		.loc 1 266 0
- 1016 0404 7B68     		ldr	r3, [r7, #4]
- 1017 0406 5A1C     		adds	r2, r3, #1
- 1018 0408 7A60     		str	r2, [r7, #4]
- 1019 040a 1B78     		ldrb	r3, [r3]
- 1020 040c 1800     		movs	r0, r3
- 1021 040e FFF7FEFF 		bl	ascii_write_char
- 1022              	.L55:
+ 1018              		.loc 1 266 0
+ 1019 0408 7B68     		ldr	r3, [r7, #4]
+ 1020 040a 5A1C     		adds	r2, r3, #1
+ 1021 040c 7A60     		str	r2, [r7, #4]
+ 1022 040e 1B78     		ldrb	r3, [r3]
+ 1023 0410 1800     		movs	r0, r3
+ 1024 0412 FFF7FEFF 		bl	ascii_write_char
+ 1025              	.L55:
  265:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****         ascii_write_char(*s++);
- 1023              		.loc 1 265 0
- 1024 0412 7B68     		ldr	r3, [r7, #4]
- 1025 0414 1B78     		ldrb	r3, [r3]
- 1026 0416 002B     		cmp	r3, #0
- 1027 0418 F4D1     		bne	.L56
+ 1026              		.loc 1 265 0
+ 1027 0416 7B68     		ldr	r3, [r7, #4]
+ 1028 0418 1B78     		ldrb	r3, [r3]
+ 1029 041a 002B     		cmp	r3, #0
+ 1030 041c F4D1     		bne	.L56
  267:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c ****     }
  268:C:/School/DAT017/Mop-DAT017/Labs and exercises/asciidisplay\startup.c **** }
- 1028              		.loc 1 268 0
- 1029 041a C046     		nop
- 1030 041c BD46     		mov	sp, r7
- 1031 041e 02B0     		add	sp, sp, #8
- 1032              		@ sp needed
- 1033 0420 80BD     		pop	{r7, pc}
- 1034              		.cfi_endproc
- 1035              	.LFE17:
- 1037              	.Letext0:
+ 1031              		.loc 1 268 0
+ 1032 041e C046     		nop
+ 1033 0420 BD46     		mov	sp, r7
+ 1034 0422 02B0     		add	sp, sp, #8
+ 1035              		@ sp needed
+ 1036 0424 80BD     		pop	{r7, pc}
+ 1037              		.cfi_endproc
+ 1038              	.LFE17:
+ 1040              	.Letext0:
