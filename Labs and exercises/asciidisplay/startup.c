@@ -20,7 +20,7 @@ __asm volatile(
 #define STK_VAL *((volatile unsigned int*)(SYSTIK+0x8))
 
 #define COUNT_VAL ((unsigned int)(42))
-#define MILLI_TO_MIKRO 1
+#define MILLI_TO_MIKRO 1000
 
 #define PORT_E 0x40021000
 
@@ -54,9 +54,21 @@ unsigned char ascii_read_controller(void);
 void ascii_command(unsigned char, unsigned int, unsigned short);
 void ascii_write_char(unsigned char);
 void gotoxy(unsigned int, unsigned int);
+void ascii_write_string(char*);
 
 void main(void){
+    char *s;
+    char test1[] = "Alfanumerisk ";
+    char test2[] = "Display - test";
+    
     app_init();
+    //ascii_init();
+    gotoxy(1, 1);
+    s = test1;
+    ascii_write_string(*s);
+    gotoxy(1, 2);
+    s = test2;
+    ascii_write_string(*s);
 }
 
 void app_init(void){
@@ -248,4 +260,10 @@ void gotoxy(unsigned int row, unsigned int column){
     ascii_command(0x80 | address, 39, 1);
 }
 
+void ascii_write_string(char *s){
+    // Write each character onto the display until the finishing character is reached
+    while(*s != 0){
+        ascii_write_char(*s++);
+    }
+}
 
