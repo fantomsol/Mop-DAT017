@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Session Name="C:\School\DAT017\Labs and exercises\Labs and exercises.workspace">
+<Session Name="C:\School\DAT017\Mop-DAT017\Labs and exercises\Labs and exercises.workspace">
   <int Value="0" Name="m_selectedTab"/>
-  <wxString Value="C:\School\DAT017\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
+  <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
-      <wxString Value="C:\School\DAT017\Labs and exercises\delay_5_3\startup.c" Name="FileName"/>
-      <int Value="41" Name="FirstVisibleLine"/>
-      <int Value="51" Name="CurrentLine"/>
+      <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\asciidisplay\startup.c" Name="FileName"/>
+      <int Value="86" Name="FirstVisibleLine"/>
+      <int Value="87" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="C:\School\DAT017\Labs and exercises\keypad_4_1_v2\startup.c" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="7" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
+      <IntVector Name="CollapsedFolds">
+        <IntVectorItem Value="6"/>
+        <IntVectorItem Value="90"/>
+        <IntVectorItem Value="102"/>
+        <IntVectorItem Value="108"/>
+        <IntVectorItem Value="112"/>
+        <IntVectorItem Value="117"/>
+        <IntVectorItem Value="122"/>
+        <IntVectorItem Value="130"/>
+        <IntVectorItem Value="139"/>
+        <IntVectorItem Value="155"/>
+        <IntVectorItem Value="173"/>
+        <IntVectorItem Value="187"/>
+        <IntVectorItem Value="206"/>
+        <IntVectorItem Value="242"/>
+      </IntVector>
     </TabInfo>
   </TabInfoArray>
   <SerializedObject Name="m_breakpoints">
