@@ -5,15 +5,15 @@
 ## Debug
 ProjectName            :=graphicdisplay
 ConfigurationName      :=Debug
-WorkspacePath          :=C:/Users/Lumo/Documents/Moplaborationer/Moplaborationer
-ProjectPath            :=C:/Users/Lumo/Documents/Moplaborationer/Moplaborationer/graphicdisplay
+WorkspacePath          :="C:/School/DAT017/Mop-DAT017/Moplaborationer (NaN)/Moplaborationer"
+ProjectPath            :="C:/School/DAT017/Mop-DAT017/Moplaborationer (NaN)/Moplaborationer/graphicdisplay"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=Lumo
-Date                   :=25/11/2017
+User                   :=gusta
+Date                   :=2017-11-25
 CodeLitePath           :=C:/cseapp/CodeLite
 LinkerName             :=$(CodeLiteDir)/tools/gcc-arm/bin/arm-none-eabi-g++.exe
 SharedObjectLinkerName :=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi-g++.exe -shared -fPIC
@@ -104,7 +104,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/startup.c$(ObjectSuffix): startup.c $(IntermediateDirectory)/startup.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Moplaborationer/Moplaborationer/graphicdisplay/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Moplaborationer (NaN)/Moplaborationer/graphicdisplay/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/startup.c$(DependSuffix): startup.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/startup.c$(ObjectSuffix) -MF$(IntermediateDirectory)/startup.c$(DependSuffix) -MM startup.c
 
@@ -112,7 +112,7 @@ $(IntermediateDirectory)/startup.c$(PreprocessSuffix): startup.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/startup.c$(PreprocessSuffix) startup.c
 
 $(IntermediateDirectory)/sys_delay.c$(ObjectSuffix): sys_delay.c $(IntermediateDirectory)/sys_delay.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Moplaborationer/Moplaborationer/graphicdisplay/sys_delay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/sys_delay.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Moplaborationer (NaN)/Moplaborationer/graphicdisplay/sys_delay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/sys_delay.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/sys_delay.c$(DependSuffix): sys_delay.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/sys_delay.c$(ObjectSuffix) -MF$(IntermediateDirectory)/sys_delay.c$(DependSuffix) -MM sys_delay.c
 
@@ -120,7 +120,7 @@ $(IntermediateDirectory)/sys_delay.c$(PreprocessSuffix): sys_delay.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/sys_delay.c$(PreprocessSuffix) sys_delay.c
 
 $(IntermediateDirectory)/gpio.c$(ObjectSuffix): gpio.c $(IntermediateDirectory)/gpio.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Moplaborationer/Moplaborationer/graphicdisplay/gpio.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/gpio.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Moplaborationer (NaN)/Moplaborationer/graphicdisplay/gpio.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/gpio.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/gpio.c$(DependSuffix): gpio.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/gpio.c$(ObjectSuffix) -MF$(IntermediateDirectory)/gpio.c$(DependSuffix) -MM gpio.c
 
@@ -128,7 +128,7 @@ $(IntermediateDirectory)/gpio.c$(PreprocessSuffix): gpio.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/gpio.c$(PreprocessSuffix) gpio.c
 
 $(IntermediateDirectory)/geometry.c$(ObjectSuffix): geometry.c $(IntermediateDirectory)/geometry.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Moplaborationer/Moplaborationer/graphicdisplay/geometry.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/geometry.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Moplaborationer (NaN)/Moplaborationer/graphicdisplay/geometry.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/geometry.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/geometry.c$(DependSuffix): geometry.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/geometry.c$(ObjectSuffix) -MF$(IntermediateDirectory)/geometry.c$(DependSuffix) -MM geometry.c
 

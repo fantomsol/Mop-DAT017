@@ -8,7 +8,8 @@
 #define STK_VAL *((volatile unsigned int*)(SYSTIK+0x8))
 
 #define COUNT_VAL ((unsigned int)(42))
-#define MILLI_TO_MIKRO 1
+
+#define MILLI_TO_MIKRO 1000
 
 void delay_250ns(void);
 void delay_500ns(void);

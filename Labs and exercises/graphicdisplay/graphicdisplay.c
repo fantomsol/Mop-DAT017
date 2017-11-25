@@ -16,8 +16,7 @@ void graphic_ctrl_bit_clear(uint8_t x){
 void select_controller(uint8_t controller){
     switch(controller){
         case 0: 
-            graphic_ctrl_bit_clear(B_CS1);
-            graphic_ctrl_bit_clear(B_CS2);
+            graphic_ctrl_bit_clear(B_CS1 | B_CS2);
             break;
         case B_CS1: 
             graphic_ctrl_bit_clear(B_CS2);
@@ -28,13 +27,13 @@ void select_controller(uint8_t controller){
             graphic_ctrl_bit_set(B_CS2);
             break;
         case B_CS1 | B_CS2:
-            graphic_ctrl_bit_set(B_CS1);
-            graphic_ctrl_bit_set(B_CS2);
+            graphic_ctrl_bit_set(B_CS1 | B_CS2);
             break;
     }
 }
 
 void graphic_wait_ready(void){
+    uint8_t display_busy_status;
     // Enable = 0
     graphic_ctrl_bit_clear(B_E);
     // E: 15-8 = input, 7-0 = output
@@ -53,13 +52,14 @@ void graphic_wait_ready(void){
         graphic_ctrl_bit_clear(B_E);
         delay_500ns();
         // Exit loop if not busy
-        if((GPIO_E.idrHigh & LCD_BUSY) == 0){
+        display_busy_status = GPIO_E.idrHigh & LCD_BUSY;
+        if(display_busy_status == 0){
             break;
         } 
     }
     
     // Enable = 1
-    graphic_ctrl_bit_set(B_E);
+    // graphic_ctrl_bit_set(B_E); // Commented out to check if this works because it works for NaN
     // E: 15-0 = output
     GPIO_E.moder = 0x55555555;
 }
@@ -71,8 +71,7 @@ uint8_t graphic_read(uint8_t controller){
 	//set E to input high byte / output low byte
 	GPIO_E.moder = 0x00005555;
 	
-	graphic_ctrl_bit_set(B_RS);
-	graphic_ctrl_bit_set(B_RW);
+	graphic_ctrl_bit_set(B_RS | B_RW);
 	
 	select_controller(controller);
 	delay_500ns();
@@ -88,11 +87,11 @@ uint8_t graphic_read(uint8_t controller){
 	//set E to output
 	GPIO_E.moder = 0x55555555;
 	
-	if(controller == B_CS1) {
+	if((controller & B_CS1) == 1) {
 		select_controller(B_CS1);
 		graphic_wait_ready();
 	}
-	if(controller == B_CS2){
+	if((controller & B_CS2) == 1){
 		select_controller(B_CS2);
 		graphic_wait_ready();
 	}
@@ -139,8 +138,7 @@ void graphic_write(uint8_t value, uint8_t controller){
 void graphic_write_command(uint8_t command, uint8_t controller){
 	graphic_ctrl_bit_clear(B_E);
 	select_controller(controller);
-	graphic_ctrl_bit_clear(B_RS);
-	graphic_ctrl_bit_clear(B_RW);
+	graphic_ctrl_bit_clear(B_RS | B_RW);
 	graphic_write(command, controller);
 }
 
@@ -168,29 +166,29 @@ void graphic_initialize(void){
 	
 	delay_mikro(10);
 	
-	select_controller(0);
-	graphic_ctrl_bit_clear(B_RST);
-	graphic_ctrl_bit_clear(B_E);
+	graphic_ctrl_bit_clear(B_CS1 | B_CS2 | B_RST | B_E);
 	
 	delay_milli(30);
 	graphic_ctrl_bit_set(B_RST);
 	
-	graphic_write_command(LCD_OFF, (B_CS1 | B_CS2));
-	graphic_write_command(LCD_ON, (B_CS1 | B_CS2));
-	graphic_write_command(LCD_DISP_START, (B_CS1 | B_CS2));
-	graphic_write_command(LCD_SET_ADD, (B_CS1 | B_CS2));
-	graphic_write_command(LCD_SET_PAGE, (B_CS1 | B_CS2));
+	delay_milli(100); // Added because NaN has it
+	
+	graphic_write_command(LCD_OFF, B_CS1 | B_CS2);
+	graphic_write_command(LCD_ON, B_CS1 | B_CS2);
+	graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
+	graphic_write_command(LCD_SET_ADD, B_CS1 | B_CS2);
+	graphic_write_command(LCD_SET_PAGE, B_CS1 | B_CS2);
 	
 	select_controller(0);
 }
 
 void graphic_clear_screen(void){
 	for(uint8_t page = 0; page < 8; page++){
-		graphic_write_command((LCD_SET_PAGE | page), (B_CS1 | B_CS2));
-		graphic_write_command(LCD_SET_ADD, (B_CS1 | B_CS2));
+		graphic_write_command(LCD_SET_PAGE | page, B_CS1 | B_CS2);
+		graphic_write_command(LCD_SET_ADD, B_CS1 | B_CS2);
 		
 		for(uint8_t add = 0; add < 64; add++){
-			graphic_write_data(0, (B_CS1 | B_CS2));
+			graphic_write_data(0, B_CS1 | B_CS2);
 		}
 	}
 }

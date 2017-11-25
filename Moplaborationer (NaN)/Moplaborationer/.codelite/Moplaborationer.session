@@ -1,33 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Session Name="E:\DAT017\CodeLite files\Moplaborationer\Moplaborationer.workspace">
-  <int Value="0" Name="m_selectedTab"/>
-  <wxString Value="E:\DAT017\CodeLite files\Moplaborationer\Moplaborationer.workspace" Name="m_workspaceName"/>
+<Session Name="C:\School\DAT017\Mop-DAT017\Moplaborationer (NaN)\Moplaborationer\Moplaborationer.workspace">
+  <int Value="1" Name="m_selectedTab"/>
+  <wxString Value="C:\School\DAT017\Mop-DAT017\Moplaborationer (NaN)\Moplaborationer\Moplaborationer.workspace" Name="m_workspaceName"/>
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
-      <wxString Value="E:\DAT017\CodeLite files\Moplaborationer\keypad\startup.c" Name="FileName"/>
-      <int Value="4" Name="FirstVisibleLine"/>
-      <int Value="17" Name="CurrentLine"/>
+      <wxString Value="C:\School\DAT017\Mop-DAT017\Moplaborationer (NaN)\Moplaborationer\graphicdisplay\startup.c" Name="FileName"/>
+      <int Value="18" Name="FirstVisibleLine"/>
+      <int Value="0" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\School\DAT017\Mop-DAT017\Moplaborationer (NaN)\Moplaborationer\graphicdisplay\gpio.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="1" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds">
+        <IntVectorItem Value="4"/>
+        <IntVectorItem Value="21"/>
+        <IntVectorItem Value="35"/>
+        <IntVectorItem Value="54"/>
+        <IntVectorItem Value="81"/>
+        <IntVectorItem Value="90"/>
+        <IntVectorItem Value="94"/>
+        <IntVectorItem Value="102"/>
+        <IntVectorItem Value="121"/>
+        <IntVectorItem Value="152"/>
+        <IntVectorItem Value="161"/>
+        <IntVectorItem Value="170"/>
+        <IntVectorItem Value="177"/>
+        <IntVectorItem Value="183"/>
+        <IntVectorItem Value="199"/>
+        <IntVectorItem Value="215"/>
+        <IntVectorItem Value="224"/>
+        <IntVectorItem Value="234"/>
+        <IntVectorItem Value="243"/>
+        <IntVectorItem Value="268"/>
+        <IntVectorItem Value="287"/>
+        <IntVectorItem Value="302"/>
+        <IntVectorItem Value="320"/>
+        <IntVectorItem Value="344"/>
+        <IntVectorItem Value="364"/>
+        <IntVectorItem Value="371"/>
+        <IntVectorItem Value="379"/>
+        <IntVectorItem Value="384"/>
+        <IntVectorItem Value="395"/>
+      </IntVector>
+    </TabInfo>
   </TabInfoArray>
   <SerializedObject Name="m_breakpoints">
-    <long Value="1" Name="Count"/>
-    <SerializedObject Name="Breakpoint0">
-      <wxString Value="E:\DAT017\CodeLite files\Moplaborationer\basic_io\startup.c" Name="file"/>
-      <int Value="24" Name="lineno"/>
-      <wxString Value="" Name="function_name"/>
-      <wxString Value="" Name="memory_address"/>
-      <int Value="1" Name="bp_type"/>
-      <int Value="0" Name="watchpoint_type"/>
-      <wxString Value="" Name="watchpt_data"/>
-      <CData Name="commandlist"/>
-      <bool Value="0" Name="regex"/>
-      <bool Value="0" Name="is_temp"/>
-      <bool Value="1" Name="is_enabled"/>
-      <int Value="0" Name="ignore_number"/>
-      <wxString Value="" Name="conditions"/>
-      <int Value="0" Name="origin"/>
-    </SerializedObject>
+    <long Value="0" Name="Count"/>
   </SerializedObject>
 </Session>

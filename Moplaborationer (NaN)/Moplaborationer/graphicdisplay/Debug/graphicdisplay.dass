@@ -5,67 +5,37 @@
 Disassembly of section .text:
 
 20000000 <startup>:
- */
-void startup(void) __attribute__((naked)) __attribute__((section (".start_section")) );
-
-void startup ( void )
-{
-__asm volatile(
 20000000:	4802      	ldr	r0, [pc, #8]	; (2000000c <_exit+0x4>)
 20000002:	4685      	mov	sp, r0
 20000004:	f000 f80b 	bl	2000001e <main>
 
 20000008 <_exit>:
 20000008:	e7fe      	b.n	20000008 <_exit>
-	" LDR R0,=0x2001C000\n"		/* set stack */
-	" MOV SP,R0\n"
-	" BL main\n"				/* call main */
-	"_exit: B .\n"				/* never return */
-	) ;
-}
 2000000a:	46c0      	nop			; (mov r8, r8)
 2000000c:	2001c000 	andcs	ip, r1, r0
 
 20000010 <init_app>:
-
-void init_app(void) {
 20000010:	b580      	push	{r7, lr}
 20000012:	af00      	add	r7, sp, #0
-	setup_for_graphic_display();
 20000014:	f000 fd4b 	bl	20000aae <setup_for_graphic_display>
-}
 20000018:	46c0      	nop			; (mov r8, r8)
 2000001a:	46bd      	mov	sp, r7
 2000001c:	bd80      	pop	{r7, pc}
 
 2000001e <main>:
-
-void main(void)
-{
 2000001e:	b580      	push	{r7, lr}
 20000020:	af00      	add	r7, sp, #0
-	init_app();
 20000022:	f7ff fff5 	bl	20000010 <init_app>
-	graphic_initialize();
 20000026:	f000 fbcc 	bl	200007c2 <graphic_initialize>
-	//graphic_write_command(LCD_SET_ADD | 10, /*B_CS1|*/B_CS2);
-	//graphic_write_command(LCD_SET_PAGE | 1, /*B_CS1|*/B_CS2);
-	//graphic_write_data(0xFF, /*B_CS1|*/B_CS2);
-	
-	// Print both
-	graphic_write_command(LCD_SET_ADD | 20, B_CS1|B_CS2);
 2000002a:	2118      	movs	r1, #24
 2000002c:	2054      	movs	r0, #84	; 0x54
 2000002e:	f000 fcb3 	bl	20000998 <graphic_write_command>
-	graphic_write_command(LCD_SET_PAGE | 1, B_CS1|B_CS2);
 20000032:	2118      	movs	r1, #24
 20000034:	20b9      	movs	r0, #185	; 0xb9
 20000036:	f000 fcaf 	bl	20000998 <graphic_write_command>
-	graphic_write_data(0xFF, B_CS1|B_CS2);
 2000003a:	2118      	movs	r1, #24
 2000003c:	20ff      	movs	r0, #255	; 0xff
 2000003e:	f000 fccb 	bl	200009d8 <graphic_write_data>
-}
 20000042:	46c0      	nop			; (mov r8, r8)
 20000044:	46bd      	mov	sp, r7
 20000046:	bd80      	pop	{r7, pc}
