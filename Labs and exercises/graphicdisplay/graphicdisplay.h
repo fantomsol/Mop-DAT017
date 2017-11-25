@@ -12,11 +12,12 @@
 #define B_RW        0x2
 #define B_RS        0x1
 
-#define LCD_ON			0x3E
-#define LCD_OFF			0xFF
-#define LCD_DISP_START	0xD0
+#define LCD_ON			0x3F
+#define LCD_OFF			0x3E
+#define LCD_DISP_START	0xC0
 #define LCD_SET_ADD		0x40
 #define LCD_SET_PAGE	0xB8
+#define LCD_BUSY		0x80
 
 typedef unsigned char uint8_t;
 

@@ -8,7 +8,7 @@ void graphic_ctrl_bit_set(uint8_t x){
 
 void graphic_ctrl_bit_clear(uint8_t x){
     uint8_t control_register = GPIO_E.odrLow;
-    control_register &= ~x;
+    control_register &= (~x);
     control_register |= B_SELECT;
     GPIO_E.odrLow = control_register;
 }
@@ -16,7 +16,8 @@ void graphic_ctrl_bit_clear(uint8_t x){
 void select_controller(uint8_t controller){
     switch(controller){
         case 0: 
-            graphic_ctrl_bit_clear(B_CS1 | B_CS2);
+            graphic_ctrl_bit_clear(B_CS1);
+            graphic_ctrl_bit_clear(B_CS2);
             break;
         case B_CS1: 
             graphic_ctrl_bit_clear(B_CS2);
@@ -27,7 +28,8 @@ void select_controller(uint8_t controller){
             graphic_ctrl_bit_set(B_CS2);
             break;
         case B_CS1 | B_CS2:
-            graphic_ctrl_bit_set(B_CS1 | B_CS2);
+            graphic_ctrl_bit_set(B_CS1);
+            graphic_ctrl_bit_set(B_CS2);
             break;
     }
 }
@@ -51,7 +53,7 @@ void graphic_wait_ready(void){
         graphic_ctrl_bit_clear(B_E);
         delay_500ns();
         // Exit loop if not busy
-        if((GPIO_E.idrHigh & 0x0) != 0){
+        if((GPIO_E.idrHigh & LCD_BUSY) == 0){
             break;
         } 
     }
@@ -86,13 +88,22 @@ uint8_t graphic_read(uint8_t controller){
 	//set E to output
 	GPIO_E.moder = 0x55555555;
 	
-	switch (controller) {
+	if(controller == B_CS1) {
+		select_controller(B_CS1);
+		graphic_wait_ready();
+	}
+	if(controller == B_CS2){
+		select_controller(B_CS2);
+		graphic_wait_ready();
+	}
+	
+	/*switch (controller) {
 		case B_CS1: select_controller(B_CS1); break;
 		case B_CS2: select_controller(B_CS2); break;
-		case B_CS1 | B_CS2: select_controller(B_CS1 | B_CS2); break;
-		default: select_controller(0);
-	}
-	graphic_wait_ready();
+		//case B_CS1 | B_CS2: select_controller(B_CS1 | B_CS2); break;
+		//default: select_controller(0);
+	}*/
+	//graphic_wait_ready();
 	
 	return RV;
 }
@@ -142,13 +153,14 @@ void graphic_write_data(uint8_t data, uint8_t controller){
 }
 
 uint8_t graphic_read_data(uint8_t controller){
-	graphic_read(controller);
+	(void) graphic_read(controller);
 	return graphic_read(controller);
 }
 
 void init_app(void){
 	//port E is output
 	GPIO_E.moder = 0x55555555;
+	GPIO_E.ospeedr = 0x55555555;
 }
 
 void graphic_initialize(void){
@@ -163,22 +175,22 @@ void graphic_initialize(void){
 	delay_milli(30);
 	graphic_ctrl_bit_set(B_RST);
 	
-	graphic_write_command(LCD_ON, B_CS1 | B_CS2);
-	graphic_write_command(LCD_OFF, B_CS1 | B_CS2);
-	graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
-	graphic_write_command(LCD_SET_ADD, B_CS1 | B_CS2);
-	graphic_write_command(LCD_SET_PAGE, B_CS1 | B_CS2);
+	graphic_write_command(LCD_OFF, (B_CS1 | B_CS2));
+	graphic_write_command(LCD_ON, (B_CS1 | B_CS2));
+	graphic_write_command(LCD_DISP_START, (B_CS1 | B_CS2));
+	graphic_write_command(LCD_SET_ADD, (B_CS1 | B_CS2));
+	graphic_write_command(LCD_SET_PAGE, (B_CS1 | B_CS2));
 	
 	select_controller(0);
 }
 
 void graphic_clear_screen(void){
 	for(uint8_t page = 0; page < 8; page++){
-		graphic_write_command(LCD_SET_PAGE | page, B_CS1 | B_CS2);
-		graphic_write_command(LCD_SET_ADD, B_CS1 | B_CS2);
+		graphic_write_command((LCD_SET_PAGE | page), (B_CS1 | B_CS2));
+		graphic_write_command(LCD_SET_ADD, (B_CS1 | B_CS2));
 		
 		for(uint8_t add = 0; add < 64; add++){
-			graphic_write_data(0, B_CS1 | B_CS2);
+			graphic_write_data(0, (B_CS1 | B_CS2));
 		}
 	}
 }
