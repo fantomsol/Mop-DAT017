@@ -21,23 +21,35 @@
 
 typedef unsigned char uint8_t;
 
-// Prototypes
+// ***Prototypes***
+
+// Bit handling, control register
 void graphic_ctrl_bit_set(uint8_t);
 void graphic_ctrl_bit_clear(uint8_t);
 
+// Controller handling
 void select_controller(uint8_t);
 
+// Delay handling
 void graphic_wait_ready(void);
 
+// Output handling, data register
 void graphic_write(uint8_t, uint8_t);
 void graphic_write_command(uint8_t, uint8_t);
 void graphic_write_data(uint8_t, uint8_t);
 
+// Input handling, data register
 uint8_t graphic_read(uint8_t);
 uint8_t graphic_read_data(uint8_t);
 
+// Initialisation
 void init_app(void);
 void graphic_initialize(void);
 
+// Clear screen
 void graphic_clear_screen(void);
+
+// Coordinate handling
+void pixel(uint8_t, uint8_t, uint8_t);
+
 #endif // GRAPHICDISPLAY_H

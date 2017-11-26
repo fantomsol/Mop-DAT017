@@ -192,3 +192,50 @@ void graphic_clear_screen(void){
 		}
 	}
 }
+
+void pixel(uint8_t x, uint8_t y, uint8_t set){
+    // Validate values for input variables
+    if(x < 1 || x > 128){
+        return;
+    }
+    if(y < 1 || y > 64){
+        return;
+    }
+    if(set != 1 && set != 0){
+        return;
+    }
+    
+    uint8_t index = (y-1)/8;
+    // Create mask for y, works as well as switch from book, but with less code
+    uint8_t mask = 1;
+    mask = mask << ((y-1)%8);
+    
+    // Invert mask if the bit is going to get cleared
+    if(set == 0){
+        mask = ~mask;
+    }
+    
+    uint8_t x_actual;
+    uint8_t controller;
+    // Select applicable chip (screen half), and store the actual value of x
+    if(x > 64){
+        controller = B_CS2;
+        x_actual = x - 65;
+    } else {
+        controller = B_CS1;
+        x_actual = x - 1;
+    }
+    
+    graphic_write_command(LCD_SET_ADD | x_actual, controller);
+    graphic_write_command(LCD_SET_PAGE | index, controller);
+    uint8_t temp = graphic_read_data(controller);
+    graphic_write_command(LCD_SET_ADD | x_actual, controller);
+    if(set == 1){
+        mask |= temp;
+    } else {
+        mask &= temp;
+    }
+    graphic_write_data(mask, controller);
+}
+
+
