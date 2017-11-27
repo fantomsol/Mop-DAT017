@@ -3,13 +3,21 @@
  *
  */
 #include "delay.h"
+<<<<<<< HEAD
 #include "keypad.h"
+=======
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
 #include "gpio.h"
 #include "graphicdisplay.h"
 #include <stdint.h>
  
+<<<<<<< HEAD
 //#define SIMULATOR
 #define EXERCISE 16
+=======
+#define SIMULATOR
+#define EXERCISE 15
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
  
 void startup(void) __attribute__((naked)) __attribute__((section (".start_section")) );
 
@@ -23,11 +31,16 @@ __asm volatile(
 }
 
 void main(void){
+<<<<<<< HEAD
+=======
+#if EXERCISE == 14
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
 	init_app();
 	graphic_initialize();
 #ifndef SIMULATOR
 	graphic_clear_screen();
 #endif //for simulator
+<<<<<<< HEAD
 
 #if EXERCISE == 14
 	graphic_write_command (LCD_SET_ADD | 20, B_CS1 | B_CS2);
@@ -40,6 +53,20 @@ void main(void){
 #endif // 5.14
     
 #if EXERCISE == 15
+=======
+	
+	graphic_write_command (LCD_SET_ADD | 20, B_CS1 | B_CS2);
+	graphic_write_command (LCD_SET_PAGE | 1, B_CS1 | B_CS2);
+	graphic_write_data (0xFF, B_CS1 | B_CS2);
+#endif // 5.14
+    
+#if EXERCISE == 15
+    init_app();
+    graphic_initialize();
+#ifndef SIMULATOR
+    graphic_clear_screen();
+#endif // For simulator
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
     while(1){
         // Draw a horisontal line
         for(int i = 0; i < 128; i++){
@@ -49,9 +76,12 @@ void main(void){
         for(int i = 0; i < 64; i++){
             pixel(10, i, 1);
         }
+<<<<<<< HEAD
 		
 		graphic_write_command(LCD_ON, B_CS1 | B_CS2);
 		graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
+=======
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
         
         delay_milli(500);
         
@@ -64,6 +94,7 @@ void main(void){
             pixel(10, i, 0);
         }
         
+<<<<<<< HEAD
 		graphic_write_command(LCD_ON, B_CS1 | B_CS2);
 		graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
 		
@@ -109,5 +140,10 @@ void main(void){
 		delay_milli(40);
 	}
 #endif // Exercise 16
+=======
+        delay_milli(500);
+    }
+#endif // 5.15
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
 }
 

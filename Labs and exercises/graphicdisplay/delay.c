@@ -25,8 +25,15 @@ void delay_mikro(unsigned int us){
 
 void delay_milli(unsigned int ms){
 #ifndef SIMULATOR
+<<<<<<< HEAD
 	delay_mikro(ms*MILLI_TO_MIKRO);
 	return;
 #endif // For simulator
     delay_mikro(ms);
+=======
+	delay_mikro(ms);
+	return;
+#endif // For simulator
+    delay_mikro(ms*MILLI_TO_MIKRO);
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
 }

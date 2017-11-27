@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 ./Debug/startup.c.o ./Debug/delay.c.o ./Debug/graphicdisplay.c.o ./Debug/keypad.c.o   
+=======
+./Debug/startup.c.o ./Debug/delay.c.o ./Debug/graphicdisplay.c.o   
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9

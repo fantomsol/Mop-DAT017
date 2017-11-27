@@ -2,15 +2,23 @@
 
 void graphic_ctrl_bit_set(uint8_t x){
     uint8_t control_register = GPIO_E.odrLow;
+<<<<<<< HEAD
     control_register |= x;
 	control_register &= ~B_SELECT;
+=======
+    control_register |= (x | B_SELECT);
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
     GPIO_E.odrLow = control_register;
 }
 
 void graphic_ctrl_bit_clear(uint8_t x){
     uint8_t control_register = GPIO_E.odrLow;
     control_register &= (~x);
+<<<<<<< HEAD
     control_register &= ~B_SELECT;
+=======
+    control_register |= B_SELECT;
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
     GPIO_E.odrLow = control_register;
 }
 
@@ -50,19 +58,30 @@ void graphic_wait_ready(void){
         graphic_ctrl_bit_set(B_E);
         delay_500ns();
         // Enable = 0
+<<<<<<< HEAD
 		display_busy_status = GPIO_E.idrHigh;
         graphic_ctrl_bit_clear(B_E);
         delay_500ns();
         // Exit loop if not busy
         
 		display_busy_status &= LCD_BUSY;
+=======
+        graphic_ctrl_bit_clear(B_E);
+        delay_500ns();
+        // Exit loop if not busy
+        display_busy_status = GPIO_E.idrHigh & LCD_BUSY;
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
         if(display_busy_status == 0){
             break;
         } 
     }
     
     // Enable = 1
+<<<<<<< HEAD
     graphic_ctrl_bit_set(B_E); // Commented out to check if this works because it works for NaN
+=======
+    // graphic_ctrl_bit_set(B_E); // Commented out to check if this works because it works for NaN
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
     // E: 15-0 = output
     GPIO_E.moder = 0x55555555;
 }
@@ -90,11 +109,19 @@ uint8_t graphic_read(uint8_t controller){
 	//set E to output
 	GPIO_E.moder = 0x55555555;
 	
+<<<<<<< HEAD
 	if((controller & B_CS1) != 0) {
 		select_controller(B_CS1);
 		graphic_wait_ready();
 	}
 	if((controller & B_CS2) != 0){
+=======
+	if((controller & B_CS1) == 1) {
+		select_controller(B_CS1);
+		graphic_wait_ready();
+	}
+	if((controller & B_CS2) == 1){
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
 		select_controller(B_CS2);
 		graphic_wait_ready();
 	}
@@ -158,6 +185,15 @@ uint8_t graphic_read_data(uint8_t controller){
 	return graphic_read(controller);
 }
 
+<<<<<<< HEAD
+=======
+void init_app(void){
+	//port E is output
+	GPIO_E.moder = 0x55555555;
+	GPIO_E.ospeedr = 0x55555555;
+}
+
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
 void graphic_initialize(void){
 	graphic_ctrl_bit_set(B_E);
 	
@@ -206,6 +242,7 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
     // Create mask for y, works as well as switch from book, but with less code
     uint8_t mask = 1;
     mask = mask << ((y-1)%8);
+<<<<<<< HEAD
 	/*switch((y-1)%8){
 		case 0: mask = 1; break;
 		case 1: mask = 2; break;
@@ -216,6 +253,8 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 		case 6: mask = 0x40; break;
 		case 7: mask = 0x80; break;
 	}*/
+=======
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
     
     // Invert mask if the bit is going to get cleared
     if(set == 0){
@@ -243,6 +282,7 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
         mask &= temp;
     }
     graphic_write_data(mask, controller);
+<<<<<<< HEAD
 	delay_500ns();
 }
 
@@ -291,3 +331,8 @@ void init_app(void){
 	GPIO_E.moder = 0x55555555;
 	GPIO_E.ospeedr = 0x55555555;
 }
+=======
+}
+
+
+>>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
