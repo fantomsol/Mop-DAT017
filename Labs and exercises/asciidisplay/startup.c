@@ -7,7 +7,7 @@ void startup(void) __attribute__((naked)) __attribute__((section (".start_sectio
 void startup ( void ){
 __asm volatile(
 	" LDR R0,=0x2001C000\n"		/* set stack */
-	" MOV SP,R0\n"
+	" MOV SP,R0\n"    
 	" BL main\n"				/* call main */
 	"_exit: B .\n"				/* never return */
 	) ;
@@ -19,25 +19,27 @@ __asm volatile(
 #define STK_LOAD *((volatile unsigned int*)(SYSTIK+0x4))
 #define STK_VAL *((volatile unsigned int*)(SYSTIK+0x8))
 
-#define COUNT_VAL ((unsigned int)(42))
+#define COUNT_VAL ((unsigned int)(45))
 #define MILLI_TO_MIKRO 1000
 
 #define PORT_E 0x40021000
 
-#define portModer *((unsigned int*)PORT_E)
-#define portOTyper *((unsigned int*)(PORT_E+0x4))
-#define portOSpeedr *((unsigned int*)(PORT_E+0x8))
-#define portPupdr *((unsigned int*)(PORT_E+0xC))
+#define portModer *((volatile unsigned int*)PORT_E)
+#define portOTyper *((volatile unsigned int*)(PORT_E+0x4))
+#define portOSpeedr *((volatile unsigned int*)(PORT_E+0x8))
+#define portPupdr *((volatile unsigned int*)(PORT_E+0xC))
 
-#define portIdrLow *((unsigned char*)(PORT_E+0x10))
-#define portIdrHigh *((unsigned char*)(PORT_E+0x11))
-#define portOdrLow *((unsigned char*)(PORT_E+0x14))
-#define portOdrHigh *((unsigned char*)(PORT_E+0x15))
+#define portIdrLow *((volatile unsigned char*)(PORT_E+0x10))
+#define portIdrHigh *((volatile unsigned char*)(PORT_E+0x11))
+#define portOdrLow *((volatile unsigned char*)(PORT_E+0x14))
+#define portOdrHigh *((volatile unsigned char*)(PORT_E+0x15))
 
-#define B_E (unsigned char)0x40
-#define B_SELECT (unsigned char)0x4
-#define B_RW (unsigned char)0x2
-#define B_RS (unsigned char)0x1
+#define B_E 0x40
+#define B_SELECT 0x4
+#define B_RW 0x2
+#define B_RS 0x1
+
+#define CLOCK *((volatile unsigned  long*)0x40023830)
 
 void app_init(void);
 void delay_250ns(void);
@@ -58,32 +60,46 @@ void ascii_write_string(char*);
 
 void main(void){
     char *s;
-    char test1[] = "Alfanumerisk ";
+    char test1[] = "Lumo och Lattes";
     char test2[] = "Display - test";
     
     app_init();
     //ascii_init();
-    gotoxy(1, 1);
-    s = test1;
-    ascii_write_string(*s);
     gotoxy(1, 2);
+    s = test1;
+    // Write each character onto the display until the finishing character is reached
+    while(*s != 0){
+        ascii_write_char(*s++);
+    }
+    gotoxy(1, 1);
     s = test2;
-    ascii_write_string(*s);
+    // Write each character onto the display until the finishing character is reached
+    while(*s != 0){
+        ascii_write_char(*s++);
+    }
 }
 
 void app_init(void){
+    // Clock inits
+    CLOCK = 0x18;
+    /*__asm volatile(
+    " LDR R0,=0x08000209\n"
+    " BLX R0\n");*/
+    
     // Port E -> output
     portModer = 0x55555555;
     
     // ***DISPLAY INIT***
-    // Clear display
-    ascii_command(0x1, 2, 0);
+    
     // Set address register to 0, reset cursor
-    ascii_command(0x2, 2, 0);
+    //ascii_command(0x2, 2, 0);
+    
     // 2 rows, characters are 5x8 dots
     ascii_command(0x38, 39, 1);
     // Turn on display, turn on cursor, cursor not blinking
     ascii_command(0xE, 39, 1);
+    // Clear display
+    ascii_command(0x1, 2, 0);
     // Increment mode, no shift
     ascii_command(0x6, 39, 1);
 }
@@ -93,11 +109,11 @@ void delay_250ns(void){
     STK_LOAD &= 0xFF000000;
     STK_LOAD |= COUNT_VAL-1;
     STK_VAL = 0;
-    STK_CTRL |= 0x5;
+    STK_CTRL = 0x5;
     
     while(STK_CTRL & 0x00010000 == 0);
     
-    STK_CTRL &= 0xFFFEFFF8;
+    STK_CTRL = 0;
 }
 
 void delay_mikro(unsigned int us){
@@ -112,17 +128,24 @@ void delay_milli(unsigned int ms){
 
 void ascii_ctrl_bit_set(unsigned char x){
     // Set bits that are 1 in x to 1, leave rest be
-    portOdrLow |= x;
+    unsigned char port_val = portOdrLow;
+    port_val |= x;
+    portOdrLow = port_val | B_SELECT;
+    //delay_250ns();
 }
 
 void ascii_ctrl_bit_clear(unsigned char x){
     // Set any bits that are 0 in x to 0, leave rest as they were
-    portOdrLow &= x;
+    unsigned char port_val = portOdrLow;
+    port_val &= x ^ 0xFF;
+    portOdrLow = port_val | B_SELECT;
+    //delay_250ns();
 }
 
 void ascii_write_cmd(unsigned char command){
     // Prepare display for sending command
-    ascii_ctrl_bit_clear(B_RS | B_RW);
+    ascii_ctrl_bit_clear(B_RS);
+    ascii_ctrl_bit_clear( B_RW);
     
     // Write command
     ascii_write_controller(command);
@@ -143,7 +166,8 @@ unsigned char ascii_read_data(void){
     portModer &= 0x0000FFFF;
     
     // Prepare display for reading data
-    ascii_ctrl_bit_set(B_RS | B_RW);
+    ascii_ctrl_bit_set(B_RW);
+    ascii_ctrl_bit_set(B_RS);
     
     return_value = ascii_read_controller();
     
@@ -206,11 +230,11 @@ unsigned char ascii_read_controller(void){
 
 void ascii_command(unsigned char command, unsigned int post_command_delay, unsigned short us){
     // Prepare to check if display ready
-    ascii_ctrl_bit_set(B_RW);
-    ascii_ctrl_bit_clear(B_RS);
+    //ascii_ctrl_bit_set(B_RW);
+    //ascii_ctrl_bit_clear(B_RS);
     
     // Wait until MSB in data register is 0, which means that the display ready to receive a command in 8us
-    while(ascii_read_status() & 0x80 != 0);
+    while((ascii_read_status() & 0x80) != 0);
     delay_mikro(8);
     
     // Send command
@@ -230,7 +254,7 @@ void ascii_write_char(unsigned char character){
     ascii_ctrl_bit_clear(B_RS);
     
     // Wait until MSB in data register is 0, which means that the display ready to receive a command in 8us
-    while(ascii_read_status() & 0x80 != 0);
+    while((ascii_read_status() & 0x80) != 0);
     delay_mikro(8);
     
     // Write character do display

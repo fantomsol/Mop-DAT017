@@ -24,7 +24,7 @@ __asm volatile(
 #define PORT_D *((volatile unsigned short*)(GPIO_D+0x14))
 
 #define COUNT_VAL ((unsigned int)(42))
-#define MILLI_TO_MIKRO 1
+#define MILLI_TO_MIKRO 1000
 
 void app_init(void);
 void delay_250ns(void);

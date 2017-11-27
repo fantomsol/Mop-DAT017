@@ -4,7 +4,8 @@
   <Project Name="keypad_4_1" Path="keypad_4_1/keypad_4_1.project" Active="No"/>
   <Project Name="keypad_4_1_v2" Path="keypad_4_1_v2/keypad_4_1_v2.project" Active="No"/>
   <Project Name="delay_5_3" Path="delay_5_3/delay_5_3.project" Active="No"/>
-  <Project Name="asciidisplay" Path="asciidisplay/asciidisplay.project" Active="Yes"/>
+  <Project Name="asciidisplay" Path="asciidisplay/asciidisplay.project" Active="No"/>
+  <Project Name="graphicdisplay" Path="graphicdisplay/graphicdisplay.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
@@ -13,6 +14,7 @@
       <Project Name="keypad_4_1_v2" ConfigName="Debug"/>
       <Project Name="delay_5_3" ConfigName="Debug"/>
       <Project Name="asciidisplay" ConfigName="Debug"/>
+      <Project Name="graphicdisplay" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
@@ -21,6 +23,7 @@
       <Project Name="keypad_4_1_v2" ConfigName="Release"/>
       <Project Name="delay_5_3" ConfigName="Release"/>
       <Project Name="asciidisplay" ConfigName="Release"/>
+      <Project Name="graphicdisplay" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>
