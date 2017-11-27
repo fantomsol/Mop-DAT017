@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <Session Name="C:\Users\lovlan\Documents\Mop-DAT017-master\Labs and exercises\Labs and exercises.workspace">
   <int Value="0" Name="m_selectedTab"/>
   <wxString Value="C:\Users\lovlan\Documents\Mop-DAT017-master\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
@@ -8,62 +7,13 @@
       <wxString Value="C:\Users\lovlan\Documents\Mop-DAT017-master\Labs and exercises\graphicdisplay\startup.c" Name="FileName"/>
       <int Value="15" Name="FirstVisibleLine"/>
       <int Value="37" Name="CurrentLine"/>
-=======
-<Session Name="C:\School\DAT017\Mop-DAT017\Labs and exercises\Labs and exercises.workspace">
-  <int Value="1" Name="m_selectedTab"/>
-  <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
-  <TabInfoArray Name="TabInfoArray">
-    <TabInfo>
-      <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\graphicdisplay\graphicdisplay.c" Name="FileName"/>
-      <int Value="51" Name="FirstVisibleLine"/>
-      <int Value="172" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds">
-        <IntVectorItem Value="2"/>
-        <IntVectorItem Value="8"/>
-        <IntVectorItem Value="15"/>
-        <IntVectorItem Value="66"/>
-        <IntVectorItem Value="98"/>
-        <IntVectorItem Value="109"/>
-        <IntVectorItem Value="137"/>
-        <IntVectorItem Value="144"/>
-        <IntVectorItem Value="152"/>
-        <IntVectorItem Value="157"/>
-        <IntVectorItem Value="184"/>
-      </IntVector>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\graphicdisplay\startup.c" Name="FileName"/>
-      <int Value="14" Name="FirstVisibleLine"/>
-      <int Value="32" Name="CurrentLine"/>
->>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>
     <TabInfo>
-<<<<<<< HEAD
       <wxString Value="C:\Users\lovlan\Documents\Mop-DAT017-master\Labs and exercises\graphicdisplay\graphicdisplay.c" Name="FileName"/>
       <int Value="171" Name="FirstVisibleLine"/>
       <int Value="188" Name="CurrentLine"/>
-=======
-      <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\graphicdisplay\delay.h" Name="FileName"/>
-      <int Value="0" Name="FirstVisibleLine"/>
-      <int Value="11" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\graphicdisplay\delay.c" Name="FileName"/>
-      <int Value="12" Name="FirstVisibleLine"/>
-      <int Value="28" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\graphicdisplay\graphicdisplay.h" Name="FileName"/>
-      <int Value="3" Name="FirstVisibleLine"/>
-      <int Value="0" Name="CurrentLine"/>
->>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>

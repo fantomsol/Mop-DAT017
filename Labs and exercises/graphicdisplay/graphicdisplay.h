@@ -19,7 +19,6 @@
 #define LCD_SET_PAGE	0xB8
 #define LCD_BUSY		0x80
 
-<<<<<<< HEAD
 #define MAX_POINTS 20
 
 typedef unsigned char uint8_t;
@@ -46,10 +45,6 @@ typedef struct tObj{
 	void (* set_speed) (struct tObj*, int, int);
 }OBJECT, *POBJECT;
 
-=======
-typedef unsigned char uint8_t;
-
->>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
 // ***Prototypes***
 
 // Bit handling, control register
@@ -81,7 +76,6 @@ void graphic_clear_screen(void);
 // Coordinate handling
 void pixel(uint8_t, uint8_t, uint8_t);
 
-<<<<<<< HEAD
 void draw_object(POBJECT);
 
 void clear_object(POBJECT);
@@ -90,6 +84,4 @@ void move_object(POBJECT);
 
 void set_object_speed(POBJECT, int, int);
 
-=======
->>>>>>> 689e8d2947eb8614c46af2a917dfb20df8d45ce9
 #endif // GRAPHICDISPLAY_H
