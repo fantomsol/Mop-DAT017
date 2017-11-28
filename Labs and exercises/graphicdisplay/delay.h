@@ -1,4 +1,5 @@
 #ifndef DELAY_H
+#ifndef DELAY_INTERRUPT_H
 #define DELAY_H
 
 #define SYSTIK 0xE000E010
@@ -16,4 +17,5 @@ void delay_500ns(void);
 void delay_mikro(unsigned int);
 void delay_milli(unsigned int);
 
+#endif // delay_interrupt.h
 #endif // DELAY_H

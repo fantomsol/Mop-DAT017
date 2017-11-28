@@ -1,23 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Session Name="C:\Users\lovlan\Documents\Mop-DAT017-master\Labs and exercises\Labs and exercises.workspace">
+<Session Name="C:\School\DAT017\Mop-DAT017\Labs and exercises\Labs and exercises.workspace">
   <int Value="0" Name="m_selectedTab"/>
-  <wxString Value="C:\Users\lovlan\Documents\Mop-DAT017-master\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
-  <TabInfoArray Name="TabInfoArray">
-    <TabInfo>
-      <wxString Value="C:\Users\lovlan\Documents\Mop-DAT017-master\Labs and exercises\graphicdisplay\startup.c" Name="FileName"/>
-      <int Value="15" Name="FirstVisibleLine"/>
-      <int Value="37" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-    <TabInfo>
-      <wxString Value="C:\Users\lovlan\Documents\Mop-DAT017-master\Labs and exercises\graphicdisplay\graphicdisplay.c" Name="FileName"/>
-      <int Value="171" Name="FirstVisibleLine"/>
-      <int Value="188" Name="CurrentLine"/>
-      <wxArrayString Name="Bookmarks"/>
-      <IntVector Name="CollapsedFolds"/>
-    </TabInfo>
-  </TabInfoArray>
+  <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
+  <TabInfoArray Name="TabInfoArray"/>
   <SerializedObject Name="m_breakpoints">
     <long Value="1" Name="Count"/>
     <SerializedObject Name="Breakpoint0">
