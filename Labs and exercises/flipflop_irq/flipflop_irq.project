@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="interruptions_and_exceptions" Version="10.0.0" InternalType="User templates">
+<CodeLite_Project Name="flipflop_irq" Version="10.0.0" InternalType="User templates">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00010001N0005Debug000000000000]]>
@@ -131,17 +131,11 @@ monitor restart</PostConnectCommands>
   </Settings>
   <VirtualDirectory Name="src">
     <File Name="startup.c"/>
-    <File Name="exceptions.c"/>
-    <File Name="delay_interrupt.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="md407-ram.x"/>
-    <File Name="exceptions.h"/>
-    <File Name="delay_interrupt.h"/>
     <File Name="gpio.h"/>
-    <File Name="systick.h"/>
-    <File Name="exti.h"/>
     <File Name="syscfg.h"/>
-    <File Name="NVIC.h"/>
+    <File Name="exti.h"/>
   </VirtualDirectory>
 </CodeLite_Project>

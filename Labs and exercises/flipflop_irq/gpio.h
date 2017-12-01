@@ -23,7 +23,7 @@ typedef struct _gpio {
     };
 }GPIO;
 
-#define GPIO_D	(*((volatile GPIO*)	0x40020c00))
+#define GPIO_D	(*((volatile GPIO*)	0x40020C00))
 #define GPIO_E	(*((volatile GPIO*)	0x40021000))
 
 #endif // GPIO_H

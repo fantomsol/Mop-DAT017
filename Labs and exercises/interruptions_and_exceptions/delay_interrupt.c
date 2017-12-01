@@ -27,7 +27,7 @@ void start_delay(unsigned int pulses){
     SYSTICK.ctrl = 0;
     SYSTICK.load = pulses-1;
     SYSTICK.val = 0;
-    SYSTICK.ctrl_first_byte = 7;
+    SYSTICK.ctrlFirstByte = 7;
 }
 
 void init_systik_irq_handler(void){

@@ -6,7 +6,8 @@
   <Project Name="delay_5_3" Path="delay_5_3/delay_5_3.project" Active="No"/>
   <Project Name="asciidisplay" Path="asciidisplay/asciidisplay.project" Active="No"/>
   <Project Name="graphicdisplay" Path="graphicdisplay/graphicdisplay.project" Active="No"/>
-  <Project Name="interruptions_and_exceptions" Path="interruptions_and_exceptions/interruptions_and_exceptions.project" Active="Yes"/>
+  <Project Name="interruptions_and_exceptions" Path="interruptions_and_exceptions/interruptions_and_exceptions.project" Active="No"/>
+  <Project Name="flipflop_irq" Path="flipflop_irq/flipflop_irq.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
@@ -17,6 +18,7 @@
       <Project Name="asciidisplay" ConfigName="Debug"/>
       <Project Name="graphicdisplay" ConfigName="Debug"/>
       <Project Name="interruptions_and_exceptions" ConfigName="Debug"/>
+      <Project Name="flipflop_irq" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
@@ -27,6 +29,7 @@
       <Project Name="asciidisplay" ConfigName="Release"/>
       <Project Name="graphicdisplay" ConfigName="Release"/>
       <Project Name="interruptions_and_exceptions" ConfigName="Release"/>
+      <Project Name="flipflop_irq" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

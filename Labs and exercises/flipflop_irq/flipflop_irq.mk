@@ -3,17 +3,17 @@
 ## any manual changes will be erased      
 ##
 ## Debug
-ProjectName            :=interruptions_and_exceptions
+ProjectName            :=flipflop_irq
 ConfigurationName      :=Debug
 WorkspacePath          :="C:/School/DAT017/Mop-DAT017/Labs and exercises"
-ProjectPath            :="C:/School/DAT017/Mop-DAT017/Labs and exercises/interruptions_and_exceptions"
+ProjectPath            :="C:/School/DAT017/Mop-DAT017/Labs and exercises/flipflop_irq"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=gusta
-Date                   :=2017-11-30
+Date                   :=2017-12-01
 CodeLitePath           :=C:/cseapp/CodeLite
 LinkerName             :=$(CodeLiteDir)/tools/gcc-arm/bin/arm-none-eabi-g++.exe
 SharedObjectLinkerName :=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi-g++.exe -shared -fPIC
@@ -32,7 +32,7 @@ Preprocessors          :=
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E
-ObjectsFileList        :="interruptions_and_exceptions.txt"
+ObjectsFileList        :="flipflop_irq.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=makedir
 RcCmpOptions           := 
@@ -66,7 +66,7 @@ ARM_V6LIB:=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi/lib/thumb/v6-m
 ARM_GCC_V6LIB:=$(CodeLiteDir)/tools/gcc-arm/lib/gcc/arm-none-eabi/6.3.1/thumb/v6-m
 ARM_M4FPLIB:=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard
 ARM_GCC_M4FPLIB:=$(CodeLiteDir)/tools/gcc-arm/lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m
-Objects0=$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IntermediateDirectory)/exceptions.c$(ObjectSuffix) $(IntermediateDirectory)/delay_interrupt.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/startup.c$(ObjectSuffix) 
 
 
 
@@ -86,8 +86,8 @@ $(OutputFile): $(IntermediateDirectory)/.d $(Objects)
 
 PostBuild:
 	@echo Executing Post Build commands ...
-	arm-none-eabi-objcopy -S -O srec  ./Debug/interruptions_and_exceptions.elf ./Debug/interruptions_and_exceptions.s19
-	arm-none-eabi-objdump -D -S ./Debug/interruptions_and_exceptions.elf > ./Debug/interruptions_and_exceptions.dass
+	arm-none-eabi-objcopy -S -O srec  ./Debug/flipflop_irq.elf ./Debug/flipflop_irq.s19
+	arm-none-eabi-objdump -D -S ./Debug/flipflop_irq.elf > ./Debug/flipflop_irq.dass
 	@echo Done
 
 MakeIntermediateDirs:
@@ -104,28 +104,12 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/startup.c$(ObjectSuffix): startup.c $(IntermediateDirectory)/startup.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Labs and exercises/interruptions_and_exceptions/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Labs and exercises/flipflop_irq/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/startup.c$(DependSuffix): startup.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/startup.c$(ObjectSuffix) -MF$(IntermediateDirectory)/startup.c$(DependSuffix) -MM startup.c
 
 $(IntermediateDirectory)/startup.c$(PreprocessSuffix): startup.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/startup.c$(PreprocessSuffix) startup.c
-
-$(IntermediateDirectory)/exceptions.c$(ObjectSuffix): exceptions.c $(IntermediateDirectory)/exceptions.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Labs and exercises/interruptions_and_exceptions/exceptions.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/exceptions.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/exceptions.c$(DependSuffix): exceptions.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/exceptions.c$(ObjectSuffix) -MF$(IntermediateDirectory)/exceptions.c$(DependSuffix) -MM exceptions.c
-
-$(IntermediateDirectory)/exceptions.c$(PreprocessSuffix): exceptions.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/exceptions.c$(PreprocessSuffix) exceptions.c
-
-$(IntermediateDirectory)/delay_interrupt.c$(ObjectSuffix): delay_interrupt.c $(IntermediateDirectory)/delay_interrupt.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Labs and exercises/interruptions_and_exceptions/delay_interrupt.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/delay_interrupt.c$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/delay_interrupt.c$(DependSuffix): delay_interrupt.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/delay_interrupt.c$(ObjectSuffix) -MF$(IntermediateDirectory)/delay_interrupt.c$(DependSuffix) -MM delay_interrupt.c
-
-$(IntermediateDirectory)/delay_interrupt.c$(PreprocessSuffix): delay_interrupt.c
-	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/delay_interrupt.c$(PreprocessSuffix) delay_interrupt.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

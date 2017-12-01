@@ -5,10 +5,10 @@ typedef struct _systick{
     union {
         unsigned int ctrl;
         struct {
-            unsigned char ctrl_first_byte;
-            unsigned char reserved_1;
-            unsigned char ctrl_third_byte;
-            unsigned char reserved_2;
+            unsigned char ctrlFirstByte;
+            unsigned char reserved1;
+            unsigned char ctrlThirdByte;
+            unsigned char reserved2;
         }
     };
     unsigned int load;
