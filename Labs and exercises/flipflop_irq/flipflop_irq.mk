@@ -5,15 +5,15 @@
 ## Debug
 ProjectName            :=flipflop_irq
 ConfigurationName      :=Debug
-WorkspacePath          :="C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises"
-ProjectPath            :="C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises/flipflop_irq"
+WorkspacePath          :="C:/School/DAT017/Mop-DAT017/Labs and exercises"
+ProjectPath            :="C:/School/DAT017/Mop-DAT017/Labs and exercises/flipflop_irq"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=Lumo
-Date                   :=01/12/2017
+User                   :=gusta
+Date                   :=2017-12-03
 CodeLitePath           :=C:/cseapp/CodeLite
 LinkerName             :=$(CodeLiteDir)/tools/gcc-arm/bin/arm-none-eabi-g++.exe
 SharedObjectLinkerName :=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi-g++.exe -shared -fPIC
@@ -104,7 +104,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/startup.c$(ObjectSuffix): startup.c $(IntermediateDirectory)/startup.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises/flipflop_irq/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Labs and exercises/flipflop_irq/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/startup.c$(DependSuffix): startup.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/startup.c$(ObjectSuffix) -MF$(IntermediateDirectory)/startup.c$(DependSuffix) -MM startup.c
 
