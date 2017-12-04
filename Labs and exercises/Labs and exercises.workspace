@@ -7,7 +7,8 @@
   <Project Name="asciidisplay" Path="asciidisplay/asciidisplay.project" Active="No"/>
   <Project Name="graphicdisplay" Path="graphicdisplay/graphicdisplay.project" Active="No"/>
   <Project Name="interruptions_and_exceptions" Path="interruptions_and_exceptions/interruptions_and_exceptions.project" Active="No"/>
-  <Project Name="flipflop_irq" Path="flipflop_irq/flipflop_irq.project" Active="Yes"/>
+  <Project Name="flipflop_irq" Path="flipflop_irq/flipflop_irq.project" Active="No"/>
+  <Project Name="spoopys_bizarre_adventure" Path="spoopys_bizarre_adventure/spoopys_bizarre_adventure.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
@@ -19,6 +20,7 @@
       <Project Name="graphicdisplay" ConfigName="Debug"/>
       <Project Name="interruptions_and_exceptions" ConfigName="Debug"/>
       <Project Name="flipflop_irq" ConfigName="Debug"/>
+      <Project Name="spoopys_bizarre_adventure" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="yes">
       <Environment/>
@@ -30,6 +32,7 @@
       <Project Name="graphicdisplay" ConfigName="Release"/>
       <Project Name="interruptions_and_exceptions" ConfigName="Release"/>
       <Project Name="flipflop_irq" ConfigName="Release"/>
+      <Project Name="spoopys_bizarre_adventure" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>
