@@ -134,6 +134,7 @@ monitor restart</PostConnectCommands>
     <File Name="delay_interrupt.c"/>
     <File Name="graphicdisplay.c"/>
     <File Name="asciidisplay.c"/>
+    <File Name="keypad.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="md407-ram.x"/>
@@ -144,5 +145,6 @@ monitor restart</PostConnectCommands>
     <File Name="exti.h"/>
     <File Name="graphicdisplay.h"/>
     <File Name="asciidisplay.h"/>
+    <File Name="keypad.h"/>
   </VirtualDirectory>
 </CodeLite_Project>

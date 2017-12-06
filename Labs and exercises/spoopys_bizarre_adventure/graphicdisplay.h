@@ -67,7 +67,7 @@ uint8_t graphic_read(uint8_t);
 uint8_t graphic_read_data(uint8_t);
 
 // Initialisation
-void init_app(void);
+void graphicdisplay_init(void);
 void graphic_initialize(void);
 
 // Clear screen

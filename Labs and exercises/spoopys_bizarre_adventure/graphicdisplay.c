@@ -279,14 +279,7 @@ void set_object_speed(POBJECT object, int x, int y){
 	object->dir_y = y;
 }
 
-void init_app(void){
-	#ifdef USBDM
-	*((unsigned long*) 0x40023830) = 0x18;
-	__asm volatile( 
-		" LDR R0, =0x08000209\n"
-		" BLX R0\n"
-		);
-#endif
+void graphicdisplay_init(void){
 	//port E is output
 	GPIO_E.moder = 0x55555555;
 	GPIO_E.ospeedr = 0x55555555;
