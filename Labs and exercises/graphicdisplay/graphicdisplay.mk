@@ -5,15 +5,15 @@
 ## Debug
 ProjectName            :=graphicdisplay
 ConfigurationName      :=Debug
-WorkspacePath          :="C:/Users/lovlan/Documents/Mop-DAT017-master/Labs and exercises"
-ProjectPath            :="C:/Users/lovlan/Documents/Mop-DAT017-master/Labs and exercises/graphicdisplay"
+WorkspacePath          :="C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises"
+ProjectPath            :="C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises/graphicdisplay"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=lovlan
-Date                   :=27/11/2017
+User                   :=Lumo
+Date                   :=06/12/2017
 CodeLitePath           :=C:/cseapp/CodeLite
 LinkerName             :=$(CodeLiteDir)/tools/gcc-arm/bin/arm-none-eabi-g++.exe
 SharedObjectLinkerName :=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi-g++.exe -shared -fPIC
@@ -104,7 +104,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/startup.c$(ObjectSuffix): startup.c $(IntermediateDirectory)/startup.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lovlan/Documents/Mop-DAT017-master/Labs and exercises/graphicdisplay/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises/graphicdisplay/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/startup.c$(DependSuffix): startup.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/startup.c$(ObjectSuffix) -MF$(IntermediateDirectory)/startup.c$(DependSuffix) -MM startup.c
 
@@ -112,7 +112,7 @@ $(IntermediateDirectory)/startup.c$(PreprocessSuffix): startup.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/startup.c$(PreprocessSuffix) startup.c
 
 $(IntermediateDirectory)/delay.c$(ObjectSuffix): delay.c $(IntermediateDirectory)/delay.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lovlan/Documents/Mop-DAT017-master/Labs and exercises/graphicdisplay/delay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/delay.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises/graphicdisplay/delay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/delay.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/delay.c$(DependSuffix): delay.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/delay.c$(ObjectSuffix) -MF$(IntermediateDirectory)/delay.c$(DependSuffix) -MM delay.c
 
@@ -120,7 +120,7 @@ $(IntermediateDirectory)/delay.c$(PreprocessSuffix): delay.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/delay.c$(PreprocessSuffix) delay.c
 
 $(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix): graphicdisplay.c $(IntermediateDirectory)/graphicdisplay.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lovlan/Documents/Mop-DAT017-master/Labs and exercises/graphicdisplay/graphicdisplay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises/graphicdisplay/graphicdisplay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/graphicdisplay.c$(DependSuffix): graphicdisplay.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix) -MF$(IntermediateDirectory)/graphicdisplay.c$(DependSuffix) -MM graphicdisplay.c
 
@@ -128,7 +128,7 @@ $(IntermediateDirectory)/graphicdisplay.c$(PreprocessSuffix): graphicdisplay.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/graphicdisplay.c$(PreprocessSuffix) graphicdisplay.c
 
 $(IntermediateDirectory)/keypad.c$(ObjectSuffix): keypad.c $(IntermediateDirectory)/keypad.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lovlan/Documents/Mop-DAT017-master/Labs and exercises/graphicdisplay/keypad.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/keypad.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and exercises/graphicdisplay/keypad.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/keypad.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/keypad.c$(DependSuffix): keypad.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/keypad.c$(ObjectSuffix) -MF$(IntermediateDirectory)/keypad.c$(DependSuffix) -MM keypad.c
 

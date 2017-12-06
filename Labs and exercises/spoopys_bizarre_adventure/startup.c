@@ -5,6 +5,7 @@
 #include "gpio.h"
 #include "syscfg.h"
 #include "exti.h"
+#include "sprites.h"
 
 void startup(void) __attribute__((naked)) __attribute__((section (".start_section")) );
 void app_init(void);
@@ -19,6 +20,56 @@ __asm volatile(
 }
 
 void main(void){
+		keyboard_init();
+	GEOMETRY spoopy_geometry = {
+		32, // numpoints
+		spoopy_width, spoopy_height, // Size x and y
+		// px
+		spoopy_bits
+	};
+	
+	OBJECT spoopy = {
+		&spoopy_geometry,
+		0, 0,
+		1, 2,
+		draw_object();
+		clear_object();
+		move_object();
+		set_object_speed();
+	};
+	
+	GEOMETRY portal_geometry = {
+		32,
+		portal_width, portal_height,
+		portal_bits
+	};
+	
+	OBJECT portal = {
+		&portal_geometry,
+		0, 0,
+		1, 1,
+		draw_object();
+		clear_object();
+		move_object();
+		set_object_speed();
+	};
+	
+	POBJECT p = &spoopy;
+	
+	uint8_t keyboard_val;
+	while(1){
+		p->move(p);
+		graphic_write_command(LCD_ON, B_CS1 | B_CS2);
+		graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
+		keyboard_val = keyb();
+		switch (keyboard_val){
+			case 6: p->set_speed(p, 2, 0); break;
+			case 4: p->set_speed(p, -2, 0); break;
+			case 2: p->set_speed(p, 0, -2); break;
+			case 8: p->set_speed(p, 0, 2); break;
+		}
+		delay_milli(40);
+	}
 }
 
 

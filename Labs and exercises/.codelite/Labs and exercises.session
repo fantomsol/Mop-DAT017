@@ -1,12 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Session Name="C:\School\DAT017\Mop-DAT017\Labs and exercises\Labs and exercises.workspace">
-  <int Value="0" Name="m_selectedTab"/>
-  <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
+<Session Name="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\Labs and exercises.workspace">
+  <int Value="5" Name="m_selectedTab"/>
+  <wxString Value="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
   <TabInfoArray Name="TabInfoArray">
     <TabInfo>
-      <wxString Value="C:\School\DAT017\Mop-DAT017\Labs and exercises\spoopys_bizarre_adventure\startup.c" Name="FileName"/>
-      <int Value="18" Name="FirstVisibleLine"/>
-      <int Value="37" Name="CurrentLine"/>
+      <wxString Value="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\spoopys_bizarre_adventure\graphicdisplay.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="0" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\spoopys_bizarre_adventure\asciidisplay.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="7" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\graphicdisplay\graphicdisplay.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="0" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\spoopys_bizarre_adventure\spoopy\enemy.xbm" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="0" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\spoopys_bizarre_adventure\asciidisplay.h" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="25" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\spoopys_bizarre_adventure\graphicdisplay.h" Name="FileName"/>
+      <int Value="86" Name="FirstVisibleLine"/>
+      <int Value="121" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\Lumo\Documents\Mop-DAT017\Labs and exercises\spoopys_bizarre_adventure\spoopy\spoopy_back.xbm" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="0" Name="CurrentLine"/>
       <wxArrayString Name="Bookmarks"/>
       <IntVector Name="CollapsedFolds"/>
     </TabInfo>

@@ -146,5 +146,6 @@ monitor restart</PostConnectCommands>
     <File Name="graphicdisplay.h"/>
     <File Name="asciidisplay.h"/>
     <File Name="keypad.h"/>
+    <File Name="sprites.h"/>
   </VirtualDirectory>
 </CodeLite_Project>

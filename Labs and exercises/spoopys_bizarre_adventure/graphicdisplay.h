@@ -84,4 +84,5 @@ void move_object(POBJECT);
 
 void set_object_speed(POBJECT, int, int);
 
+
 #endif // GRAPHICDISPLAY_H
