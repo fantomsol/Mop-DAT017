@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=gusta
-Date                   :=2017-12-04
+Date                   :=2017-12-07
 CodeLitePath           :=C:/cseapp/CodeLite
 LinkerName             :=$(CodeLiteDir)/tools/gcc-arm/bin/arm-none-eabi-g++.exe
 SharedObjectLinkerName :=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi-g++.exe -shared -fPIC
@@ -66,7 +66,7 @@ ARM_V6LIB:=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi/lib/thumb/v6-m
 ARM_GCC_V6LIB:=$(CodeLiteDir)/tools/gcc-arm/lib/gcc/arm-none-eabi/6.3.1/thumb/v6-m
 ARM_M4FPLIB:=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard
 ARM_GCC_M4FPLIB:=$(CodeLiteDir)/tools/gcc-arm/lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m
-Objects0=$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IntermediateDirectory)/delay_interrupt.c$(ObjectSuffix) $(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix) $(IntermediateDirectory)/asciidisplay.c$(ObjectSuffix) $(IntermediateDirectory)/keypad.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IntermediateDirectory)/delay_interrupt.c$(ObjectSuffix) $(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix) $(IntermediateDirectory)/asciidisplay.c$(ObjectSuffix) $(IntermediateDirectory)/keypad.c$(ObjectSuffix) $(IntermediateDirectory)/sprites.c$(ObjectSuffix) 
 
 
 
@@ -142,6 +142,14 @@ $(IntermediateDirectory)/keypad.c$(DependSuffix): keypad.c
 
 $(IntermediateDirectory)/keypad.c$(PreprocessSuffix): keypad.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/keypad.c$(PreprocessSuffix) keypad.c
+
+$(IntermediateDirectory)/sprites.c$(ObjectSuffix): sprites.c $(IntermediateDirectory)/sprites.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "C:/School/DAT017/Mop-DAT017/Labs and exercises/spoopys_bizarre_adventure/sprites.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/sprites.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/sprites.c$(DependSuffix): sprites.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/sprites.c$(ObjectSuffix) -MF$(IntermediateDirectory)/sprites.c$(DependSuffix) -MM sprites.c
+
+$(IntermediateDirectory)/sprites.c$(PreprocessSuffix): sprites.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/sprites.c$(PreprocessSuffix) sprites.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

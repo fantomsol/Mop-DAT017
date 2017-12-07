@@ -135,6 +135,7 @@ monitor restart</PostConnectCommands>
     <File Name="graphicdisplay.c"/>
     <File Name="asciidisplay.c"/>
     <File Name="keypad.c"/>
+    <File Name="sprites.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="md407-ram.x"/>

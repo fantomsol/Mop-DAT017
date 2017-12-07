@@ -5,10 +5,10 @@
   <Project Name="keypad_4_1_v2" Path="keypad_4_1_v2/keypad_4_1_v2.project" Active="No"/>
   <Project Name="delay_5_3" Path="delay_5_3/delay_5_3.project" Active="No"/>
   <Project Name="asciidisplay" Path="asciidisplay/asciidisplay.project" Active="No"/>
-  <Project Name="graphicdisplay" Path="graphicdisplay/graphicdisplay.project" Active="Yes"/>
+  <Project Name="graphicdisplay" Path="graphicdisplay/graphicdisplay.project" Active="No"/>
   <Project Name="interruptions_and_exceptions" Path="interruptions_and_exceptions/interruptions_and_exceptions.project" Active="No"/>
   <Project Name="flipflop_irq" Path="flipflop_irq/flipflop_irq.project" Active="No"/>
-  <Project Name="spoopys_bizarre_adventure" Path="spoopys_bizarre_adventure/spoopys_bizarre_adventure.project" Active="No"/>
+  <Project Name="spoopys_bizarre_adventure" Path="spoopys_bizarre_adventure/spoopys_bizarre_adventure.project" Active="Yes"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>

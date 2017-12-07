@@ -19,7 +19,7 @@
 #define LCD_SET_PAGE	0xB8
 #define LCD_BUSY		0x80
 
-#define MAX_POINTS 20
+#define MAX_POINTS 256
 
 typedef unsigned char uint8_t;
 
