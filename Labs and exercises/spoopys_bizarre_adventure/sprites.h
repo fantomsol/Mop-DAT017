@@ -2,9 +2,43 @@
 #define SPRITES_H
 
 #include "graphicdisplay.h"
+#include "spoopy.xbm"
+#include "wall.xbm"
+#include "exit.xbm"
 
-void sprites_init(void);
+typedef struct tSprite{
+    unsigned char width;
+    unsigned char height;
+    unsigned char* data;
+} SPRITE, *PSPRITE;
 
+typedef struct tSpriteObj{
+	PSPRITE sprt;
+	int dir_x, dir_y;
+	int pos_x, pos_y;
+	void (* draw) (struct tSpriteObj*);
+	void (* clear) (struct tSpriteObj*);
+	void (* move) (struct tSpriteObj*);
+	void (* set_speed) (struct tSpriteObj*, int, int);
+}SPRITE_OBJECT, *PSPRITE_OBJECT;
+
+void load_sprite(SPRITE*, unsigned char*, int, int);
+void draw_sprite(SPRITE*, int, int, int);
+void draw_sprite_object(PSPRITE_OBJECT);
+void clear_sprite_object(PSPRITE_OBJECT);
+void move_sprite_object(PSPRITE_OBJECT);
+void set_sprite_object_speed(PSPRITE_OBJECT, int, int);
+void dummy_function1(PSPRITE_OBJECT);
+void dummy_function2(PSPRITE_OBJECT, int, int);
+
+PSPRITE_OBJECT init_spoopy(void);
+PSPRITE_OBJECT init_wall(void);
+PSPRITE_OBJECT init_exit(void);
+
+void update_sprite_object(PSPRITE_OBJECT);
+
+/*GEOMETRY spoopy_geometry;
+GEOMETRY portal_geometry;
 OBJECT spoopy;
 OBJECT portal;
 
@@ -56,5 +90,5 @@ static unsigned char portal_bits[] = {
 static unsigned char end_portal_bits[] = {
    0x55, 0x55, 0xaa, 0xaa, 0x55, 0x75, 0xa2, 0xda, 0x55, 0x75, 0xaa, 0xaa,
    0x55, 0x55, 0xaa, 0xaa, 0x55, 0x55, 0xaa, 0xaa, 0x55, 0x55, 0xaa, 0x8a,
-   0x5d, 0x55, 0xbe, 0xfa, 0x5d, 0x55, 0xaa, 0x8a };
+   0x5d, 0x55, 0xbe, 0xfa, 0x5d, 0x55, 0xaa, 0x8a };*/
 #endif // sprites.h

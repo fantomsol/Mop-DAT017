@@ -1,7 +1,8 @@
 #include "keypad.h"
 
 void keyboard_init (void) {
-	GPIO_D.moder = 0x55005555;
+    GPIO_D.moder &= 0x0000FFFF;
+	GPIO_D.moder |= 0x55000000;
 	GPIO_D.otyper &= 0x00FF;
 	GPIO_D.otyper |= 0x0000;
 	GPIO_D.pupdr &= 0x0000FFFF;

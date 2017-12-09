@@ -4,6 +4,8 @@ void asciidisplay_init(void){
     // Port E -> output
     GPIO_E.moder = 0x55555555;
     
+    ascii_ctrl_bit_clear(B_E);
+    
     // ***DISPLAY INIT***    
     // 2 rows, characters are 5x8 dots
     ascii_command(0x38, 39, 1);
@@ -19,14 +21,14 @@ void ascii_ctrl_bit_set(unsigned char x){
     // Set bits that are 1 in x to 1, leave rest be
     unsigned char port_val = GPIO_E.odrLow;
     port_val |= x;
-    GPIO_E.odrLow = port_val | B_SELECT;
+    GPIO_E.odrLow = (port_val | B_SELECT);
 }
 
 void ascii_ctrl_bit_clear(unsigned char x){
     // Set any bits that are 0 in x to 0, leave rest as they were
     unsigned char port_val = GPIO_E.odrLow;
-    port_val &= x ^ 0xFF;
-    GPIO_E.odrLow = port_val | B_SELECT;
+    port_val &= (~x);
+    GPIO_E.odrLow = (port_val | B_SELECT);
     //delay_250ns();
 }
 
