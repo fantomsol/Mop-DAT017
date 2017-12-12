@@ -1,0 +1,1 @@
+./Debug/startup.c.o ./Debug/sprites.c.o ./Debug/keypad.c.o ./Debug/graphicdisplay.c.o ./Debug/delay_interrupt.c.o ./Debug/asciidisplay.c.o   

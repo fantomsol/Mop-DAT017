@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Session Name="C:\Users\lahtig\Downloads\Mop-DAT017-master\Mop-DAT017-master\Labs and exercises\Labs and exercises.workspace">
+  <int Value="0" Name="m_selectedTab"/>
+  <wxString Value="C:\Users\lahtig\Downloads\Mop-DAT017-master\Mop-DAT017-master\Labs and exercises\Labs and exercises.workspace" Name="m_workspaceName"/>
+  <TabInfoArray Name="TabInfoArray">
+    <TabInfo>
+      <wxString Value="C:\Users\lahtig\Downloads\Mop-DAT017-master\Mop-DAT017-master\Labs and exercises\spoopys_bizarre_adventure\startup.c" Name="FileName"/>
+      <int Value="47" Name="FirstVisibleLine"/>
+      <int Value="57" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds">
+        <IntVectorItem Value="71"/>
+        <IntVectorItem Value="78"/>
+        <IntVectorItem Value="90"/>
+        <IntVectorItem Value="98"/>
+      </IntVector>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\lahtig\Downloads\Mop-DAT017-master\Mop-DAT017-master\Labs and exercises\spoopys_bizarre_adventure\sprites.c" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="13" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds">
+        <IntVectorItem Value="72"/>
+        <IntVectorItem Value="82"/>
+        <IntVectorItem Value="106"/>
+      </IntVector>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\lahtig\Downloads\Mop-DAT017-master\Mop-DAT017-master\Labs and exercises\spoopys_bizarre_adventure\asciidisplay.h" Name="FileName"/>
+      <int Value="6" Name="FirstVisibleLine"/>
+      <int Value="24" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="C:\Users\lahtig\Downloads\Mop-DAT017-master\Mop-DAT017-master\Labs and exercises\spoopys_bizarre_adventure\asciidisplay.c" Name="FileName"/>
+      <int Value="153" Name="FirstVisibleLine"/>
+      <int Value="183" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+  </TabInfoArray>
+  <SerializedObject Name="m_breakpoints">
+    <long Value="2" Name="Count"/>
+    <SerializedObject Name="Breakpoint0">
+      <wxString Value="C:\Users\lahtig\Downloads\Mop-DAT017-master\Mop-DAT017-master\Labs and exercises\spoopys_bizarre_adventure\startup.c" Name="file"/>
+      <int Value="164" Name="lineno"/>
+      <wxString Value="" Name="function_name"/>
+      <wxString Value="" Name="memory_address"/>
+      <int Value="1" Name="bp_type"/>
+      <int Value="0" Name="watchpoint_type"/>
+      <wxString Value="" Name="watchpt_data"/>
+      <CData Name="commandlist"/>
+      <bool Value="0" Name="regex"/>
+      <bool Value="0" Name="is_temp"/>
+      <bool Value="1" Name="is_enabled"/>
+      <int Value="0" Name="ignore_number"/>
+      <wxString Value="" Name="conditions"/>
+      <int Value="0" Name="origin"/>
+    </SerializedObject>
+    <SerializedObject Name="Breakpoint1">
+      <wxString Value="C:\Users\lahtig\Downloads\Mop-DAT017-master\Mop-DAT017-master\Labs and exercises\spoopys_bizarre_adventure\startup.c" Name="file"/>
+      <int Value="58" Name="lineno"/>
+      <wxString Value="" Name="function_name"/>
+      <wxString Value="" Name="memory_address"/>
+      <int Value="1" Name="bp_type"/>
+      <int Value="0" Name="watchpoint_type"/>
+      <wxString Value="" Name="watchpt_data"/>
+      <CData Name="commandlist"/>
+      <bool Value="0" Name="regex"/>
+      <bool Value="0" Name="is_temp"/>
+      <bool Value="1" Name="is_enabled"/>
+      <int Value="0" Name="ignore_number"/>
+      <wxString Value="" Name="conditions"/>
+      <int Value="0" Name="origin"/>
+    </SerializedObject>
+  </SerializedObject>
+</Session>
