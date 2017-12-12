@@ -5,15 +5,15 @@
 ## Debug
 ProjectName            :=spoopys_bizarre_adventure
 ConfigurationName      :=Debug
-WorkspacePath          :="C:/Users/lahtig/Downloads/Mop-DAT017-master/Mop-DAT017-master/Labs and exercises"
-ProjectPath            :="C:/Users/lahtig/Downloads/Mop-DAT017-master/Mop-DAT017-master/Labs and exercises/spoopys_bizarre_adventure"
+WorkspacePath          :="C:/Users/Lumo/Documents/Mop-DAT017/Labs and Excercises"
+ProjectPath            :="C:/Users/Lumo/Documents/Mop-DAT017/Labs and Excercises/spoopys_bizarre_adventure"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=lahtig
-Date                   :=11/12/2017
+User                   :=Lumo
+Date                   :=12/12/2017
 CodeLitePath           :=C:/cseapp/CodeLite
 LinkerName             :=$(CodeLiteDir)/tools/gcc-arm/bin/arm-none-eabi-g++.exe
 SharedObjectLinkerName :=$(CodeLiteDir)/tools/gcc-arm/arm-none-eabi-g++.exe -shared -fPIC
@@ -104,7 +104,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/startup.c$(ObjectSuffix): startup.c $(IntermediateDirectory)/startup.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lahtig/Downloads/Mop-DAT017-master/Mop-DAT017-master/Labs and exercises/spoopys_bizarre_adventure/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and Excercises/spoopys_bizarre_adventure/startup.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/startup.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/startup.c$(DependSuffix): startup.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/startup.c$(ObjectSuffix) -MF$(IntermediateDirectory)/startup.c$(DependSuffix) -MM startup.c
 
@@ -112,7 +112,7 @@ $(IntermediateDirectory)/startup.c$(PreprocessSuffix): startup.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/startup.c$(PreprocessSuffix) startup.c
 
 $(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix): graphicdisplay.c $(IntermediateDirectory)/graphicdisplay.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lahtig/Downloads/Mop-DAT017-master/Mop-DAT017-master/Labs and exercises/spoopys_bizarre_adventure/graphicdisplay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and Excercises/spoopys_bizarre_adventure/graphicdisplay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/graphicdisplay.c$(DependSuffix): graphicdisplay.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/graphicdisplay.c$(ObjectSuffix) -MF$(IntermediateDirectory)/graphicdisplay.c$(DependSuffix) -MM graphicdisplay.c
 
@@ -120,7 +120,7 @@ $(IntermediateDirectory)/graphicdisplay.c$(PreprocessSuffix): graphicdisplay.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/graphicdisplay.c$(PreprocessSuffix) graphicdisplay.c
 
 $(IntermediateDirectory)/asciidisplay.c$(ObjectSuffix): asciidisplay.c $(IntermediateDirectory)/asciidisplay.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lahtig/Downloads/Mop-DAT017-master/Mop-DAT017-master/Labs and exercises/spoopys_bizarre_adventure/asciidisplay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/asciidisplay.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and Excercises/spoopys_bizarre_adventure/asciidisplay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/asciidisplay.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/asciidisplay.c$(DependSuffix): asciidisplay.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/asciidisplay.c$(ObjectSuffix) -MF$(IntermediateDirectory)/asciidisplay.c$(DependSuffix) -MM asciidisplay.c
 
@@ -128,7 +128,7 @@ $(IntermediateDirectory)/asciidisplay.c$(PreprocessSuffix): asciidisplay.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/asciidisplay.c$(PreprocessSuffix) asciidisplay.c
 
 $(IntermediateDirectory)/keypad.c$(ObjectSuffix): keypad.c $(IntermediateDirectory)/keypad.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lahtig/Downloads/Mop-DAT017-master/Mop-DAT017-master/Labs and exercises/spoopys_bizarre_adventure/keypad.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/keypad.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and Excercises/spoopys_bizarre_adventure/keypad.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/keypad.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/keypad.c$(DependSuffix): keypad.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/keypad.c$(ObjectSuffix) -MF$(IntermediateDirectory)/keypad.c$(DependSuffix) -MM keypad.c
 
@@ -136,7 +136,7 @@ $(IntermediateDirectory)/keypad.c$(PreprocessSuffix): keypad.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/keypad.c$(PreprocessSuffix) keypad.c
 
 $(IntermediateDirectory)/sprites.c$(ObjectSuffix): sprites.c $(IntermediateDirectory)/sprites.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lahtig/Downloads/Mop-DAT017-master/Mop-DAT017-master/Labs and exercises/spoopys_bizarre_adventure/sprites.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/sprites.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and Excercises/spoopys_bizarre_adventure/sprites.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/sprites.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/sprites.c$(DependSuffix): sprites.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/sprites.c$(ObjectSuffix) -MF$(IntermediateDirectory)/sprites.c$(DependSuffix) -MM sprites.c
 
@@ -144,7 +144,7 @@ $(IntermediateDirectory)/sprites.c$(PreprocessSuffix): sprites.c
 	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/sprites.c$(PreprocessSuffix) sprites.c
 
 $(IntermediateDirectory)/delay.c$(ObjectSuffix): delay.c $(IntermediateDirectory)/delay.c$(DependSuffix)
-	$(CC) $(SourceSwitch) "C:/Users/lahtig/Downloads/Mop-DAT017-master/Mop-DAT017-master/Labs and exercises/spoopys_bizarre_adventure/delay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/delay.c$(ObjectSuffix) $(IncludePath)
+	$(CC) $(SourceSwitch) "C:/Users/Lumo/Documents/Mop-DAT017/Labs and Excercises/spoopys_bizarre_adventure/delay.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/delay.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/delay.c$(DependSuffix): delay.c
 	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/delay.c$(ObjectSuffix) -MF$(IntermediateDirectory)/delay.c$(DependSuffix) -MM delay.c
 

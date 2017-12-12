@@ -5,69 +5,40 @@
 Disassembly of section .text:
 
 20000000 <startup>:
-
-unsigned char victory_message1[] = "Congratulations!";
-unsigned char victory_message2[] = "You win!";
-
-void startup(void){
-__asm volatile(
 20000000:	4802      	ldr	r0, [pc, #8]	; (2000000c <_exit+0x4>)
 20000002:	4685      	mov	sp, r0
 20000004:	f000 f804 	bl	20000010 <main>
 
 20000008 <_exit>:
 20000008:	e7fe      	b.n	20000008 <_exit>
-	" LDR R0,=0x2001C000\n"		/* set stack */
-	" MOV SP,R0\n"
-	" BL main\n"				/* call main */
-	"_exit: B .\n"				/* never return */
-	) ;
-}
 2000000a:	46c0      	nop			; (mov r8, r8)
 2000000c:	2001c000 	andcs	ip, r1, r0
 
 20000010 <main>:
-
-void main(void){
 20000010:	b580      	push	{r7, lr}
 20000012:	b09c      	sub	sp, #112	; 0x70
 20000014:	af00      	add	r7, sp, #0
-    app_init();
 20000016:	f000 fa81 	bl	2000051c <app_init>
-    //sprites_init();
-    
-    graphic_clear_screen();
 2000001a:	f000 fcb5 	bl	20000988 <graphic_clear_screen>
-    ascii_clear_screen();
 2000001e:	f001 f82e 	bl	2000107e <ascii_clear_screen>
-    graphic_write_command(LCD_ON, B_CS1 | B_CS2);
 20000022:	2118      	movs	r1, #24
 20000024:	203f      	movs	r0, #63	; 0x3f
 20000026:	f000 fc29 	bl	2000087c <graphic_write_command>
-    graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
 2000002a:	2118      	movs	r1, #24
 2000002c:	20c0      	movs	r0, #192	; 0xc0
 2000002e:	f000 fc25 	bl	2000087c <graphic_write_command>
-    
-    gotoxy(1, 1);
 20000032:	2101      	movs	r1, #1
 20000034:	2001      	movs	r0, #1
 20000036:	f000 ffda 	bl	20000fee <gotoxy>
-    ascii_write_string(start_message1);
 2000003a:	4ba1      	ldr	r3, [pc, #644]	; (200002c0 <main+0x2b0>)
 2000003c:	0018      	movs	r0, r3
 2000003e:	f001 f80a 	bl	20001056 <ascii_write_string>
-    gotoxy(1, 2);
 20000042:	2102      	movs	r1, #2
 20000044:	2001      	movs	r0, #1
 20000046:	f000 ffd2 	bl	20000fee <gotoxy>
-    ascii_write_string(start_message2);
 2000004a:	4b9e      	ldr	r3, [pc, #632]	; (200002c4 <main+0x2b4>)
 2000004c:	0018      	movs	r0, r3
 2000004e:	f001 f802 	bl	20001056 <ascii_write_string>
-    
-    // Initiate objects
-    SPRITE spoopy_sprite = {
 20000052:	2354      	movs	r3, #84	; 0x54
 20000054:	18fb      	adds	r3, r7, r3
 20000056:	2200      	movs	r2, #0
@@ -80,19 +51,12 @@ void main(void){
 20000064:	18fb      	adds	r3, r7, r3
 20000066:	2200      	movs	r2, #0
 20000068:	605a      	str	r2, [r3, #4]
-        0, // Init values, disregard these as these will be set later
-        0,
-        {0}
-    };
-    load_sprite(&spoopy_sprite, spoop_bits, spoop_width, spoop_height);
 2000006a:	4997      	ldr	r1, [pc, #604]	; (200002c8 <main+0x2b8>)
 2000006c:	2354      	movs	r3, #84	; 0x54
 2000006e:	18f8      	adds	r0, r7, r3
 20000070:	2310      	movs	r3, #16
 20000072:	2210      	movs	r2, #16
 20000074:	f001 f8e4 	bl	20001240 <load_sprite>
-     // Initiate Spoopy
-    SPRITE_OBJECT spoopy = {
 20000078:	2330      	movs	r3, #48	; 0x30
 2000007a:	18fb      	adds	r3, r7, r3
 2000007c:	2254      	movs	r2, #84	; 0x54
@@ -132,18 +96,9 @@ void main(void){
 200000c0:	18fb      	adds	r3, r7, r3
 200000c2:	4a85      	ldr	r2, [pc, #532]	; (200002d8 <main+0x2c8>)
 200000c4:	621a      	str	r2, [r3, #32]
-        draw_sprite_object,
-        clear_sprite_object,
-        move_sprite_object,
-        set_sprite_object_speed,
-    };
-    PSPRITE_OBJECT spoopy_pointer = &spoopy;
 200000c6:	2330      	movs	r3, #48	; 0x30
 200000c8:	18fb      	adds	r3, r7, r3
 200000ca:	667b      	str	r3, [r7, #100]	; 0x64
-    
-    //init_spoopy(spoopy_pointer)
-    SPRITE exit_sprite = {
 200000cc:	2328      	movs	r3, #40	; 0x28
 200000ce:	18fb      	adds	r3, r7, r3
 200000d0:	2200      	movs	r2, #0
@@ -156,22 +111,14 @@ void main(void){
 200000de:	18fb      	adds	r3, r7, r3
 200000e0:	2200      	movs	r2, #0
 200000e2:	605a      	str	r2, [r3, #4]
-        0,
-        0,
-        {0}
-    };
-    PSPRITE exit_sprite_pointer = &exit_sprite;
 200000e4:	2328      	movs	r3, #40	; 0x28
 200000e6:	18fb      	adds	r3, r7, r3
 200000e8:	663b      	str	r3, [r7, #96]	; 0x60
-    load_sprite(exit_sprite_pointer, exit_bits, exit_width, exit_height);
 200000ea:	497c      	ldr	r1, [pc, #496]	; (200002dc <main+0x2cc>)
 200000ec:	6e38      	ldr	r0, [r7, #96]	; 0x60
 200000ee:	2310      	movs	r3, #16
 200000f0:	2210      	movs	r2, #16
 200000f2:	f001 f8a5 	bl	20001240 <load_sprite>
-    
-    SPRITE_OBJECT exit = {
 200000f6:	1d3b      	adds	r3, r7, #4
 200000f8:	6e3a      	ldr	r2, [r7, #96]	; 0x60
 200000fa:	601a      	str	r2, [r3, #0]
@@ -201,71 +148,47 @@ void main(void){
 2000012a:	1d3b      	adds	r3, r7, #4
 2000012c:	4a6d      	ldr	r2, [pc, #436]	; (200002e4 <main+0x2d4>)
 2000012e:	621a      	str	r2, [r3, #32]
-        draw_sprite_object,
-        clear_sprite_object,
-        dummy_function1,
-        dummy_function2
-    };
-    PSPRITE_OBJECT exit_pointer = &exit;
 20000130:	1d3b      	adds	r3, r7, #4
 20000132:	65fb      	str	r3, [r7, #92]	; 0x5c
-    PSPRITE_OBJECT wall_pointers[WALL_AMOUNT];
-    for(int i = 0; i < WALL_AMOUNT; i++){
 20000134:	2300      	movs	r3, #0
 20000136:	66fb      	str	r3, [r7, #108]	; 0x6c
 20000138:	e009      	b.n	2000014e <main+0x13e>
-        wall_pointers[i] = init_wall();
 2000013a:	f001 f997 	bl	2000146c <init_wall>
 2000013e:	0001      	movs	r1, r0
 20000140:	1d3b      	adds	r3, r7, #4
 20000142:	6efa      	ldr	r2, [r7, #108]	; 0x6c
 20000144:	0092      	lsls	r2, r2, #2
 20000146:	50d1      	str	r1, [r2, r3]
-    for(int i = 0; i < WALL_AMOUNT; i++){
 20000148:	6efb      	ldr	r3, [r7, #108]	; 0x6c
 2000014a:	3301      	adds	r3, #1
 2000014c:	66fb      	str	r3, [r7, #108]	; 0x6c
 2000014e:	6efb      	ldr	r3, [r7, #108]	; 0x6c
 20000150:	2b00      	cmp	r3, #0
 20000152:	dbf2      	blt.n	2000013a <main+0x12a>
-    }
-    
-    init_map_grid(spoopy_pointer, exit_pointer, wall_pointers);
 20000154:	1d3a      	adds	r2, r7, #4
 20000156:	6df9      	ldr	r1, [r7, #92]	; 0x5c
 20000158:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 2000015a:	0018      	movs	r0, r3
 2000015c:	f000 f942 	bl	200003e4 <init_map_grid>
-	
-    // Draw pointers
-    
-    spoopy_pointer->draw(spoopy_pointer);
 20000160:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 20000162:	695b      	ldr	r3, [r3, #20]
 20000164:	6e7a      	ldr	r2, [r7, #100]	; 0x64
 20000166:	0010      	movs	r0, r2
 20000168:	4798      	blx	r3
-    
-    graphic_write_command(LCD_ON, B_CS1 | B_CS2);
 2000016a:	2118      	movs	r1, #24
 2000016c:	203f      	movs	r0, #63	; 0x3f
 2000016e:	f000 fb85 	bl	2000087c <graphic_write_command>
-    graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
 20000172:	2118      	movs	r1, #24
 20000174:	20c0      	movs	r0, #192	; 0xc0
 20000176:	f000 fb81 	bl	2000087c <graphic_write_command>
- 
-    exit_pointer->draw(exit_pointer);
 2000017a:	6dfb      	ldr	r3, [r7, #92]	; 0x5c
 2000017c:	695b      	ldr	r3, [r3, #20]
 2000017e:	6dfa      	ldr	r2, [r7, #92]	; 0x5c
 20000180:	0010      	movs	r0, r2
 20000182:	4798      	blx	r3
-    for(int i = 0; i < WALL_AMOUNT; i++){
 20000184:	2300      	movs	r3, #0
 20000186:	66bb      	str	r3, [r7, #104]	; 0x68
 20000188:	e00d      	b.n	200001a6 <main+0x196>
-        wall_pointers[i]->draw(wall_pointers[i]);
 2000018a:	1d3b      	adds	r3, r7, #4
 2000018c:	6eba      	ldr	r2, [r7, #104]	; 0x68
 2000018e:	0092      	lsls	r2, r2, #2
@@ -277,33 +200,25 @@ void main(void){
 2000019a:	588a      	ldr	r2, [r1, r2]
 2000019c:	0010      	movs	r0, r2
 2000019e:	4798      	blx	r3
-    for(int i = 0; i < WALL_AMOUNT; i++){
 200001a0:	6ebb      	ldr	r3, [r7, #104]	; 0x68
 200001a2:	3301      	adds	r3, #1
 200001a4:	66bb      	str	r3, [r7, #104]	; 0x68
 200001a6:	6ebb      	ldr	r3, [r7, #104]	; 0x68
 200001a8:	2b00      	cmp	r3, #0
 200001aa:	dbee      	blt.n	2000018a <main+0x17a>
-    }
-    
-    GPIO_D.odrHigh = 0xF0;
 200001ac:	4b4e      	ldr	r3, [pc, #312]	; (200002e8 <main+0x2d8>)
 200001ae:	22f0      	movs	r2, #240	; 0xf0
 200001b0:	755a      	strb	r2, [r3, #21]
-	while(1){
-        GPIO_D.odrLow = GPIO_D.idrHigh;
 200001b2:	4b4d      	ldr	r3, [pc, #308]	; (200002e8 <main+0x2d8>)
 200001b4:	4a4c      	ldr	r2, [pc, #304]	; (200002e8 <main+0x2d8>)
 200001b6:	7c52      	ldrb	r2, [r2, #17]
 200001b8:	b2d2      	uxtb	r2, r2
 200001ba:	751a      	strb	r2, [r3, #20]
-		keyboard_val = keyb();
 200001bc:	f000 ffb4 	bl	20001128 <keyb>
 200001c0:	0003      	movs	r3, r0
 200001c2:	b2da      	uxtb	r2, r3
 200001c4:	4b49      	ldr	r3, [pc, #292]	; (200002ec <main+0x2dc>)
 200001c6:	701a      	strb	r2, [r3, #0]
-		switch (keyboard_val){
 200001c8:	4b48      	ldr	r3, [pc, #288]	; (200002ec <main+0x2dc>)
 200001ca:	781b      	ldrb	r3, [r3, #0]
 200001cc:	2b04      	cmp	r3, #4
@@ -317,7 +232,6 @@ void main(void){
 200001dc:	2b08      	cmp	r3, #8
 200001de:	d017      	beq.n	20000210 <main+0x200>
 200001e0:	e01d      	b.n	2000021e <main+0x20e>
-			case 6: spoopy_pointer->set_speed(spoopy_pointer, 1, 0); break;
 200001e2:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 200001e4:	6a1b      	ldr	r3, [r3, #32]
 200001e6:	6e78      	ldr	r0, [r7, #100]	; 0x64
@@ -325,7 +239,6 @@ void main(void){
 200001ea:	2101      	movs	r1, #1
 200001ec:	4798      	blx	r3
 200001ee:	e01d      	b.n	2000022c <main+0x21c>
-			case 4: spoopy_pointer->set_speed(spoopy_pointer, -1, 0); break;
 200001f0:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 200001f2:	6a1b      	ldr	r3, [r3, #32]
 200001f4:	2201      	movs	r2, #1
@@ -334,7 +247,6 @@ void main(void){
 200001fa:	2200      	movs	r2, #0
 200001fc:	4798      	blx	r3
 200001fe:	e015      	b.n	2000022c <main+0x21c>
-			case 2: spoopy_pointer->set_speed(spoopy_pointer, 0, -1); break;
 20000200:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 20000202:	6a1b      	ldr	r3, [r3, #32]
 20000204:	2201      	movs	r2, #1
@@ -343,7 +255,6 @@ void main(void){
 2000020a:	2100      	movs	r1, #0
 2000020c:	4798      	blx	r3
 2000020e:	e00d      	b.n	2000022c <main+0x21c>
-			case 8: spoopy_pointer->set_speed(spoopy_pointer, 0, 1); break;
 20000210:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 20000212:	6a1b      	ldr	r3, [r3, #32]
 20000214:	6e78      	ldr	r0, [r7, #100]	; 0x64
@@ -351,7 +262,6 @@ void main(void){
 20000218:	2100      	movs	r1, #0
 2000021a:	4798      	blx	r3
 2000021c:	e006      	b.n	2000022c <main+0x21c>
-            default: spoopy_pointer->set_speed(spoopy_pointer, 0, 0); break;
 2000021e:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 20000220:	6a1b      	ldr	r3, [r3, #32]
 20000222:	6e78      	ldr	r0, [r7, #100]	; 0x64
@@ -359,44 +269,28 @@ void main(void){
 20000226:	2100      	movs	r1, #0
 20000228:	4798      	blx	r3
 2000022a:	46c0      	nop			; (mov r8, r8)
-		}
-        position_checking(spoopy_pointer);
 2000022c:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 2000022e:	0018      	movs	r0, r3
 20000230:	f000 f888 	bl	20000344 <position_checking>
-        update_sprite_object(spoopy_pointer);
 20000234:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 20000236:	0018      	movs	r0, r3
 20000238:	f001 f9a0 	bl	2000157c <update_sprite_object>
-		graphic_write_command(LCD_ON, B_CS1 | B_CS2);
 2000023c:	2118      	movs	r1, #24
 2000023e:	203f      	movs	r0, #63	; 0x3f
 20000240:	f000 fb1c 	bl	2000087c <graphic_write_command>
-		graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
 20000244:	2118      	movs	r1, #24
 20000246:	20c0      	movs	r0, #192	; 0xc0
 20000248:	f000 fb18 	bl	2000087c <graphic_write_command>
-		delay_milli(250);
 2000024c:	20fa      	movs	r0, #250	; 0xfa
 2000024e:	f001 f9fd 	bl	2000164c <delay_milli>
-        if(win_state){
 20000252:	4b27      	ldr	r3, [pc, #156]	; (200002f0 <main+0x2e0>)
 20000254:	781b      	ldrb	r3, [r3, #0]
 20000256:	2b00      	cmp	r3, #0
 20000258:	d100      	bne.n	2000025c <main+0x24c>
-	while(1){
 2000025a:	e7aa      	b.n	200001b2 <main+0x1a2>
-            break;
 2000025c:	46c0      	nop			; (mov r8, r8)
-        }
-	}
-    
-    ascii_clear_screen();
 2000025e:	f000 ff0e 	bl	2000107e <ascii_clear_screen>
-    graphic_clear_screen();
 20000262:	f000 fb91 	bl	20000988 <graphic_clear_screen>
-    
-    spoopy_pointer->pos_x = (SCREEN_WIDTH / 2) - (spoopy_pointer->sprt->width / 2);
 20000266:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 20000268:	681b      	ldr	r3, [r3, #0]
 2000026a:	781b      	ldrb	r3, [r3, #0]
@@ -407,7 +301,6 @@ void main(void){
 20000274:	1a9a      	subs	r2, r3, r2
 20000276:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 20000278:	60da      	str	r2, [r3, #12]
-    spoopy_pointer->pos_y = (SCREEN_HEIGHT / 2) - (spoopy_pointer->sprt->height / 2);
 2000027a:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 2000027c:	681b      	ldr	r3, [r3, #0]
 2000027e:	785b      	ldrb	r3, [r3, #1]
@@ -418,31 +311,23 @@ void main(void){
 20000288:	1a9a      	subs	r2, r3, r2
 2000028a:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 2000028c:	611a      	str	r2, [r3, #16]
-    
-    spoopy_pointer->draw(spoopy_pointer);
 2000028e:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 20000290:	695b      	ldr	r3, [r3, #20]
 20000292:	6e7a      	ldr	r2, [r7, #100]	; 0x64
 20000294:	0010      	movs	r0, r2
 20000296:	4798      	blx	r3
-    
-    gotoxy(1, 1);
 20000298:	2101      	movs	r1, #1
 2000029a:	2001      	movs	r0, #1
 2000029c:	f000 fea7 	bl	20000fee <gotoxy>
-    ascii_write_string(victory_message1);
 200002a0:	4b14      	ldr	r3, [pc, #80]	; (200002f4 <main+0x2e4>)
 200002a2:	0018      	movs	r0, r3
 200002a4:	f000 fed7 	bl	20001056 <ascii_write_string>
-    gotoxy(1, 2);
 200002a8:	2102      	movs	r1, #2
 200002aa:	2001      	movs	r0, #1
 200002ac:	f000 fe9f 	bl	20000fee <gotoxy>
-    ascii_write_string(victory_message2);
 200002b0:	4b11      	ldr	r3, [pc, #68]	; (200002f8 <main+0x2e8>)
 200002b2:	0018      	movs	r0, r3
 200002b4:	f000 fecf 	bl	20001056 <ascii_write_string>
-}
 200002b8:	46c0      	nop			; (mov r8, r8)
 200002ba:	46bd      	mov	sp, r7
 200002bc:	b01c      	add	sp, #112	; 0x70
@@ -464,28 +349,21 @@ void main(void){
 200002f8:	20001724 	andcs	r1, r0, r4, lsr #14
 
 200002fc <keyboard_interrupt_handler>:
-
-void keyboard_interrupt_handler(void){
 200002fc:	b580      	push	{r7, lr}
 200002fe:	af00      	add	r7, sp, #0
-    if(EXTI.pr & INTERRUPT_TARGET_PINS){
 20000300:	4b0d      	ldr	r3, [pc, #52]	; (20000338 <keyboard_interrupt_handler+0x3c>)
 20000302:	695b      	ldr	r3, [r3, #20]
 20000304:	2260      	movs	r2, #96	; 0x60
 20000306:	4013      	ands	r3, r2
 20000308:	d012      	beq.n	20000330 <keyboard_interrupt_handler+0x34>
-        keyboard_val = keyb();
 2000030a:	f000 ff0d 	bl	20001128 <keyb>
 2000030e:	0003      	movs	r3, r0
 20000310:	b2da      	uxtb	r2, r3
 20000312:	4b0a      	ldr	r3, [pc, #40]	; (2000033c <keyboard_interrupt_handler+0x40>)
 20000314:	701a      	strb	r2, [r3, #0]
-        GPIO_D.odrHigh = 0xF0;
 20000316:	4b0a      	ldr	r3, [pc, #40]	; (20000340 <keyboard_interrupt_handler+0x44>)
 20000318:	22f0      	movs	r2, #240	; 0xf0
 2000031a:	755a      	strb	r2, [r3, #21]
-        
-        EXTI.pr |= (EXTI.pr & INTERRUPT_TARGET_PINS);
 2000031c:	4b06      	ldr	r3, [pc, #24]	; (20000338 <keyboard_interrupt_handler+0x3c>)
 2000031e:	695b      	ldr	r3, [r3, #20]
 20000320:	2260      	movs	r2, #96	; 0x60
@@ -496,8 +374,6 @@ void keyboard_interrupt_handler(void){
 2000032a:	6952      	ldr	r2, [r2, #20]
 2000032c:	430a      	orrs	r2, r1
 2000032e:	615a      	str	r2, [r3, #20]
-    }
-}
 20000330:	46c0      	nop			; (mov r8, r8)
 20000332:	46bd      	mov	sp, r7
 20000334:	bd80      	pop	{r7, pc}
@@ -507,13 +383,10 @@ void keyboard_interrupt_handler(void){
 20000340:	40020c00 	andmi	r0, r2, r0, lsl #24
 
 20000344 <position_checking>:
-
-void position_checking(PSPRITE_OBJECT spoopy_pointer){
 20000344:	b590      	push	{r4, r7, lr}
 20000346:	b087      	sub	sp, #28
 20000348:	af00      	add	r7, sp, #0
 2000034a:	6078      	str	r0, [r7, #4]
-    int spoopy_current_x = (spoopy_pointer->pos_x + 1) / GRID_WIDTH;
 2000034c:	687b      	ldr	r3, [r7, #4]
 2000034e:	68db      	ldr	r3, [r3, #12]
 20000350:	3301      	adds	r3, #1
@@ -522,7 +395,6 @@ void position_checking(PSPRITE_OBJECT spoopy_pointer){
 20000356:	330f      	adds	r3, #15
 20000358:	111b      	asrs	r3, r3, #4
 2000035a:	617b      	str	r3, [r7, #20]
-    int spoopy_current_y = (spoopy_pointer->pos_y + 1) / GRID_HEIGHT;
 2000035c:	687b      	ldr	r3, [r7, #4]
 2000035e:	691b      	ldr	r3, [r3, #16]
 20000360:	3301      	adds	r3, #1
@@ -531,8 +403,6 @@ void position_checking(PSPRITE_OBJECT spoopy_pointer){
 20000366:	330f      	adds	r3, #15
 20000368:	111b      	asrs	r3, r3, #4
 2000036a:	613b      	str	r3, [r7, #16]
-    
-    int next_space = map_grid[spoopy_current_x + spoopy_pointer->dir_x][spoopy_current_y + spoopy_pointer->dir_y];
 2000036c:	687b      	ldr	r3, [r7, #4]
 2000036e:	685a      	ldr	r2, [r3, #4]
 20000370:	697b      	ldr	r3, [r7, #20]
@@ -546,15 +416,11 @@ void position_checking(PSPRITE_OBJECT spoopy_pointer){
 20000380:	188a      	adds	r2, r1, r2
 20000382:	5cd3      	ldrb	r3, [r2, r3]
 20000384:	60fb      	str	r3, [r7, #12]
-    
-    // Set velocity to 0 if Spoopy is about to mave into a wall, otherwise multiply it by an apropriate amount
-    switch(next_space){
 20000386:	68fb      	ldr	r3, [r7, #12]
 20000388:	2b02      	cmp	r3, #2
 2000038a:	d008      	beq.n	2000039e <position_checking+0x5a>
 2000038c:	2b03      	cmp	r3, #3
 2000038e:	d109      	bne.n	200003a4 <position_checking+0x60>
-        case WALL_SPACE: spoopy_pointer->set_speed(spoopy_pointer, 0, 0); break;
 20000390:	687b      	ldr	r3, [r7, #4]
 20000392:	6a1b      	ldr	r3, [r3, #32]
 20000394:	6878      	ldr	r0, [r7, #4]
@@ -562,11 +428,9 @@ void position_checking(PSPRITE_OBJECT spoopy_pointer){
 20000398:	2100      	movs	r1, #0
 2000039a:	4798      	blx	r3
 2000039c:	e00e      	b.n	200003bc <position_checking+0x78>
-        case EXIT_SPACE: win_state = 1;
 2000039e:	4b10      	ldr	r3, [pc, #64]	; (200003e0 <position_checking+0x9c>)
 200003a0:	2201      	movs	r2, #1
 200003a2:	701a      	strb	r2, [r3, #0]
-        default: spoopy_pointer->set_speed(spoopy_pointer, spoopy_pointer->dir_x * GRID_WIDTH, spoopy_pointer->dir_y * GRID_HEIGHT); break;
 200003a4:	687b      	ldr	r3, [r7, #4]
 200003a6:	6a1c      	ldr	r4, [r3, #32]
 200003a8:	687b      	ldr	r3, [r7, #4]
@@ -579,9 +443,6 @@ void position_checking(PSPRITE_OBJECT spoopy_pointer){
 200003b6:	0018      	movs	r0, r3
 200003b8:	47a0      	blx	r4
 200003ba:	46c0      	nop			; (mov r8, r8)
-    }
-    
-    if(map_grid[spoopy_current_x][spoopy_current_y] == EXIT_SPACE){
 200003bc:	4a07      	ldr	r2, [pc, #28]	; (200003dc <position_checking+0x98>)
 200003be:	697b      	ldr	r3, [r7, #20]
 200003c0:	009b      	lsls	r3, r3, #2
@@ -591,12 +452,9 @@ void position_checking(PSPRITE_OBJECT spoopy_pointer){
 200003c8:	781b      	ldrb	r3, [r3, #0]
 200003ca:	2b02      	cmp	r3, #2
 200003cc:	d102      	bne.n	200003d4 <position_checking+0x90>
-        win_state = 1;
 200003ce:	4b04      	ldr	r3, [pc, #16]	; (200003e0 <position_checking+0x9c>)
 200003d0:	2201      	movs	r2, #1
 200003d2:	701a      	strb	r2, [r3, #0]
-    }
-}
 200003d4:	46c0      	nop			; (mov r8, r8)
 200003d6:	46bd      	mov	sp, r7
 200003d8:	b007      	add	sp, #28
@@ -605,23 +463,18 @@ void position_checking(PSPRITE_OBJECT spoopy_pointer){
 200003e0:	2000166d 	andcs	r1, r0, sp, ror #12
 
 200003e4 <init_map_grid>:
-
-void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT walls[]){
 200003e4:	b590      	push	{r4, r7, lr}
 200003e6:	b0a1      	sub	sp, #132	; 0x84
 200003e8:	af00      	add	r7, sp, #0
 200003ea:	60f8      	str	r0, [r7, #12]
 200003ec:	60b9      	str	r1, [r7, #8]
 200003ee:	607a      	str	r2, [r7, #4]
-    for(int x = 0; x < MAP_WIDTH; x++){
 200003f0:	2300      	movs	r3, #0
 200003f2:	67fb      	str	r3, [r7, #124]	; 0x7c
 200003f4:	e013      	b.n	2000041e <init_map_grid+0x3a>
-        for(int y = 0; y < MAP_HEIGHT; y++){
 200003f6:	2300      	movs	r3, #0
 200003f8:	67bb      	str	r3, [r7, #120]	; 0x78
 200003fa:	e00a      	b.n	20000412 <init_map_grid+0x2e>
-            map_grid[x][y] = EMPTY_SPACE;
 200003fc:	4a44      	ldr	r2, [pc, #272]	; (20000510 <init_map_grid+0x12c>)
 200003fe:	6ffb      	ldr	r3, [r7, #124]	; 0x7c
 20000400:	009b      	lsls	r3, r3, #2
@@ -630,31 +483,22 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 20000406:	18d3      	adds	r3, r2, r3
 20000408:	2200      	movs	r2, #0
 2000040a:	701a      	strb	r2, [r3, #0]
-        for(int y = 0; y < MAP_HEIGHT; y++){
 2000040c:	6fbb      	ldr	r3, [r7, #120]	; 0x78
 2000040e:	3301      	adds	r3, #1
 20000410:	67bb      	str	r3, [r7, #120]	; 0x78
 20000412:	6fbb      	ldr	r3, [r7, #120]	; 0x78
 20000414:	2b03      	cmp	r3, #3
 20000416:	ddf1      	ble.n	200003fc <init_map_grid+0x18>
-    for(int x = 0; x < MAP_WIDTH; x++){
 20000418:	6ffb      	ldr	r3, [r7, #124]	; 0x7c
 2000041a:	3301      	adds	r3, #1
 2000041c:	67fb      	str	r3, [r7, #124]	; 0x7c
 2000041e:	6ffb      	ldr	r3, [r7, #124]	; 0x7c
 20000420:	2b07      	cmp	r3, #7
 20000422:	dde8      	ble.n	200003f6 <init_map_grid+0x12>
-        }
-    }
-    
-    // Set Spoopy's starting position
-    int spoopy_x = 0;
 20000424:	2300      	movs	r3, #0
 20000426:	673b      	str	r3, [r7, #112]	; 0x70
-    int spoopy_y = 0;
 20000428:	2300      	movs	r3, #0
 2000042a:	66fb      	str	r3, [r7, #108]	; 0x6c
-    map_grid[spoopy_x][spoopy_y] = SPOOPY_SPACE;
 2000042c:	4a38      	ldr	r2, [pc, #224]	; (20000510 <init_map_grid+0x12c>)
 2000042e:	6f3b      	ldr	r3, [r7, #112]	; 0x70
 20000430:	009b      	lsls	r3, r3, #2
@@ -663,25 +507,18 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 20000436:	18d3      	adds	r3, r2, r3
 20000438:	2201      	movs	r2, #1
 2000043a:	701a      	strb	r2, [r3, #0]
-    spoopy->pos_x = spoopy_x * GRID_WIDTH;
 2000043c:	6f3b      	ldr	r3, [r7, #112]	; 0x70
 2000043e:	011a      	lsls	r2, r3, #4
 20000440:	68fb      	ldr	r3, [r7, #12]
 20000442:	60da      	str	r2, [r3, #12]
-    spoopy->pos_y = spoopy_y * GRID_HEIGHT;
 20000444:	6efb      	ldr	r3, [r7, #108]	; 0x6c
 20000446:	011a      	lsls	r2, r3, #4
 20000448:	68fb      	ldr	r3, [r7, #12]
 2000044a:	611a      	str	r2, [r3, #16]
-    
-    // Set exit's starting position
-    int exit_x = MAP_WIDTH - 1;
 2000044c:	2307      	movs	r3, #7
 2000044e:	66bb      	str	r3, [r7, #104]	; 0x68
-    int exit_y = MAP_HEIGHT - 1;
 20000450:	2303      	movs	r3, #3
 20000452:	667b      	str	r3, [r7, #100]	; 0x64
-    map_grid[exit_x][exit_y] = EXIT_SPACE;
 20000454:	4a2e      	ldr	r2, [pc, #184]	; (20000510 <init_map_grid+0x12c>)
 20000456:	6ebb      	ldr	r3, [r7, #104]	; 0x68
 20000458:	009b      	lsls	r3, r3, #2
@@ -690,19 +527,14 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 2000045e:	18d3      	adds	r3, r2, r3
 20000460:	2202      	movs	r2, #2
 20000462:	701a      	strb	r2, [r3, #0]
-    exit->pos_x = exit_x * GRID_WIDTH;
 20000464:	6ebb      	ldr	r3, [r7, #104]	; 0x68
 20000466:	011a      	lsls	r2, r3, #4
 20000468:	68bb      	ldr	r3, [r7, #8]
 2000046a:	60da      	str	r2, [r3, #12]
-    exit->pos_y = exit_y * GRID_HEIGHT;
 2000046c:	6e7b      	ldr	r3, [r7, #100]	; 0x64
 2000046e:	011a      	lsls	r2, r3, #4
 20000470:	68bb      	ldr	r3, [r7, #8]
 20000472:	611a      	str	r2, [r3, #16]
-    
-    // Set walls' starting positions
-    int wall_x[] = {1, 1, 1, 3, 3, 3, 5, 5, 5, 6};
 20000474:	233c      	movs	r3, #60	; 0x3c
 20000476:	18fb      	adds	r3, r7, r3
 20000478:	4a26      	ldr	r2, [pc, #152]	; (20000514 <init_map_grid+0x130>)
@@ -714,7 +546,6 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 20000484:	c313      	stmia	r3!, {r0, r1, r4}
 20000486:	6812      	ldr	r2, [r2, #0]
 20000488:	601a      	str	r2, [r3, #0]
-    int wall_y[] = {0, 1, 2, 3, 2, 1, 0, 1, 2, 2};
 2000048a:	2314      	movs	r3, #20
 2000048c:	18fb      	adds	r3, r7, r3
 2000048e:	4a22      	ldr	r2, [pc, #136]	; (20000518 <init_map_grid+0x134>)
@@ -726,11 +557,9 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 2000049a:	c313      	stmia	r3!, {r0, r1, r4}
 2000049c:	6812      	ldr	r2, [r2, #0]
 2000049e:	601a      	str	r2, [r3, #0]
-    for(int i = 0; (i < sizeof(wall_x)) && (i < WALL_AMOUNT); i++){
 200004a0:	2300      	movs	r3, #0
 200004a2:	677b      	str	r3, [r7, #116]	; 0x74
 200004a4:	e029      	b.n	200004fa <init_map_grid+0x116>
-        map_grid[wall_x[i]][wall_y[i]] = WALL_SPACE;
 200004a6:	233c      	movs	r3, #60	; 0x3c
 200004a8:	18fb      	adds	r3, r7, r3
 200004aa:	6f7a      	ldr	r2, [r7, #116]	; 0x74
@@ -746,7 +575,6 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 200004be:	188a      	adds	r2, r1, r2
 200004c0:	2103      	movs	r1, #3
 200004c2:	54d1      	strb	r1, [r2, r3]
-        walls[i]->pos_x = wall_x[i] * GRID_WIDTH;
 200004c4:	6f7b      	ldr	r3, [r7, #116]	; 0x74
 200004c6:	009b      	lsls	r3, r3, #2
 200004c8:	687a      	ldr	r2, [r7, #4]
@@ -759,7 +587,6 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 200004d6:	588a      	ldr	r2, [r1, r2]
 200004d8:	0112      	lsls	r2, r2, #4
 200004da:	60da      	str	r2, [r3, #12]
-        walls[i]->pos_y = wall_y[i] * GRID_HEIGHT;
 200004dc:	6f7b      	ldr	r3, [r7, #116]	; 0x74
 200004de:	009b      	lsls	r3, r3, #2
 200004e0:	687a      	ldr	r2, [r7, #4]
@@ -772,7 +599,6 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 200004ee:	588a      	ldr	r2, [r1, r2]
 200004f0:	0112      	lsls	r2, r2, #4
 200004f2:	611a      	str	r2, [r3, #16]
-    for(int i = 0; (i < sizeof(wall_x)) && (i < WALL_AMOUNT); i++){
 200004f4:	6f7b      	ldr	r3, [r7, #116]	; 0x74
 200004f6:	3301      	adds	r3, #1
 200004f8:	677b      	str	r3, [r7, #116]	; 0x74
@@ -782,8 +608,6 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 20000500:	6f7b      	ldr	r3, [r7, #116]	; 0x74
 20000502:	2b00      	cmp	r3, #0
 20000504:	dbcf      	blt.n	200004a6 <init_map_grid+0xc2>
-    }
-}
 20000506:	46c0      	nop			; (mov r8, r8)
 20000508:	46bd      	mov	sp, r7
 2000050a:	b021      	add	sp, #132	; 0x84
@@ -794,87 +618,53 @@ void init_map_grid(PSPRITE_OBJECT spoopy, PSPRITE_OBJECT exit, PSPRITE_OBJECT wa
 20000518:	200017c8 	andcs	r1, r0, r8, asr #15
 
 2000051c <app_init>:
-
-void app_init(void){
 2000051c:	b580      	push	{r7, lr}
 2000051e:	af00      	add	r7, sp, #0
-#ifdef USBDM
-	*((unsigned long*) 0x40023830) = 0x18;
 20000520:	4b20      	ldr	r3, [pc, #128]	; (200005a4 <app_init+0x88>)
 20000522:	2218      	movs	r2, #24
 20000524:	601a      	str	r2, [r3, #0]
-	__asm volatile( 
 20000526:	482a      	ldr	r0, [pc, #168]	; (200005d0 <app_init+0xb4>)
 20000528:	4780      	blx	r0
-		" LDR R0, =0x08000209\n"
-		" BLX R0\n"
-		);
-#endif
-
-    GPIO_D.moder &= 0xFFFF0000;
 2000052a:	4b1f      	ldr	r3, [pc, #124]	; (200005a8 <app_init+0x8c>)
 2000052c:	4a1e      	ldr	r2, [pc, #120]	; (200005a8 <app_init+0x8c>)
 2000052e:	6812      	ldr	r2, [r2, #0]
 20000530:	0c12      	lsrs	r2, r2, #16
 20000532:	0412      	lsls	r2, r2, #16
 20000534:	601a      	str	r2, [r3, #0]
-    GPIO_D.moder |= 0x00005555;
 20000536:	4b1c      	ldr	r3, [pc, #112]	; (200005a8 <app_init+0x8c>)
 20000538:	4a1b      	ldr	r2, [pc, #108]	; (200005a8 <app_init+0x8c>)
 2000053a:	6812      	ldr	r2, [r2, #0]
 2000053c:	491b      	ldr	r1, [pc, #108]	; (200005ac <app_init+0x90>)
 2000053e:	430a      	orrs	r2, r1
 20000540:	601a      	str	r2, [r3, #0]
-
-    graphicdisplay_init();
 20000542:	f000 fbdb 	bl	20000cfc <graphicdisplay_init>
-    asciidisplay_init();
 20000546:	f000 fbe9 	bl	20000d1c <asciidisplay_init>
-    graphic_initialize();
 2000054a:	f000 f9ef 	bl	2000092c <graphic_initialize>
-    
-    keyboard_init();
 2000054e:	f000 fdbb 	bl	200010c8 <keyboard_init>
-    
-    // *** Interrupt init ***
-    // Set port D pin 8-11 as interrupts
-    SYSCFG.exticr3 = 0x3333;
 20000552:	4b17      	ldr	r3, [pc, #92]	; (200005b0 <app_init+0x94>)
 20000554:	4a17      	ldr	r2, [pc, #92]	; (200005b4 <app_init+0x98>)
 20000556:	611a      	str	r2, [r3, #16]
-    
-    // Set pin 8-11 as interrupts on both flanks
-    EXTI.imr = INTERRUPT_TARGET_PINS;
 20000558:	4b17      	ldr	r3, [pc, #92]	; (200005b8 <app_init+0x9c>)
 2000055a:	2260      	movs	r2, #96	; 0x60
 2000055c:	601a      	str	r2, [r3, #0]
-    EXTI.ftsr |= INTERRUPT_TARGET_PINS;
 2000055e:	4b16      	ldr	r3, [pc, #88]	; (200005b8 <app_init+0x9c>)
 20000560:	4a15      	ldr	r2, [pc, #84]	; (200005b8 <app_init+0x9c>)
 20000562:	68d2      	ldr	r2, [r2, #12]
 20000564:	2160      	movs	r1, #96	; 0x60
 20000566:	430a      	orrs	r2, r1
 20000568:	60da      	str	r2, [r3, #12]
-    EXTI.rtsr |= INTERRUPT_TARGET_PINS;
 2000056a:	4b13      	ldr	r3, [pc, #76]	; (200005b8 <app_init+0x9c>)
 2000056c:	4a12      	ldr	r2, [pc, #72]	; (200005b8 <app_init+0x9c>)
 2000056e:	6892      	ldr	r2, [r2, #8]
 20000570:	2160      	movs	r1, #96	; 0x60
 20000572:	430a      	orrs	r2, r1
 20000574:	609a      	str	r2, [r3, #8]
-    
-    // Set up interrupt vector
-    *((void (**) (void))0x2001C09C) = keyboard_interrupt_handler;
 20000576:	4b11      	ldr	r3, [pc, #68]	; (200005bc <app_init+0xa0>)
 20000578:	4a11      	ldr	r2, [pc, #68]	; (200005c0 <app_init+0xa4>)
 2000057a:	601a      	str	r2, [r3, #0]
-    *((void (**) (void))0x2001C0E0) = keyboard_interrupt_handler;
 2000057c:	4b11      	ldr	r3, [pc, #68]	; (200005c4 <app_init+0xa8>)
 2000057e:	4a10      	ldr	r2, [pc, #64]	; (200005c0 <app_init+0xa4>)
 20000580:	601a      	str	r2, [r3, #0]
-    
-    // Enable interrupt vectors
-    NVIC_ISER0 |= (1 << 23);
 20000582:	4b11      	ldr	r3, [pc, #68]	; (200005c8 <app_init+0xac>)
 20000584:	4a10      	ldr	r2, [pc, #64]	; (200005c8 <app_init+0xac>)
 20000586:	6812      	ldr	r2, [r2, #0]
@@ -882,7 +672,6 @@ void app_init(void){
 2000058a:	0409      	lsls	r1, r1, #16
 2000058c:	430a      	orrs	r2, r1
 2000058e:	601a      	str	r2, [r3, #0]
-    NVIC_ISER1 |= (1 << (40 - 32));
 20000590:	4b0e      	ldr	r3, [pc, #56]	; (200005cc <app_init+0xb0>)
 20000592:	4a0e      	ldr	r2, [pc, #56]	; (200005cc <app_init+0xb0>)
 20000594:	6812      	ldr	r2, [r2, #0]
@@ -890,7 +679,6 @@ void app_init(void){
 20000598:	0049      	lsls	r1, r1, #1
 2000059a:	430a      	orrs	r2, r1
 2000059c:	601a      	str	r2, [r3, #0]
-}
 2000059e:	46c0      	nop			; (mov r8, r8)
 200005a0:	46bd      	mov	sp, r7
 200005a2:	bd80      	pop	{r7, pc}
@@ -908,16 +696,12 @@ void app_init(void){
 200005d0:	08000209 	stmdaeq	r0, {r0, r3, r9}
 
 200005d4 <graphic_ctrl_bit_set>:
-#include "graphicdisplay.h"
-
-void graphic_ctrl_bit_set(uint8_t x){
 200005d4:	b580      	push	{r7, lr}
 200005d6:	b084      	sub	sp, #16
 200005d8:	af00      	add	r7, sp, #0
 200005da:	0002      	movs	r2, r0
 200005dc:	1dfb      	adds	r3, r7, #7
 200005de:	701a      	strb	r2, [r3, #0]
-    GPIO_E.odrLow &= ~B_SELECT;
 200005e0:	4a13      	ldr	r2, [pc, #76]	; (20000630 <graphic_ctrl_bit_set+0x5c>)
 200005e2:	4b13      	ldr	r3, [pc, #76]	; (20000630 <graphic_ctrl_bit_set+0x5c>)
 200005e4:	7d1b      	ldrb	r3, [r3, #20]
@@ -926,13 +710,11 @@ void graphic_ctrl_bit_set(uint8_t x){
 200005ea:	438b      	bics	r3, r1
 200005ec:	b2db      	uxtb	r3, r3
 200005ee:	7513      	strb	r3, [r2, #20]
-    uint8_t control_register = GPIO_E.odrLow;
 200005f0:	4a0f      	ldr	r2, [pc, #60]	; (20000630 <graphic_ctrl_bit_set+0x5c>)
 200005f2:	230f      	movs	r3, #15
 200005f4:	18fb      	adds	r3, r7, r3
 200005f6:	7d12      	ldrb	r2, [r2, #20]
 200005f8:	701a      	strb	r2, [r3, #0]
-    control_register |= x;
 200005fa:	230f      	movs	r3, #15
 200005fc:	18fb      	adds	r3, r7, r3
 200005fe:	220f      	movs	r2, #15
@@ -942,7 +724,6 @@ void graphic_ctrl_bit_set(uint8_t x){
 20000606:	7812      	ldrb	r2, [r2, #0]
 20000608:	430a      	orrs	r2, r1
 2000060a:	701a      	strb	r2, [r3, #0]
-	control_register &= ~B_SELECT;
 2000060c:	230f      	movs	r3, #15
 2000060e:	18fb      	adds	r3, r7, r3
 20000610:	220f      	movs	r2, #15
@@ -951,13 +732,11 @@ void graphic_ctrl_bit_set(uint8_t x){
 20000616:	2104      	movs	r1, #4
 20000618:	438a      	bics	r2, r1
 2000061a:	701a      	strb	r2, [r3, #0]
-    GPIO_E.odrLow = control_register;
 2000061c:	4a04      	ldr	r2, [pc, #16]	; (20000630 <graphic_ctrl_bit_set+0x5c>)
 2000061e:	230f      	movs	r3, #15
 20000620:	18fb      	adds	r3, r7, r3
 20000622:	781b      	ldrb	r3, [r3, #0]
 20000624:	7513      	strb	r3, [r2, #20]
-}
 20000626:	46c0      	nop			; (mov r8, r8)
 20000628:	46bd      	mov	sp, r7
 2000062a:	b004      	add	sp, #16
@@ -966,15 +745,12 @@ void graphic_ctrl_bit_set(uint8_t x){
 20000630:	40021000 	andmi	r1, r2, r0
 
 20000634 <graphic_ctrl_bit_clear>:
-
-void graphic_ctrl_bit_clear(uint8_t x){
 20000634:	b580      	push	{r7, lr}
 20000636:	b084      	sub	sp, #16
 20000638:	af00      	add	r7, sp, #0
 2000063a:	0002      	movs	r2, r0
 2000063c:	1dfb      	adds	r3, r7, #7
 2000063e:	701a      	strb	r2, [r3, #0]
-    GPIO_E.odrLow &= ~B_SELECT;
 20000640:	4a15      	ldr	r2, [pc, #84]	; (20000698 <graphic_ctrl_bit_clear+0x64>)
 20000642:	4b15      	ldr	r3, [pc, #84]	; (20000698 <graphic_ctrl_bit_clear+0x64>)
 20000644:	7d1b      	ldrb	r3, [r3, #20]
@@ -983,13 +759,11 @@ void graphic_ctrl_bit_clear(uint8_t x){
 2000064a:	438b      	bics	r3, r1
 2000064c:	b2db      	uxtb	r3, r3
 2000064e:	7513      	strb	r3, [r2, #20]
-    uint8_t control_register = GPIO_E.odrLow;
 20000650:	4a11      	ldr	r2, [pc, #68]	; (20000698 <graphic_ctrl_bit_clear+0x64>)
 20000652:	230f      	movs	r3, #15
 20000654:	18fb      	adds	r3, r7, r3
 20000656:	7d12      	ldrb	r2, [r2, #20]
 20000658:	701a      	strb	r2, [r3, #0]
-    control_register &= (~x);
 2000065a:	1dfb      	adds	r3, r7, #7
 2000065c:	781b      	ldrb	r3, [r3, #0]
 2000065e:	b25b      	sxtb	r3, r3
@@ -1004,7 +778,6 @@ void graphic_ctrl_bit_clear(uint8_t x){
 20000670:	230f      	movs	r3, #15
 20000672:	18fb      	adds	r3, r7, r3
 20000674:	701a      	strb	r2, [r3, #0]
-    control_register &= ~B_SELECT;
 20000676:	230f      	movs	r3, #15
 20000678:	18fb      	adds	r3, r7, r3
 2000067a:	220f      	movs	r2, #15
@@ -1013,13 +786,11 @@ void graphic_ctrl_bit_clear(uint8_t x){
 20000680:	2104      	movs	r1, #4
 20000682:	438a      	bics	r2, r1
 20000684:	701a      	strb	r2, [r3, #0]
-    GPIO_E.odrLow = control_register;
 20000686:	4a04      	ldr	r2, [pc, #16]	; (20000698 <graphic_ctrl_bit_clear+0x64>)
 20000688:	230f      	movs	r3, #15
 2000068a:	18fb      	adds	r3, r7, r3
 2000068c:	781b      	ldrb	r3, [r3, #0]
 2000068e:	7513      	strb	r3, [r2, #20]
-}
 20000690:	46c0      	nop			; (mov r8, r8)
 20000692:	46bd      	mov	sp, r7
 20000694:	b004      	add	sp, #16
@@ -1027,15 +798,12 @@ void graphic_ctrl_bit_clear(uint8_t x){
 20000698:	40021000 	andmi	r1, r2, r0
 
 2000069c <select_controller>:
-
-void select_controller(uint8_t controller){
 2000069c:	b580      	push	{r7, lr}
 2000069e:	b082      	sub	sp, #8
 200006a0:	af00      	add	r7, sp, #0
 200006a2:	0002      	movs	r2, r0
 200006a4:	1dfb      	adds	r3, r7, #7
 200006a6:	701a      	strb	r2, [r3, #0]
-    switch(controller){
 200006a8:	1dfb      	adds	r3, r7, #7
 200006aa:	781b      	ldrb	r3, [r3, #0]
 200006ac:	2b08      	cmp	r3, #8
@@ -1043,128 +811,74 @@ void select_controller(uint8_t controller){
 200006b0:	dc02      	bgt.n	200006b8 <select_controller+0x1c>
 200006b2:	2b00      	cmp	r3, #0
 200006b4:	d005      	beq.n	200006c2 <select_controller+0x26>
-            break;
-        case B_CS1 | B_CS2:
-            graphic_ctrl_bit_set(B_CS1 | B_CS2);
-            break;
-    }
-}
 200006b6:	e01a      	b.n	200006ee <select_controller+0x52>
-    switch(controller){
 200006b8:	2b10      	cmp	r3, #16
 200006ba:	d00d      	beq.n	200006d8 <select_controller+0x3c>
 200006bc:	2b18      	cmp	r3, #24
 200006be:	d012      	beq.n	200006e6 <select_controller+0x4a>
-}
 200006c0:	e015      	b.n	200006ee <select_controller+0x52>
-            graphic_ctrl_bit_clear(B_CS1 | B_CS2);
 200006c2:	2018      	movs	r0, #24
 200006c4:	f7ff ffb6 	bl	20000634 <graphic_ctrl_bit_clear>
-            break;
 200006c8:	e011      	b.n	200006ee <select_controller+0x52>
-            graphic_ctrl_bit_clear(B_CS2);
 200006ca:	2010      	movs	r0, #16
 200006cc:	f7ff ffb2 	bl	20000634 <graphic_ctrl_bit_clear>
-            graphic_ctrl_bit_set(B_CS1);
 200006d0:	2008      	movs	r0, #8
 200006d2:	f7ff ff7f 	bl	200005d4 <graphic_ctrl_bit_set>
-            break;
 200006d6:	e00a      	b.n	200006ee <select_controller+0x52>
-            graphic_ctrl_bit_clear(B_CS1);
 200006d8:	2008      	movs	r0, #8
 200006da:	f7ff ffab 	bl	20000634 <graphic_ctrl_bit_clear>
-            graphic_ctrl_bit_set(B_CS2);
 200006de:	2010      	movs	r0, #16
 200006e0:	f7ff ff78 	bl	200005d4 <graphic_ctrl_bit_set>
-            break;
 200006e4:	e003      	b.n	200006ee <select_controller+0x52>
-            graphic_ctrl_bit_set(B_CS1 | B_CS2);
 200006e6:	2018      	movs	r0, #24
 200006e8:	f7ff ff74 	bl	200005d4 <graphic_ctrl_bit_set>
-            break;
 200006ec:	46c0      	nop			; (mov r8, r8)
-}
 200006ee:	46c0      	nop			; (mov r8, r8)
 200006f0:	46bd      	mov	sp, r7
 200006f2:	b002      	add	sp, #8
 200006f4:	bd80      	pop	{r7, pc}
 
 200006f6 <graphic_wait_ready>:
-
-void graphic_wait_ready(void){
 200006f6:	b580      	push	{r7, lr}
 200006f8:	b082      	sub	sp, #8
 200006fa:	af00      	add	r7, sp, #0
-    uint8_t display_busy_status;
-    // Enable = 0
-    graphic_ctrl_bit_clear(B_E);
 200006fc:	2040      	movs	r0, #64	; 0x40
 200006fe:	f7ff ff99 	bl	20000634 <graphic_ctrl_bit_clear>
-    // E: 15-8 = input, 7-0 = output
-    GPIO_E.moder = 0x00005555;
 20000702:	4b17      	ldr	r3, [pc, #92]	; (20000760 <graphic_wait_ready+0x6a>)
 20000704:	4a17      	ldr	r2, [pc, #92]	; (20000764 <graphic_wait_ready+0x6e>)
 20000706:	601a      	str	r2, [r3, #0]
-    
-    // RS = 0, RW = 1
-    graphic_ctrl_bit_clear(B_RS);
 20000708:	2001      	movs	r0, #1
 2000070a:	f7ff ff93 	bl	20000634 <graphic_ctrl_bit_clear>
-    graphic_ctrl_bit_set(B_RW);
 2000070e:	2002      	movs	r0, #2
 20000710:	f7ff ff60 	bl	200005d4 <graphic_ctrl_bit_set>
-    delay_500ns();
 20000714:	f000 ff7c 	bl	20001610 <delay_500ns>
-    
-    while(1){
-        // Enable = 1
-        graphic_ctrl_bit_set(B_E);
 20000718:	2040      	movs	r0, #64	; 0x40
 2000071a:	f7ff ff5b 	bl	200005d4 <graphic_ctrl_bit_set>
-        delay_500ns();
 2000071e:	f000 ff77 	bl	20001610 <delay_500ns>
-        // Enable = 0
-		display_busy_status = GPIO_E.idrHigh;
 20000722:	4a0f      	ldr	r2, [pc, #60]	; (20000760 <graphic_wait_ready+0x6a>)
 20000724:	1dfb      	adds	r3, r7, #7
 20000726:	7c52      	ldrb	r2, [r2, #17]
 20000728:	701a      	strb	r2, [r3, #0]
-        graphic_ctrl_bit_clear(B_E);
 2000072a:	2040      	movs	r0, #64	; 0x40
 2000072c:	f7ff ff82 	bl	20000634 <graphic_ctrl_bit_clear>
-        delay_500ns();
 20000730:	f000 ff6e 	bl	20001610 <delay_500ns>
-        // Exit loop if not busy
-        
-		display_busy_status &= LCD_BUSY;
 20000734:	1dfb      	adds	r3, r7, #7
 20000736:	1dfa      	adds	r2, r7, #7
 20000738:	7812      	ldrb	r2, [r2, #0]
 2000073a:	217f      	movs	r1, #127	; 0x7f
 2000073c:	438a      	bics	r2, r1
 2000073e:	701a      	strb	r2, [r3, #0]
-        if(display_busy_status == 0){
 20000740:	1dfb      	adds	r3, r7, #7
 20000742:	781b      	ldrb	r3, [r3, #0]
 20000744:	2b00      	cmp	r3, #0
 20000746:	d000      	beq.n	2000074a <graphic_wait_ready+0x54>
-        graphic_ctrl_bit_set(B_E);
 20000748:	e7e6      	b.n	20000718 <graphic_wait_ready+0x22>
-            break;
 2000074a:	46c0      	nop			; (mov r8, r8)
-        } 
-    }
-    
-    // Enable = 1
-    graphic_ctrl_bit_set(B_E); // Commented out to check if this works because it works for NaN
 2000074c:	2040      	movs	r0, #64	; 0x40
 2000074e:	f7ff ff41 	bl	200005d4 <graphic_ctrl_bit_set>
-    // E: 15-0 = output
-    GPIO_E.moder = 0x55555555;
 20000752:	4b03      	ldr	r3, [pc, #12]	; (20000760 <graphic_wait_ready+0x6a>)
 20000754:	4a04      	ldr	r2, [pc, #16]	; (20000768 <graphic_wait_ready+0x72>)
 20000756:	601a      	str	r2, [r3, #0]
-}
 20000758:	46c0      	nop			; (mov r8, r8)
 2000075a:	46bd      	mov	sp, r7
 2000075c:	b002      	add	sp, #8
@@ -1174,94 +888,56 @@ void graphic_wait_ready(void){
 20000768:	55555555 	ldrbpl	r5, [r5, #-1365]	; 0xfffffaab
 
 2000076c <graphic_read>:
-
-uint8_t graphic_read(uint8_t controller){
 2000076c:	b580      	push	{r7, lr}
 2000076e:	b084      	sub	sp, #16
 20000770:	af00      	add	r7, sp, #0
 20000772:	0002      	movs	r2, r0
 20000774:	1dfb      	adds	r3, r7, #7
 20000776:	701a      	strb	r2, [r3, #0]
-	//Set enable to 0
-	graphic_ctrl_bit_clear(B_E);
 20000778:	2040      	movs	r0, #64	; 0x40
 2000077a:	f7ff ff5b 	bl	20000634 <graphic_ctrl_bit_clear>
-	
-	//set E to input high byte / output low byte
-	GPIO_E.moder = 0x00005555;
 2000077e:	4b1c      	ldr	r3, [pc, #112]	; (200007f0 <graphic_read+0x84>)
 20000780:	4a1c      	ldr	r2, [pc, #112]	; (200007f4 <graphic_read+0x88>)
 20000782:	601a      	str	r2, [r3, #0]
-	
-	graphic_ctrl_bit_set(B_RS | B_RW);
 20000784:	2003      	movs	r0, #3
 20000786:	f7ff ff25 	bl	200005d4 <graphic_ctrl_bit_set>
-	
-	select_controller(controller);
 2000078a:	1dfb      	adds	r3, r7, #7
 2000078c:	781b      	ldrb	r3, [r3, #0]
 2000078e:	0018      	movs	r0, r3
 20000790:	f7ff ff84 	bl	2000069c <select_controller>
-	delay_500ns();
 20000794:	f000 ff3c 	bl	20001610 <delay_500ns>
-	
-	graphic_ctrl_bit_set(B_E);
 20000798:	2040      	movs	r0, #64	; 0x40
 2000079a:	f7ff ff1b 	bl	200005d4 <graphic_ctrl_bit_set>
-	delay_500ns();
 2000079e:	f000 ff37 	bl	20001610 <delay_500ns>
-	
-	// set return value to what is on the data register
-	uint8_t RV = GPIO_E.idrHigh;
 200007a2:	4a13      	ldr	r2, [pc, #76]	; (200007f0 <graphic_read+0x84>)
 200007a4:	230f      	movs	r3, #15
 200007a6:	18fb      	adds	r3, r7, r3
 200007a8:	7c52      	ldrb	r2, [r2, #17]
 200007aa:	701a      	strb	r2, [r3, #0]
-	
-	graphic_ctrl_bit_clear(B_E);
 200007ac:	2040      	movs	r0, #64	; 0x40
 200007ae:	f7ff ff41 	bl	20000634 <graphic_ctrl_bit_clear>
-	
-	//set E to output
-	GPIO_E.moder = 0x55555555;
 200007b2:	4b0f      	ldr	r3, [pc, #60]	; (200007f0 <graphic_read+0x84>)
 200007b4:	4a10      	ldr	r2, [pc, #64]	; (200007f8 <graphic_read+0x8c>)
 200007b6:	601a      	str	r2, [r3, #0]
-	
-	if((controller & B_CS1) != 0) {
 200007b8:	1dfb      	adds	r3, r7, #7
 200007ba:	781b      	ldrb	r3, [r3, #0]
 200007bc:	2208      	movs	r2, #8
 200007be:	4013      	ands	r3, r2
 200007c0:	d004      	beq.n	200007cc <graphic_read+0x60>
-		select_controller(B_CS1);
 200007c2:	2008      	movs	r0, #8
 200007c4:	f7ff ff6a 	bl	2000069c <select_controller>
-		graphic_wait_ready();
 200007c8:	f7ff ff95 	bl	200006f6 <graphic_wait_ready>
-	}
-	if((controller & B_CS2) != 0){
 200007cc:	1dfb      	adds	r3, r7, #7
 200007ce:	781b      	ldrb	r3, [r3, #0]
 200007d0:	2210      	movs	r2, #16
 200007d2:	4013      	ands	r3, r2
 200007d4:	d004      	beq.n	200007e0 <graphic_read+0x74>
-		select_controller(B_CS2);
 200007d6:	2010      	movs	r0, #16
 200007d8:	f7ff ff60 	bl	2000069c <select_controller>
-		graphic_wait_ready();
 200007dc:	f7ff ff8b 	bl	200006f6 <graphic_wait_ready>
-		//case B_CS1 | B_CS2: select_controller(B_CS1 | B_CS2); break;
-		//default: select_controller(0);
-	}*/
-	//graphic_wait_ready();
-	
-	return RV;
 200007e0:	230f      	movs	r3, #15
 200007e2:	18fb      	adds	r3, r7, r3
 200007e4:	781b      	ldrb	r3, [r3, #0]
-}
 200007e6:	0018      	movs	r0, r3
 200007e8:	46bd      	mov	sp, r7
 200007ea:	b004      	add	sp, #16
@@ -1272,8 +948,6 @@ uint8_t graphic_read(uint8_t controller){
 200007f8:	55555555 	ldrbpl	r5, [r5, #-1365]	; 0xfffffaab
 
 200007fc <graphic_write>:
-
-void graphic_write(uint8_t value, uint8_t controller){
 200007fc:	b580      	push	{r7, lr}
 200007fe:	b082      	sub	sp, #8
 20000800:	af00      	add	r7, sp, #0
@@ -1283,69 +957,43 @@ void graphic_write(uint8_t value, uint8_t controller){
 20000808:	1dbb      	adds	r3, r7, #6
 2000080a:	1c0a      	adds	r2, r1, #0
 2000080c:	701a      	strb	r2, [r3, #0]
-	//datareg to value
-	GPIO_E.odrHigh = value;
 2000080e:	4a1a      	ldr	r2, [pc, #104]	; (20000878 <graphic_write+0x7c>)
 20000810:	1dfb      	adds	r3, r7, #7
 20000812:	781b      	ldrb	r3, [r3, #0]
 20000814:	7553      	strb	r3, [r2, #21]
-	select_controller(controller);
 20000816:	1dbb      	adds	r3, r7, #6
 20000818:	781b      	ldrb	r3, [r3, #0]
 2000081a:	0018      	movs	r0, r3
 2000081c:	f7ff ff3e 	bl	2000069c <select_controller>
-	delay_500ns();
 20000820:	f000 fef6 	bl	20001610 <delay_500ns>
-	
-	graphic_ctrl_bit_set(B_E);
 20000824:	2040      	movs	r0, #64	; 0x40
 20000826:	f7ff fed5 	bl	200005d4 <graphic_ctrl_bit_set>
-	delay_500ns();
 2000082a:	f000 fef1 	bl	20001610 <delay_500ns>
-	graphic_ctrl_bit_clear(B_E);
 2000082e:	2040      	movs	r0, #64	; 0x40
 20000830:	f7ff ff00 	bl	20000634 <graphic_ctrl_bit_clear>
-	
-	//select actual controller, wait while we read
-	if (controller & B_CS1){
 20000834:	1dbb      	adds	r3, r7, #6
 20000836:	781b      	ldrb	r3, [r3, #0]
 20000838:	2208      	movs	r2, #8
 2000083a:	4013      	ands	r3, r2
 2000083c:	d004      	beq.n	20000848 <graphic_write+0x4c>
-		select_controller(B_CS1);
 2000083e:	2008      	movs	r0, #8
 20000840:	f7ff ff2c 	bl	2000069c <select_controller>
-		graphic_wait_ready();
 20000844:	f7ff ff57 	bl	200006f6 <graphic_wait_ready>
-	}
-	if (controller & B_CS2){
 20000848:	1dbb      	adds	r3, r7, #6
 2000084a:	781b      	ldrb	r3, [r3, #0]
 2000084c:	2210      	movs	r2, #16
 2000084e:	4013      	ands	r3, r2
 20000850:	d004      	beq.n	2000085c <graphic_write+0x60>
-		select_controller(B_CS2);
 20000852:	2010      	movs	r0, #16
 20000854:	f7ff ff22 	bl	2000069c <select_controller>
-		graphic_wait_ready();
 20000858:	f7ff ff4d 	bl	200006f6 <graphic_wait_ready>
-	}
-	
-	//datareg to 0
-	GPIO_E.odrHigh = 0;
 2000085c:	4b06      	ldr	r3, [pc, #24]	; (20000878 <graphic_write+0x7c>)
 2000085e:	2200      	movs	r2, #0
 20000860:	755a      	strb	r2, [r3, #21]
-	graphic_ctrl_bit_set(B_E);
 20000862:	2040      	movs	r0, #64	; 0x40
 20000864:	f7ff feb6 	bl	200005d4 <graphic_ctrl_bit_set>
-	
-	//set controller to 0
-	select_controller(0);
 20000868:	2000      	movs	r0, #0
 2000086a:	f7ff ff17 	bl	2000069c <select_controller>
-}
 2000086e:	46c0      	nop			; (mov r8, r8)
 20000870:	46bd      	mov	sp, r7
 20000872:	b002      	add	sp, #8
@@ -1354,8 +1002,6 @@ void graphic_write(uint8_t value, uint8_t controller){
 20000878:	40021000 	andmi	r1, r2, r0
 
 2000087c <graphic_write_command>:
-
-void graphic_write_command(uint8_t command, uint8_t controller){
 2000087c:	b580      	push	{r7, lr}
 2000087e:	b082      	sub	sp, #8
 20000880:	af00      	add	r7, sp, #0
@@ -1365,18 +1011,14 @@ void graphic_write_command(uint8_t command, uint8_t controller){
 20000888:	1dbb      	adds	r3, r7, #6
 2000088a:	1c0a      	adds	r2, r1, #0
 2000088c:	701a      	strb	r2, [r3, #0]
-	graphic_ctrl_bit_clear(B_E);
 2000088e:	2040      	movs	r0, #64	; 0x40
 20000890:	f7ff fed0 	bl	20000634 <graphic_ctrl_bit_clear>
-	select_controller(controller);
 20000894:	1dbb      	adds	r3, r7, #6
 20000896:	781b      	ldrb	r3, [r3, #0]
 20000898:	0018      	movs	r0, r3
 2000089a:	f7ff feff 	bl	2000069c <select_controller>
-	graphic_ctrl_bit_clear(B_RS | B_RW);
 2000089e:	2003      	movs	r0, #3
 200008a0:	f7ff fec8 	bl	20000634 <graphic_ctrl_bit_clear>
-	graphic_write(command, controller);
 200008a4:	1dbb      	adds	r3, r7, #6
 200008a6:	781a      	ldrb	r2, [r3, #0]
 200008a8:	1dfb      	adds	r3, r7, #7
@@ -1384,15 +1026,12 @@ void graphic_write_command(uint8_t command, uint8_t controller){
 200008ac:	0011      	movs	r1, r2
 200008ae:	0018      	movs	r0, r3
 200008b0:	f7ff ffa4 	bl	200007fc <graphic_write>
-}
 200008b4:	46c0      	nop			; (mov r8, r8)
 200008b6:	46bd      	mov	sp, r7
 200008b8:	b002      	add	sp, #8
 200008ba:	bd80      	pop	{r7, pc}
 
 200008bc <graphic_write_data>:
-
-void graphic_write_data(uint8_t data, uint8_t controller){
 200008bc:	b580      	push	{r7, lr}
 200008be:	b082      	sub	sp, #8
 200008c0:	af00      	add	r7, sp, #0
@@ -1402,21 +1041,16 @@ void graphic_write_data(uint8_t data, uint8_t controller){
 200008c8:	1dbb      	adds	r3, r7, #6
 200008ca:	1c0a      	adds	r2, r1, #0
 200008cc:	701a      	strb	r2, [r3, #0]
-	graphic_ctrl_bit_clear(B_E);
 200008ce:	2040      	movs	r0, #64	; 0x40
 200008d0:	f7ff feb0 	bl	20000634 <graphic_ctrl_bit_clear>
-	select_controller(controller);
 200008d4:	1dbb      	adds	r3, r7, #6
 200008d6:	781b      	ldrb	r3, [r3, #0]
 200008d8:	0018      	movs	r0, r3
 200008da:	f7ff fedf 	bl	2000069c <select_controller>
-	graphic_ctrl_bit_set(B_RS);
 200008de:	2001      	movs	r0, #1
 200008e0:	f7ff fe78 	bl	200005d4 <graphic_ctrl_bit_set>
-	graphic_ctrl_bit_clear(B_RW);
 200008e4:	2002      	movs	r0, #2
 200008e6:	f7ff fea5 	bl	20000634 <graphic_ctrl_bit_clear>
-	graphic_write(data, controller);
 200008ea:	1dbb      	adds	r3, r7, #6
 200008ec:	781a      	ldrb	r2, [r3, #0]
 200008ee:	1dfb      	adds	r3, r7, #7
@@ -1424,107 +1058,76 @@ void graphic_write_data(uint8_t data, uint8_t controller){
 200008f2:	0011      	movs	r1, r2
 200008f4:	0018      	movs	r0, r3
 200008f6:	f7ff ff81 	bl	200007fc <graphic_write>
-}
 200008fa:	46c0      	nop			; (mov r8, r8)
 200008fc:	46bd      	mov	sp, r7
 200008fe:	b002      	add	sp, #8
 20000900:	bd80      	pop	{r7, pc}
 
 20000902 <graphic_read_data>:
-
-uint8_t graphic_read_data(uint8_t controller){
 20000902:	b580      	push	{r7, lr}
 20000904:	b082      	sub	sp, #8
 20000906:	af00      	add	r7, sp, #0
 20000908:	0002      	movs	r2, r0
 2000090a:	1dfb      	adds	r3, r7, #7
 2000090c:	701a      	strb	r2, [r3, #0]
-	(void) graphic_read(controller);
 2000090e:	1dfb      	adds	r3, r7, #7
 20000910:	781b      	ldrb	r3, [r3, #0]
 20000912:	0018      	movs	r0, r3
 20000914:	f7ff ff2a 	bl	2000076c <graphic_read>
-	return graphic_read(controller);
 20000918:	1dfb      	adds	r3, r7, #7
 2000091a:	781b      	ldrb	r3, [r3, #0]
 2000091c:	0018      	movs	r0, r3
 2000091e:	f7ff ff25 	bl	2000076c <graphic_read>
 20000922:	0003      	movs	r3, r0
-}
 20000924:	0018      	movs	r0, r3
 20000926:	46bd      	mov	sp, r7
 20000928:	b002      	add	sp, #8
 2000092a:	bd80      	pop	{r7, pc}
 
 2000092c <graphic_initialize>:
-
-void graphic_initialize(void){
 2000092c:	b580      	push	{r7, lr}
 2000092e:	af00      	add	r7, sp, #0
-	graphic_ctrl_bit_set(B_E);
 20000930:	2040      	movs	r0, #64	; 0x40
 20000932:	f7ff fe4f 	bl	200005d4 <graphic_ctrl_bit_set>
-	
-	delay_mikro(10);
 20000936:	200a      	movs	r0, #10
 20000938:	f000 fe73 	bl	20001622 <delay_mikro>
-	
-	graphic_ctrl_bit_clear(B_CS1 | B_CS2 | B_RST | B_E);
 2000093c:	2078      	movs	r0, #120	; 0x78
 2000093e:	f7ff fe79 	bl	20000634 <graphic_ctrl_bit_clear>
-	
-	delay_milli(30);
 20000942:	201e      	movs	r0, #30
 20000944:	f000 fe82 	bl	2000164c <delay_milli>
-	graphic_ctrl_bit_set(B_RST);
 20000948:	2020      	movs	r0, #32
 2000094a:	f7ff fe43 	bl	200005d4 <graphic_ctrl_bit_set>
-	
-	delay_milli(100); // Added because NaN has it
 2000094e:	2064      	movs	r0, #100	; 0x64
 20000950:	f000 fe7c 	bl	2000164c <delay_milli>
-	
-	graphic_write_command(LCD_OFF, B_CS1 | B_CS2);
 20000954:	2118      	movs	r1, #24
 20000956:	203e      	movs	r0, #62	; 0x3e
 20000958:	f7ff ff90 	bl	2000087c <graphic_write_command>
-	graphic_write_command(LCD_ON, B_CS1 | B_CS2);
 2000095c:	2118      	movs	r1, #24
 2000095e:	203f      	movs	r0, #63	; 0x3f
 20000960:	f7ff ff8c 	bl	2000087c <graphic_write_command>
-	graphic_write_command(LCD_DISP_START, B_CS1 | B_CS2);
 20000964:	2118      	movs	r1, #24
 20000966:	20c0      	movs	r0, #192	; 0xc0
 20000968:	f7ff ff88 	bl	2000087c <graphic_write_command>
-	graphic_write_command(LCD_SET_ADD, B_CS1 | B_CS2);
 2000096c:	2118      	movs	r1, #24
 2000096e:	2040      	movs	r0, #64	; 0x40
 20000970:	f7ff ff84 	bl	2000087c <graphic_write_command>
-	graphic_write_command(LCD_SET_PAGE, B_CS1 | B_CS2);
 20000974:	2118      	movs	r1, #24
 20000976:	20b8      	movs	r0, #184	; 0xb8
 20000978:	f7ff ff80 	bl	2000087c <graphic_write_command>
-	
-	select_controller(0);
 2000097c:	2000      	movs	r0, #0
 2000097e:	f7ff fe8d 	bl	2000069c <select_controller>
-}
 20000982:	46c0      	nop			; (mov r8, r8)
 20000984:	46bd      	mov	sp, r7
 20000986:	bd80      	pop	{r7, pc}
 
 20000988 <graphic_clear_screen>:
-
-void graphic_clear_screen(void){
 20000988:	b580      	push	{r7, lr}
 2000098a:	b082      	sub	sp, #8
 2000098c:	af00      	add	r7, sp, #0
-	for(uint8_t page = 0; page < 8; page++){
 2000098e:	1dfb      	adds	r3, r7, #7
 20000990:	2200      	movs	r2, #0
 20000992:	701a      	strb	r2, [r3, #0]
 20000994:	e023      	b.n	200009de <graphic_clear_screen+0x56>
-		graphic_write_command(LCD_SET_PAGE | page, B_CS1 | B_CS2);
 20000996:	1dfb      	adds	r3, r7, #7
 20000998:	781b      	ldrb	r3, [r3, #0]
 2000099a:	2248      	movs	r2, #72	; 0x48
@@ -1534,21 +1137,16 @@ void graphic_clear_screen(void){
 200009a2:	2118      	movs	r1, #24
 200009a4:	0018      	movs	r0, r3
 200009a6:	f7ff ff69 	bl	2000087c <graphic_write_command>
-		graphic_write_command(LCD_SET_ADD, B_CS1 | B_CS2);
 200009aa:	2118      	movs	r1, #24
 200009ac:	2040      	movs	r0, #64	; 0x40
 200009ae:	f7ff ff65 	bl	2000087c <graphic_write_command>
-		
-		for(uint8_t add = 0; add < 64; add++){
 200009b2:	1dbb      	adds	r3, r7, #6
 200009b4:	2200      	movs	r2, #0
 200009b6:	701a      	strb	r2, [r3, #0]
 200009b8:	e008      	b.n	200009cc <graphic_clear_screen+0x44>
-			graphic_write_data(0, B_CS1 | B_CS2);
 200009ba:	2118      	movs	r1, #24
 200009bc:	2000      	movs	r0, #0
 200009be:	f7ff ff7d 	bl	200008bc <graphic_write_data>
-		for(uint8_t add = 0; add < 64; add++){
 200009c2:	1dbb      	adds	r3, r7, #6
 200009c4:	781a      	ldrb	r2, [r3, #0]
 200009c6:	1dbb      	adds	r3, r7, #6
@@ -1558,7 +1156,6 @@ void graphic_clear_screen(void){
 200009ce:	781b      	ldrb	r3, [r3, #0]
 200009d0:	2b3f      	cmp	r3, #63	; 0x3f
 200009d2:	d9f2      	bls.n	200009ba <graphic_clear_screen+0x32>
-	for(uint8_t page = 0; page < 8; page++){
 200009d4:	1dfb      	adds	r3, r7, #7
 200009d6:	781a      	ldrb	r2, [r3, #0]
 200009d8:	1dfb      	adds	r3, r7, #7
@@ -1568,17 +1165,12 @@ void graphic_clear_screen(void){
 200009e0:	781b      	ldrb	r3, [r3, #0]
 200009e2:	2b07      	cmp	r3, #7
 200009e4:	d9d7      	bls.n	20000996 <graphic_clear_screen+0xe>
-		}
-	}
-}
 200009e6:	46c0      	nop			; (mov r8, r8)
 200009e8:	46bd      	mov	sp, r7
 200009ea:	b002      	add	sp, #8
 200009ec:	bd80      	pop	{r7, pc}
 
 200009ee <pixel>:
-
-void pixel(uint8_t x, uint8_t y, uint8_t set){
 200009ee:	b590      	push	{r4, r7, lr}
 200009f0:	b085      	sub	sp, #20
 200009f2:	af00      	add	r7, sp, #0
@@ -1594,8 +1186,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000a06:	1d7b      	adds	r3, r7, #5
 20000a08:	1c0a      	adds	r2, r1, #0
 20000a0a:	701a      	strb	r2, [r3, #0]
-    // Validate values for input variables
-    if(x < 1 || x > 128){
 20000a0c:	1dfb      	adds	r3, r7, #7
 20000a0e:	781b      	ldrb	r3, [r3, #0]
 20000a10:	2b00      	cmp	r3, #0
@@ -1606,9 +1196,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000a1a:	2b80      	cmp	r3, #128	; 0x80
 20000a1c:	d900      	bls.n	20000a20 <pixel+0x32>
 20000a1e:	e0af      	b.n	20000b80 <pixel+0x192>
-        return;
-    }
-    if(y < 1 || y > 64){
 20000a20:	1dbb      	adds	r3, r7, #6
 20000a22:	781b      	ldrb	r3, [r3, #0]
 20000a24:	2b00      	cmp	r3, #0
@@ -1619,9 +1206,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000a2e:	2b40      	cmp	r3, #64	; 0x40
 20000a30:	d900      	bls.n	20000a34 <pixel+0x46>
 20000a32:	e0a7      	b.n	20000b84 <pixel+0x196>
-        return;
-    }
-    if(set != 1 && set != 0){
 20000a34:	1d7b      	adds	r3, r7, #5
 20000a36:	781b      	ldrb	r3, [r3, #0]
 20000a38:	2b01      	cmp	r3, #1
@@ -1631,10 +1215,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000a40:	2b00      	cmp	r3, #0
 20000a42:	d000      	beq.n	20000a46 <pixel+0x58>
 20000a44:	e0a0      	b.n	20000b88 <pixel+0x19a>
-        return;
-    }
-    
-    uint8_t index = (y-1)/8;
 20000a46:	1dbb      	adds	r3, r7, #6
 20000a48:	781b      	ldrb	r3, [r3, #0]
 20000a4a:	3b01      	subs	r3, #1
@@ -1646,13 +1226,10 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000a56:	230c      	movs	r3, #12
 20000a58:	18fb      	adds	r3, r7, r3
 20000a5a:	701a      	strb	r2, [r3, #0]
-    // Create mask for y, works as well as switch from book, but with less code
-    uint8_t mask = 1;
 20000a5c:	230f      	movs	r3, #15
 20000a5e:	18fb      	adds	r3, r7, r3
 20000a60:	2201      	movs	r2, #1
 20000a62:	701a      	strb	r2, [r3, #0]
-    mask = mask << ((y-1)%8);
 20000a64:	230f      	movs	r3, #15
 20000a66:	18fb      	adds	r3, r7, r3
 20000a68:	781a      	ldrb	r2, [r3, #0]
@@ -1671,17 +1248,10 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000a82:	230f      	movs	r3, #15
 20000a84:	18fb      	adds	r3, r7, r3
 20000a86:	701a      	strb	r2, [r3, #0]
-		case 6: mask = 0x40; break;
-		case 7: mask = 0x80; break;
-	}*/
-    
-    // Invert mask if the bit is going to get cleared
-    if(set == 0){
 20000a88:	1d7b      	adds	r3, r7, #5
 20000a8a:	781b      	ldrb	r3, [r3, #0]
 20000a8c:	2b00      	cmp	r3, #0
 20000a8e:	d106      	bne.n	20000a9e <pixel+0xb0>
-        mask = ~mask;
 20000a90:	230f      	movs	r3, #15
 20000a92:	18fb      	adds	r3, r7, r3
 20000a94:	220f      	movs	r2, #15
@@ -1689,22 +1259,14 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000a98:	7812      	ldrb	r2, [r2, #0]
 20000a9a:	43d2      	mvns	r2, r2
 20000a9c:	701a      	strb	r2, [r3, #0]
-    }
-    
-    uint8_t x_actual;
-    uint8_t controller;
-    // Select applicable chip (screen half), and store the actual value of x
-    if(x > 64){
 20000a9e:	1dfb      	adds	r3, r7, #7
 20000aa0:	781b      	ldrb	r3, [r3, #0]
 20000aa2:	2b40      	cmp	r3, #64	; 0x40
 20000aa4:	d90a      	bls.n	20000abc <pixel+0xce>
-        controller = B_CS2;
 20000aa6:	230d      	movs	r3, #13
 20000aa8:	18fb      	adds	r3, r7, r3
 20000aaa:	2210      	movs	r2, #16
 20000aac:	701a      	strb	r2, [r3, #0]
-        x_actual = x - 65;
 20000aae:	230e      	movs	r3, #14
 20000ab0:	18fb      	adds	r3, r7, r3
 20000ab2:	1dfa      	adds	r2, r7, #7
@@ -1712,22 +1274,16 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000ab6:	3a41      	subs	r2, #65	; 0x41
 20000ab8:	701a      	strb	r2, [r3, #0]
 20000aba:	e009      	b.n	20000ad0 <pixel+0xe2>
-    } else {
-        controller = B_CS1;
 20000abc:	230d      	movs	r3, #13
 20000abe:	18fb      	adds	r3, r7, r3
 20000ac0:	2208      	movs	r2, #8
 20000ac2:	701a      	strb	r2, [r3, #0]
-        x_actual = x - 1;
 20000ac4:	230e      	movs	r3, #14
 20000ac6:	18fb      	adds	r3, r7, r3
 20000ac8:	1dfa      	adds	r2, r7, #7
 20000aca:	7812      	ldrb	r2, [r2, #0]
 20000acc:	3a01      	subs	r2, #1
 20000ace:	701a      	strb	r2, [r3, #0]
-    }
-    
-    graphic_write_command(LCD_SET_ADD | x_actual, controller);
 20000ad0:	230e      	movs	r3, #14
 20000ad2:	18fb      	adds	r3, r7, r3
 20000ad4:	781b      	ldrb	r3, [r3, #0]
@@ -1740,7 +1296,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000ae2:	0019      	movs	r1, r3
 20000ae4:	0010      	movs	r0, r2
 20000ae6:	f7ff fec9 	bl	2000087c <graphic_write_command>
-    graphic_write_command(LCD_SET_PAGE | index, controller);
 20000aea:	230c      	movs	r3, #12
 20000aec:	18fb      	adds	r3, r7, r3
 20000aee:	781b      	ldrb	r3, [r3, #0]
@@ -1754,7 +1309,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000afe:	0019      	movs	r1, r3
 20000b00:	0010      	movs	r0, r2
 20000b02:	f7ff febb 	bl	2000087c <graphic_write_command>
-    uint8_t temp = graphic_read_data(controller);
 20000b06:	230b      	movs	r3, #11
 20000b08:	18fc      	adds	r4, r7, r3
 20000b0a:	230d      	movs	r3, #13
@@ -1764,7 +1318,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000b12:	f7ff fef6 	bl	20000902 <graphic_read_data>
 20000b16:	0003      	movs	r3, r0
 20000b18:	7023      	strb	r3, [r4, #0]
-    graphic_write_command(LCD_SET_ADD | x_actual, controller);
 20000b1a:	230e      	movs	r3, #14
 20000b1c:	18fb      	adds	r3, r7, r3
 20000b1e:	781b      	ldrb	r3, [r3, #0]
@@ -1777,12 +1330,10 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000b2c:	0019      	movs	r1, r3
 20000b2e:	0010      	movs	r0, r2
 20000b30:	f7ff fea4 	bl	2000087c <graphic_write_command>
-    if(set == 1){
 20000b34:	1d7b      	adds	r3, r7, #5
 20000b36:	781b      	ldrb	r3, [r3, #0]
 20000b38:	2b01      	cmp	r3, #1
 20000b3a:	d10a      	bne.n	20000b52 <pixel+0x164>
-        mask |= temp;
 20000b3c:	230f      	movs	r3, #15
 20000b3e:	18fb      	adds	r3, r7, r3
 20000b40:	220f      	movs	r2, #15
@@ -1794,8 +1345,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000b4c:	430a      	orrs	r2, r1
 20000b4e:	701a      	strb	r2, [r3, #0]
 20000b50:	e009      	b.n	20000b66 <pixel+0x178>
-    } else {
-        mask &= temp;
 20000b52:	230f      	movs	r3, #15
 20000b54:	18fb      	adds	r3, r7, r3
 20000b56:	220f      	movs	r2, #15
@@ -1806,8 +1355,6 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000b60:	7809      	ldrb	r1, [r1, #0]
 20000b62:	400a      	ands	r2, r1
 20000b64:	701a      	strb	r2, [r3, #0]
-    }
-    graphic_write_data(mask, controller);
 20000b66:	230d      	movs	r3, #13
 20000b68:	18fb      	adds	r3, r7, r3
 20000b6a:	781a      	ldrb	r2, [r3, #0]
@@ -1817,35 +1364,26 @@ void pixel(uint8_t x, uint8_t y, uint8_t set){
 20000b72:	0011      	movs	r1, r2
 20000b74:	0018      	movs	r0, r3
 20000b76:	f7ff fea1 	bl	200008bc <graphic_write_data>
-	delay_500ns();
 20000b7a:	f000 fd49 	bl	20001610 <delay_500ns>
 20000b7e:	e004      	b.n	20000b8a <pixel+0x19c>
-        return;
 20000b80:	46c0      	nop			; (mov r8, r8)
 20000b82:	e002      	b.n	20000b8a <pixel+0x19c>
-        return;
 20000b84:	46c0      	nop			; (mov r8, r8)
 20000b86:	e000      	b.n	20000b8a <pixel+0x19c>
-        return;
 20000b88:	46c0      	nop			; (mov r8, r8)
-}
 20000b8a:	46bd      	mov	sp, r7
 20000b8c:	b005      	add	sp, #20
 20000b8e:	bd90      	pop	{r4, r7, pc}
 20000b90:	80000007 	andhi	r0, r0, r7
 
 20000b94 <draw_object>:
-
-void draw_object(POBJECT object){
 20000b94:	b580      	push	{r7, lr}
 20000b96:	b084      	sub	sp, #16
 20000b98:	af00      	add	r7, sp, #0
 20000b9a:	6078      	str	r0, [r7, #4]
-	for(int i = 0; i < object->geo->numpoints; i++){
 20000b9c:	2300      	movs	r3, #0
 20000b9e:	60fb      	str	r3, [r7, #12]
 20000ba0:	e020      	b.n	20000be4 <draw_object+0x50>
-		pixel(object->geo->px[i].x + object->pos_x, object->geo->px[i].y + object->pos_y, 1);
 20000ba2:	687b      	ldr	r3, [r7, #4]
 20000ba4:	681a      	ldr	r2, [r3, #0]
 20000ba6:	68fb      	ldr	r3, [r7, #12]
@@ -1875,7 +1413,6 @@ void draw_object(POBJECT object){
 20000bd6:	2201      	movs	r2, #1
 20000bd8:	0019      	movs	r1, r3
 20000bda:	f7ff ff08 	bl	200009ee <pixel>
-	for(int i = 0; i < object->geo->numpoints; i++){
 20000bde:	68fb      	ldr	r3, [r7, #12]
 20000be0:	3301      	adds	r3, #1
 20000be2:	60fb      	str	r3, [r7, #12]
@@ -1885,25 +1422,19 @@ void draw_object(POBJECT object){
 20000bea:	68fb      	ldr	r3, [r7, #12]
 20000bec:	429a      	cmp	r2, r3
 20000bee:	dcd8      	bgt.n	20000ba2 <draw_object+0xe>
-	}
-}
 20000bf0:	46c0      	nop			; (mov r8, r8)
 20000bf2:	46bd      	mov	sp, r7
 20000bf4:	b004      	add	sp, #16
 20000bf6:	bd80      	pop	{r7, pc}
 
 20000bf8 <clear_object>:
-
-void clear_object(POBJECT object){
 20000bf8:	b580      	push	{r7, lr}
 20000bfa:	b084      	sub	sp, #16
 20000bfc:	af00      	add	r7, sp, #0
 20000bfe:	6078      	str	r0, [r7, #4]
-	for(int i = 0; i < object->geo->numpoints; i++){
 20000c00:	2300      	movs	r3, #0
 20000c02:	60fb      	str	r3, [r7, #12]
 20000c04:	e020      	b.n	20000c48 <clear_object+0x50>
-		pixel(object->geo->px[i].x + object->pos_x, object->geo->px[i].y + object->pos_y, 0);
 20000c06:	687b      	ldr	r3, [r7, #4]
 20000c08:	681a      	ldr	r2, [r3, #0]
 20000c0a:	68fb      	ldr	r3, [r7, #12]
@@ -1933,7 +1464,6 @@ void clear_object(POBJECT object){
 20000c3a:	2200      	movs	r2, #0
 20000c3c:	0019      	movs	r1, r3
 20000c3e:	f7ff fed6 	bl	200009ee <pixel>
-	for(int i = 0; i < object->geo->numpoints; i++){
 20000c42:	68fb      	ldr	r3, [r7, #12]
 20000c44:	3301      	adds	r3, #1
 20000c46:	60fb      	str	r3, [r7, #12]
@@ -1943,25 +1473,19 @@ void clear_object(POBJECT object){
 20000c4e:	68fb      	ldr	r3, [r7, #12]
 20000c50:	429a      	cmp	r2, r3
 20000c52:	dcd8      	bgt.n	20000c06 <clear_object+0xe>
-	}
-}
 20000c54:	46c0      	nop			; (mov r8, r8)
 20000c56:	46bd      	mov	sp, r7
 20000c58:	b004      	add	sp, #16
 20000c5a:	bd80      	pop	{r7, pc}
 
 20000c5c <move_object>:
-
-void move_object(POBJECT object){
 20000c5c:	b580      	push	{r7, lr}
 20000c5e:	b082      	sub	sp, #8
 20000c60:	af00      	add	r7, sp, #0
 20000c62:	6078      	str	r0, [r7, #4]
-	clear_object(object);
 20000c64:	687b      	ldr	r3, [r7, #4]
 20000c66:	0018      	movs	r0, r3
 20000c68:	f7ff ffc6 	bl	20000bf8 <clear_object>
-	object->pos_x += object->dir_x;
 20000c6c:	687b      	ldr	r3, [r7, #4]
 20000c6e:	68da      	ldr	r2, [r3, #12]
 20000c70:	687b      	ldr	r3, [r7, #4]
@@ -1969,7 +1493,6 @@ void move_object(POBJECT object){
 20000c74:	18d2      	adds	r2, r2, r3
 20000c76:	687b      	ldr	r3, [r7, #4]
 20000c78:	60da      	str	r2, [r3, #12]
-	object->pos_y += object->dir_y;
 20000c7a:	687b      	ldr	r3, [r7, #4]
 20000c7c:	691a      	ldr	r2, [r3, #16]
 20000c7e:	687b      	ldr	r3, [r7, #4]
@@ -1977,9 +1500,6 @@ void move_object(POBJECT object){
 20000c82:	18d2      	adds	r2, r2, r3
 20000c84:	687b      	ldr	r3, [r7, #4]
 20000c86:	611a      	str	r2, [r3, #16]
-	
-	//bounce if object reaches edges of screen
-	if (object->pos_x < 1 || (object->pos_x + object->geo->size_x) > 128){
 20000c88:	687b      	ldr	r3, [r7, #4]
 20000c8a:	68db      	ldr	r3, [r3, #12]
 20000c8c:	2b00      	cmp	r3, #0
@@ -1992,14 +1512,11 @@ void move_object(POBJECT object){
 20000c9a:	18d3      	adds	r3, r2, r3
 20000c9c:	2b80      	cmp	r3, #128	; 0x80
 20000c9e:	dd04      	ble.n	20000caa <move_object+0x4e>
-		object->dir_x = -object->dir_x;
 20000ca0:	687b      	ldr	r3, [r7, #4]
 20000ca2:	685b      	ldr	r3, [r3, #4]
 20000ca4:	425a      	negs	r2, r3
 20000ca6:	687b      	ldr	r3, [r7, #4]
 20000ca8:	605a      	str	r2, [r3, #4]
-	}
-	if (object->pos_y < 1 || (object->pos_y + object->geo->size_y) > 64){
 20000caa:	687b      	ldr	r3, [r7, #4]
 20000cac:	691b      	ldr	r3, [r3, #16]
 20000cae:	2b00      	cmp	r3, #0
@@ -2012,58 +1529,43 @@ void move_object(POBJECT object){
 20000cbc:	18d3      	adds	r3, r2, r3
 20000cbe:	2b40      	cmp	r3, #64	; 0x40
 20000cc0:	dd04      	ble.n	20000ccc <move_object+0x70>
-		object->dir_y = -object->dir_y;
 20000cc2:	687b      	ldr	r3, [r7, #4]
 20000cc4:	689b      	ldr	r3, [r3, #8]
 20000cc6:	425a      	negs	r2, r3
 20000cc8:	687b      	ldr	r3, [r7, #4]
 20000cca:	609a      	str	r2, [r3, #8]
-	}
-	
-	draw_object(object);
 20000ccc:	687b      	ldr	r3, [r7, #4]
 20000cce:	0018      	movs	r0, r3
 20000cd0:	f7ff ff60 	bl	20000b94 <draw_object>
-}
 20000cd4:	46c0      	nop			; (mov r8, r8)
 20000cd6:	46bd      	mov	sp, r7
 20000cd8:	b002      	add	sp, #8
 20000cda:	bd80      	pop	{r7, pc}
 
 20000cdc <set_object_speed>:
-
-void set_object_speed(POBJECT object, int x, int y){
 20000cdc:	b580      	push	{r7, lr}
 20000cde:	b084      	sub	sp, #16
 20000ce0:	af00      	add	r7, sp, #0
 20000ce2:	60f8      	str	r0, [r7, #12]
 20000ce4:	60b9      	str	r1, [r7, #8]
 20000ce6:	607a      	str	r2, [r7, #4]
-	object->dir_x = x;
 20000ce8:	68fb      	ldr	r3, [r7, #12]
 20000cea:	68ba      	ldr	r2, [r7, #8]
 20000cec:	605a      	str	r2, [r3, #4]
-	object->dir_y = y;
 20000cee:	68fb      	ldr	r3, [r7, #12]
 20000cf0:	687a      	ldr	r2, [r7, #4]
 20000cf2:	609a      	str	r2, [r3, #8]
-}
 20000cf4:	46c0      	nop			; (mov r8, r8)
 20000cf6:	46bd      	mov	sp, r7
 20000cf8:	b004      	add	sp, #16
 20000cfa:	bd80      	pop	{r7, pc}
 
 20000cfc <graphicdisplay_init>:
-
-void graphicdisplay_init(void){
 20000cfc:	b580      	push	{r7, lr}
 20000cfe:	af00      	add	r7, sp, #0
-	//port E is output
-	GPIO_E.moder = 0x55555555;
 20000d00:	4b04      	ldr	r3, [pc, #16]	; (20000d14 <graphicdisplay_init+0x18>)
 20000d02:	4a05      	ldr	r2, [pc, #20]	; (20000d18 <graphicdisplay_init+0x1c>)
 20000d04:	601a      	str	r2, [r3, #0]
-	GPIO_E.ospeedr = 0x55555555;
 20000d06:	4b03      	ldr	r3, [pc, #12]	; (20000d14 <graphicdisplay_init+0x18>)
 20000d08:	4a03      	ldr	r2, [pc, #12]	; (20000d18 <graphicdisplay_init+0x1c>)
 20000d0a:	609a      	str	r2, [r3, #8]
@@ -2075,45 +1577,27 @@ void graphicdisplay_init(void){
 20000d18:	55555555 	ldrbpl	r5, [r5, #-1365]	; 0xfffffaab
 
 20000d1c <asciidisplay_init>:
-#include "asciidisplay.h"
-
-void asciidisplay_init(void){    
 20000d1c:	b580      	push	{r7, lr}
 20000d1e:	af00      	add	r7, sp, #0
-    // Port E -> output
-    GPIO_E.moder = 0x55555555;
 20000d20:	4b0c      	ldr	r3, [pc, #48]	; (20000d54 <asciidisplay_init+0x38>)
 20000d22:	4a0d      	ldr	r2, [pc, #52]	; (20000d58 <asciidisplay_init+0x3c>)
 20000d24:	601a      	str	r2, [r3, #0]
-    
-    //ascii_ctrl_bit_clear(B_E);
-    
-    // ***DISPLAY INIT***    
-    // 2 rows, characters are 5x8 dots
-    ascii_command(0x38, 39, 1);
 20000d26:	2201      	movs	r2, #1
 20000d28:	2127      	movs	r1, #39	; 0x27
 20000d2a:	2038      	movs	r0, #56	; 0x38
 20000d2c:	f000 f912 	bl	20000f54 <ascii_command>
-    // Turn on display, turn on cursor, cursor not blinking
-    ascii_command(0xE, 39, 1);
 20000d30:	2201      	movs	r2, #1
 20000d32:	2127      	movs	r1, #39	; 0x27
 20000d34:	200e      	movs	r0, #14
 20000d36:	f000 f90d 	bl	20000f54 <ascii_command>
-    // Clear display
-    ascii_command(0x1, 2, 0);
 20000d3a:	2200      	movs	r2, #0
 20000d3c:	2102      	movs	r1, #2
 20000d3e:	2001      	movs	r0, #1
 20000d40:	f000 f908 	bl	20000f54 <ascii_command>
-    // Increment mode, no shift
-    ascii_command(0x6, 39, 1);
 20000d44:	2201      	movs	r2, #1
 20000d46:	2127      	movs	r1, #39	; 0x27
 20000d48:	2006      	movs	r0, #6
 20000d4a:	f000 f903 	bl	20000f54 <ascii_command>
-}
 20000d4e:	46c0      	nop			; (mov r8, r8)
 20000d50:	46bd      	mov	sp, r7
 20000d52:	bd80      	pop	{r7, pc}
@@ -2121,16 +1605,12 @@ void asciidisplay_init(void){
 20000d58:	55555555 	ldrbpl	r5, [r5, #-1365]	; 0xfffffaab
 
 20000d5c <ascii_ctrl_bit_set>:
-
-void ascii_ctrl_bit_set(unsigned char x){
 20000d5c:	b580      	push	{r7, lr}
 20000d5e:	b084      	sub	sp, #16
 20000d60:	af00      	add	r7, sp, #0
 20000d62:	0002      	movs	r2, r0
 20000d64:	1dfb      	adds	r3, r7, #7
 20000d66:	701a      	strb	r2, [r3, #0]
-    // Set bits that are 1 in x to 1, leave rest be
-    GPIO_E.odrLow |= B_SELECT;
 20000d68:	4a10      	ldr	r2, [pc, #64]	; (20000dac <ascii_ctrl_bit_set+0x50>)
 20000d6a:	4b10      	ldr	r3, [pc, #64]	; (20000dac <ascii_ctrl_bit_set+0x50>)
 20000d6c:	7d1b      	ldrb	r3, [r3, #20]
@@ -2139,13 +1619,11 @@ void ascii_ctrl_bit_set(unsigned char x){
 20000d72:	430b      	orrs	r3, r1
 20000d74:	b2db      	uxtb	r3, r3
 20000d76:	7513      	strb	r3, [r2, #20]
-    unsigned char port_val = GPIO_E.odrLow;
 20000d78:	4a0c      	ldr	r2, [pc, #48]	; (20000dac <ascii_ctrl_bit_set+0x50>)
 20000d7a:	230f      	movs	r3, #15
 20000d7c:	18fb      	adds	r3, r7, r3
 20000d7e:	7d12      	ldrb	r2, [r2, #20]
 20000d80:	701a      	strb	r2, [r3, #0]
-    port_val |= x;
 20000d82:	230f      	movs	r3, #15
 20000d84:	18fb      	adds	r3, r7, r3
 20000d86:	220f      	movs	r2, #15
@@ -2155,7 +1633,6 @@ void ascii_ctrl_bit_set(unsigned char x){
 20000d8e:	7812      	ldrb	r2, [r2, #0]
 20000d90:	430a      	orrs	r2, r1
 20000d92:	701a      	strb	r2, [r3, #0]
-    GPIO_E.odrLow = (port_val | B_SELECT);
 20000d94:	4a05      	ldr	r2, [pc, #20]	; (20000dac <ascii_ctrl_bit_set+0x50>)
 20000d96:	230f      	movs	r3, #15
 20000d98:	18fb      	adds	r3, r7, r3
@@ -2164,7 +1641,6 @@ void ascii_ctrl_bit_set(unsigned char x){
 20000d9e:	430b      	orrs	r3, r1
 20000da0:	b2db      	uxtb	r3, r3
 20000da2:	7513      	strb	r3, [r2, #20]
-}
 20000da4:	46c0      	nop			; (mov r8, r8)
 20000da6:	46bd      	mov	sp, r7
 20000da8:	b004      	add	sp, #16
@@ -2172,16 +1648,12 @@ void ascii_ctrl_bit_set(unsigned char x){
 20000dac:	40021000 	andmi	r1, r2, r0
 
 20000db0 <ascii_ctrl_bit_clear>:
-
-void ascii_ctrl_bit_clear(unsigned char x){
 20000db0:	b580      	push	{r7, lr}
 20000db2:	b084      	sub	sp, #16
 20000db4:	af00      	add	r7, sp, #0
 20000db6:	0002      	movs	r2, r0
 20000db8:	1dfb      	adds	r3, r7, #7
 20000dba:	701a      	strb	r2, [r3, #0]
-    // Set any bits that are 0 in x to 0, leave rest as they were
-    GPIO_E.odrLow |= B_SELECT;
 20000dbc:	4a13      	ldr	r2, [pc, #76]	; (20000e0c <ascii_ctrl_bit_clear+0x5c>)
 20000dbe:	4b13      	ldr	r3, [pc, #76]	; (20000e0c <ascii_ctrl_bit_clear+0x5c>)
 20000dc0:	7d1b      	ldrb	r3, [r3, #20]
@@ -2190,13 +1662,11 @@ void ascii_ctrl_bit_clear(unsigned char x){
 20000dc6:	430b      	orrs	r3, r1
 20000dc8:	b2db      	uxtb	r3, r3
 20000dca:	7513      	strb	r3, [r2, #20]
-    unsigned char port_val = GPIO_E.odrLow;
 20000dcc:	4a0f      	ldr	r2, [pc, #60]	; (20000e0c <ascii_ctrl_bit_clear+0x5c>)
 20000dce:	230f      	movs	r3, #15
 20000dd0:	18fb      	adds	r3, r7, r3
 20000dd2:	7d12      	ldrb	r2, [r2, #20]
 20000dd4:	701a      	strb	r2, [r3, #0]
-    port_val &= (~x);
 20000dd6:	1dfb      	adds	r3, r7, #7
 20000dd8:	781b      	ldrb	r3, [r3, #0]
 20000dda:	b25b      	sxtb	r3, r3
@@ -2211,7 +1681,6 @@ void ascii_ctrl_bit_clear(unsigned char x){
 20000dec:	230f      	movs	r3, #15
 20000dee:	18fb      	adds	r3, r7, r3
 20000df0:	701a      	strb	r2, [r3, #0]
-    GPIO_E.odrLow = (port_val | B_SELECT);
 20000df2:	4a06      	ldr	r2, [pc, #24]	; (20000e0c <ascii_ctrl_bit_clear+0x5c>)
 20000df4:	230f      	movs	r3, #15
 20000df6:	18fb      	adds	r3, r7, r3
@@ -2220,8 +1689,6 @@ void ascii_ctrl_bit_clear(unsigned char x){
 20000dfc:	430b      	orrs	r3, r1
 20000dfe:	b2db      	uxtb	r3, r3
 20000e00:	7513      	strb	r3, [r2, #20]
-    //delay_250ns();
-}
 20000e02:	46c0      	nop			; (mov r8, r8)
 20000e04:	46bd      	mov	sp, r7
 20000e06:	b004      	add	sp, #16
@@ -2230,106 +1697,71 @@ void ascii_ctrl_bit_clear(unsigned char x){
 20000e0c:	40021000 	andmi	r1, r2, r0
 
 20000e10 <ascii_write_cmd>:
-
-void ascii_write_cmd(unsigned char command){
 20000e10:	b580      	push	{r7, lr}
 20000e12:	b082      	sub	sp, #8
 20000e14:	af00      	add	r7, sp, #0
 20000e16:	0002      	movs	r2, r0
 20000e18:	1dfb      	adds	r3, r7, #7
 20000e1a:	701a      	strb	r2, [r3, #0]
-    // Prepare display for sending command
-    ascii_ctrl_bit_clear(B_RS);
 20000e1c:	2001      	movs	r0, #1
 20000e1e:	f7ff ffc7 	bl	20000db0 <ascii_ctrl_bit_clear>
-    ascii_ctrl_bit_clear( B_RW);
 20000e22:	2002      	movs	r0, #2
 20000e24:	f7ff ffc4 	bl	20000db0 <ascii_ctrl_bit_clear>
-    
-    // Write command
-    ascii_write_controller(command);
 20000e28:	1dfb      	adds	r3, r7, #7
 20000e2a:	781b      	ldrb	r3, [r3, #0]
 20000e2c:	0018      	movs	r0, r3
 20000e2e:	f000 f861 	bl	20000ef4 <ascii_write_controller>
-}
 20000e32:	46c0      	nop			; (mov r8, r8)
 20000e34:	46bd      	mov	sp, r7
 20000e36:	b002      	add	sp, #8
 20000e38:	bd80      	pop	{r7, pc}
 
 20000e3a <ascii_write_data>:
-
-void ascii_write_data(unsigned char data){
 20000e3a:	b580      	push	{r7, lr}
 20000e3c:	b082      	sub	sp, #8
 20000e3e:	af00      	add	r7, sp, #0
 20000e40:	0002      	movs	r2, r0
 20000e42:	1dfb      	adds	r3, r7, #7
 20000e44:	701a      	strb	r2, [r3, #0]
-    // Prepare display for writing data
-    ascii_ctrl_bit_set(B_RS);
 20000e46:	2001      	movs	r0, #1
 20000e48:	f7ff ff88 	bl	20000d5c <ascii_ctrl_bit_set>
-    ascii_ctrl_bit_clear(B_RW);
 20000e4c:	2002      	movs	r0, #2
 20000e4e:	f7ff ffaf 	bl	20000db0 <ascii_ctrl_bit_clear>
-    
-    // Write data
-    ascii_write_controller(data);
 20000e52:	1dfb      	adds	r3, r7, #7
 20000e54:	781b      	ldrb	r3, [r3, #0]
 20000e56:	0018      	movs	r0, r3
 20000e58:	f000 f84c 	bl	20000ef4 <ascii_write_controller>
-}
 20000e5c:	46c0      	nop			; (mov r8, r8)
 20000e5e:	46bd      	mov	sp, r7
 20000e60:	b002      	add	sp, #8
 20000e62:	bd80      	pop	{r7, pc}
 
 20000e64 <ascii_read_data>:
-
-unsigned char ascii_read_data(void){
 20000e64:	b590      	push	{r4, r7, lr}
 20000e66:	b083      	sub	sp, #12
 20000e68:	af00      	add	r7, sp, #0
-    unsigned char return_value;
-    // Port E 8-15 -> input
-    GPIO_E.moder &= 0x0000FFFF;
 20000e6a:	4b0e      	ldr	r3, [pc, #56]	; (20000ea4 <ascii_read_data+0x40>)
 20000e6c:	4a0d      	ldr	r2, [pc, #52]	; (20000ea4 <ascii_read_data+0x40>)
 20000e6e:	6812      	ldr	r2, [r2, #0]
 20000e70:	0412      	lsls	r2, r2, #16
 20000e72:	0c12      	lsrs	r2, r2, #16
 20000e74:	601a      	str	r2, [r3, #0]
-    
-    // Prepare display for reading data
-    ascii_ctrl_bit_set(B_RW);
 20000e76:	2002      	movs	r0, #2
 20000e78:	f7ff ff70 	bl	20000d5c <ascii_ctrl_bit_set>
-    ascii_ctrl_bit_set(B_RS);
 20000e7c:	2001      	movs	r0, #1
 20000e7e:	f7ff ff6d 	bl	20000d5c <ascii_ctrl_bit_set>
-    
-    return_value = ascii_read_controller();
 20000e82:	1dfc      	adds	r4, r7, #7
 20000e84:	f000 f84e 	bl	20000f24 <ascii_read_controller>
 20000e88:	0003      	movs	r3, r0
 20000e8a:	7023      	strb	r3, [r4, #0]
-    
-    // Port E 8-15 -> output
-    GPIO_E.moder |= 0x55550000;
 20000e8c:	4b05      	ldr	r3, [pc, #20]	; (20000ea4 <ascii_read_data+0x40>)
 20000e8e:	4a05      	ldr	r2, [pc, #20]	; (20000ea4 <ascii_read_data+0x40>)
 20000e90:	6812      	ldr	r2, [r2, #0]
 20000e92:	4905      	ldr	r1, [pc, #20]	; (20000ea8 <ascii_read_data+0x44>)
 20000e94:	430a      	orrs	r2, r1
 20000e96:	601a      	str	r2, [r3, #0]
-    
-    return return_value;
 20000e98:	1dfb      	adds	r3, r7, #7
 20000e9a:	781b      	ldrb	r3, [r3, #0]
-}
 20000e9c:	0018      	movs	r0, r3
 20000e9e:	46bd      	mov	sp, r7
 20000ea0:	b003      	add	sp, #12
@@ -2338,49 +1770,31 @@ unsigned char ascii_read_data(void){
 20000ea8:	55550000 	ldrbpl	r0, [r5, #-0]
 
 20000eac <ascii_read_status>:
-
-unsigned char ascii_read_status(void){
 20000eac:	b590      	push	{r4, r7, lr}
 20000eae:	b083      	sub	sp, #12
 20000eb0:	af00      	add	r7, sp, #0
-    unsigned char return_value;
-    // Port E 8-15 -> input
-    GPIO_E.moder &= 0x0000FFFF;
 20000eb2:	4b0e      	ldr	r3, [pc, #56]	; (20000eec <ascii_read_status+0x40>)
 20000eb4:	4a0d      	ldr	r2, [pc, #52]	; (20000eec <ascii_read_status+0x40>)
 20000eb6:	6812      	ldr	r2, [r2, #0]
 20000eb8:	0412      	lsls	r2, r2, #16
 20000eba:	0c12      	lsrs	r2, r2, #16
 20000ebc:	601a      	str	r2, [r3, #0]
-    
-    // Prepare display for reading status and address
-    ascii_ctrl_bit_clear(B_RS);
 20000ebe:	2001      	movs	r0, #1
 20000ec0:	f7ff ff76 	bl	20000db0 <ascii_ctrl_bit_clear>
-    ascii_ctrl_bit_set(B_RW);
 20000ec4:	2002      	movs	r0, #2
 20000ec6:	f7ff ff49 	bl	20000d5c <ascii_ctrl_bit_set>
-    
-    // Read values from display
-    return_value = ascii_read_controller();
 20000eca:	1dfc      	adds	r4, r7, #7
 20000ecc:	f000 f82a 	bl	20000f24 <ascii_read_controller>
 20000ed0:	0003      	movs	r3, r0
 20000ed2:	7023      	strb	r3, [r4, #0]
-    
-    // Port E 8-15 -> output
-    GPIO_E.moder |= 0x55550000;
 20000ed4:	4b05      	ldr	r3, [pc, #20]	; (20000eec <ascii_read_status+0x40>)
 20000ed6:	4a05      	ldr	r2, [pc, #20]	; (20000eec <ascii_read_status+0x40>)
 20000ed8:	6812      	ldr	r2, [r2, #0]
 20000eda:	4905      	ldr	r1, [pc, #20]	; (20000ef0 <ascii_read_status+0x44>)
 20000edc:	430a      	orrs	r2, r1
 20000ede:	601a      	str	r2, [r3, #0]
-    
-    return return_value;
 20000ee0:	1dfb      	adds	r3, r7, #7
 20000ee2:	781b      	ldrb	r3, [r3, #0]
-}
 20000ee4:	0018      	movs	r0, r3
 20000ee6:	46bd      	mov	sp, r7
 20000ee8:	b003      	add	sp, #12
@@ -2389,35 +1803,21 @@ unsigned char ascii_read_status(void){
 20000ef0:	55550000 	ldrbpl	r0, [r5, #-0]
 
 20000ef4 <ascii_write_controller>:
-
-void ascii_write_controller(unsigned char byte){
 20000ef4:	b580      	push	{r7, lr}
 20000ef6:	b082      	sub	sp, #8
 20000ef8:	af00      	add	r7, sp, #0
 20000efa:	0002      	movs	r2, r0
 20000efc:	1dfb      	adds	r3, r7, #7
 20000efe:	701a      	strb	r2, [r3, #0]
-    // Set enable flag to 1
-    ascii_ctrl_bit_set(B_E);
 20000f00:	2040      	movs	r0, #64	; 0x40
 20000f02:	f7ff ff2b 	bl	20000d5c <ascii_ctrl_bit_set>
-    
-    // Set data register values
-    GPIO_E.odrHigh = byte;
 20000f06:	4a06      	ldr	r2, [pc, #24]	; (20000f20 <ascii_write_controller+0x2c>)
 20000f08:	1dfb      	adds	r3, r7, #7
 20000f0a:	781b      	ldrb	r3, [r3, #0]
 20000f0c:	7553      	strb	r3, [r2, #21]
-    
-    // Wait for 230ns (here at least 250, hope this should still work)
-    delay_250ns();
 20000f0e:	f000 fb4d 	bl	200015ac <delay_250ns>
-    
-    // Set enable flag to 0
-    ascii_ctrl_bit_clear(B_E);
 20000f12:	2040      	movs	r0, #64	; 0x40
 20000f14:	f7ff ff4c 	bl	20000db0 <ascii_ctrl_bit_clear>
-}
 20000f18:	46c0      	nop			; (mov r8, r8)
 20000f1a:	46bd      	mov	sp, r7
 20000f1c:	b002      	add	sp, #8
@@ -2425,38 +1825,20 @@ void ascii_write_controller(unsigned char byte){
 20000f20:	40021000 	andmi	r1, r2, r0
 
 20000f24 <ascii_read_controller>:
-
-unsigned char ascii_read_controller(void){
 20000f24:	b580      	push	{r7, lr}
 20000f26:	b082      	sub	sp, #8
 20000f28:	af00      	add	r7, sp, #0
-    unsigned char return_value;
-    
-    // Set enable flag to 1
-    ascii_ctrl_bit_set(B_E);
 20000f2a:	2040      	movs	r0, #64	; 0x40
 20000f2c:	f7ff ff16 	bl	20000d5c <ascii_ctrl_bit_set>
-    
-    // Wait for at least 360ns, here at least 500
-    delay_500ns();
 20000f30:	f000 fb6e 	bl	20001610 <delay_500ns>
-    
-    // Read data register
-    return_value = GPIO_E.idrHigh;
 20000f34:	4a06      	ldr	r2, [pc, #24]	; (20000f50 <ascii_read_controller+0x2c>)
 20000f36:	1dfb      	adds	r3, r7, #7
 20000f38:	7c52      	ldrb	r2, [r2, #17]
 20000f3a:	701a      	strb	r2, [r3, #0]
-    
-    // Set enable flag to 0
-    ascii_ctrl_bit_clear(B_E);
 20000f3c:	2040      	movs	r0, #64	; 0x40
 20000f3e:	f7ff ff37 	bl	20000db0 <ascii_ctrl_bit_clear>
-    
-    return return_value;
 20000f42:	1dfb      	adds	r3, r7, #7
 20000f44:	781b      	ldrb	r3, [r3, #0]
-}
 20000f46:	0018      	movs	r0, r3
 20000f48:	46bd      	mov	sp, r7
 20000f4a:	b002      	add	sp, #8
@@ -2465,8 +1847,6 @@ unsigned char ascii_read_controller(void){
 20000f50:	40021000 	andmi	r1, r2, r0
 
 20000f54 <ascii_command>:
-
-void ascii_command(unsigned char command, unsigned int post_command_delay, unsigned short us){    
 20000f54:	b580      	push	{r7, lr}
 20000f56:	b082      	sub	sp, #8
 20000f58:	af00      	add	r7, sp, #0
@@ -2478,138 +1858,91 @@ void ascii_command(unsigned char command, unsigned int post_command_delay, unsig
 20000f64:	1d3b      	adds	r3, r7, #4
 20000f66:	1c0a      	adds	r2, r1, #0
 20000f68:	801a      	strh	r2, [r3, #0]
-    // Wait until MSB in data register is 0, which means that the display ready to receive a command in 8us
-    while((ascii_read_status() & 0x80) != 0);
 20000f6a:	46c0      	nop			; (mov r8, r8)
 20000f6c:	f7ff ff9e 	bl	20000eac <ascii_read_status>
 20000f70:	0003      	movs	r3, r0
 20000f72:	b25b      	sxtb	r3, r3
 20000f74:	2b00      	cmp	r3, #0
 20000f76:	dbf9      	blt.n	20000f6c <ascii_command+0x18>
-    delay_mikro(8);
 20000f78:	2008      	movs	r0, #8
 20000f7a:	f000 fb52 	bl	20001622 <delay_mikro>
-    
-    // Send command
-    ascii_write_cmd(command);
 20000f7e:	1dfb      	adds	r3, r7, #7
 20000f80:	781b      	ldrb	r3, [r3, #0]
 20000f82:	0018      	movs	r0, r3
 20000f84:	f7ff ff44 	bl	20000e10 <ascii_write_cmd>
-    
-    // Wait for the entered amount of time
-    if(us == 1){
 20000f88:	1d3b      	adds	r3, r7, #4
 20000f8a:	881b      	ldrh	r3, [r3, #0]
 20000f8c:	2b01      	cmp	r3, #1
 20000f8e:	d104      	bne.n	20000f9a <ascii_command+0x46>
-        delay_mikro(post_command_delay);
 20000f90:	683b      	ldr	r3, [r7, #0]
 20000f92:	0018      	movs	r0, r3
 20000f94:	f000 fb45 	bl	20001622 <delay_mikro>
-    } else {
-        delay_milli(post_command_delay);
-    }
-}
 20000f98:	e003      	b.n	20000fa2 <ascii_command+0x4e>
-        delay_milli(post_command_delay);
 20000f9a:	683b      	ldr	r3, [r7, #0]
 20000f9c:	0018      	movs	r0, r3
 20000f9e:	f000 fb55 	bl	2000164c <delay_milli>
-}
 20000fa2:	46c0      	nop			; (mov r8, r8)
 20000fa4:	46bd      	mov	sp, r7
 20000fa6:	b002      	add	sp, #8
 20000fa8:	bd80      	pop	{r7, pc}
 
 20000faa <ascii_write_char>:
-
-void ascii_write_char(unsigned char character){
 20000faa:	b580      	push	{r7, lr}
 20000fac:	b082      	sub	sp, #8
 20000fae:	af00      	add	r7, sp, #0
 20000fb0:	0002      	movs	r2, r0
 20000fb2:	1dfb      	adds	r3, r7, #7
 20000fb4:	701a      	strb	r2, [r3, #0]
-    // Prepare to check if display ready
-    ascii_ctrl_bit_set(B_RW);
 20000fb6:	2002      	movs	r0, #2
 20000fb8:	f7ff fed0 	bl	20000d5c <ascii_ctrl_bit_set>
-    ascii_ctrl_bit_clear(B_RS);
 20000fbc:	2001      	movs	r0, #1
 20000fbe:	f7ff fef7 	bl	20000db0 <ascii_ctrl_bit_clear>
-    
-    // Wait until MSB in data register is 0, which means that the display ready to receive a command in 8us
-    while((ascii_read_status() & 0x80) != 0);
 20000fc2:	46c0      	nop			; (mov r8, r8)
 20000fc4:	f7ff ff72 	bl	20000eac <ascii_read_status>
 20000fc8:	0003      	movs	r3, r0
 20000fca:	b25b      	sxtb	r3, r3
 20000fcc:	2b00      	cmp	r3, #0
 20000fce:	dbf9      	blt.n	20000fc4 <ascii_write_char+0x1a>
-    delay_mikro(8);
 20000fd0:	2008      	movs	r0, #8
 20000fd2:	f000 fb26 	bl	20001622 <delay_mikro>
-    
-    // Write character do display
-    ascii_write_data(character);
 20000fd6:	1dfb      	adds	r3, r7, #7
 20000fd8:	781b      	ldrb	r3, [r3, #0]
 20000fda:	0018      	movs	r0, r3
 20000fdc:	f7ff ff2d 	bl	20000e3a <ascii_write_data>
-    
-    // Delay for 43us
-    delay_mikro(43);
 20000fe0:	202b      	movs	r0, #43	; 0x2b
 20000fe2:	f000 fb1e 	bl	20001622 <delay_mikro>
-}
 20000fe6:	46c0      	nop			; (mov r8, r8)
 20000fe8:	46bd      	mov	sp, r7
 20000fea:	b002      	add	sp, #8
 20000fec:	bd80      	pop	{r7, pc}
 
 20000fee <gotoxy>:
-
-void gotoxy(unsigned int row, unsigned int column){
 20000fee:	b580      	push	{r7, lr}
 20000ff0:	b084      	sub	sp, #16
 20000ff2:	af00      	add	r7, sp, #0
 20000ff4:	6078      	str	r0, [r7, #4]
 20000ff6:	6039      	str	r1, [r7, #0]
-    // Make sure row not out of bounds
-    if(row < 1 || row > 20){
 20000ff8:	687b      	ldr	r3, [r7, #4]
 20000ffa:	2b00      	cmp	r3, #0
 20000ffc:	d025      	beq.n	2000104a <gotoxy+0x5c>
 20000ffe:	687b      	ldr	r3, [r7, #4]
 20001000:	2b14      	cmp	r3, #20
 20001002:	d822      	bhi.n	2000104a <gotoxy+0x5c>
-        return;
-    }
-    // Make sure column not out of bounds
-    if(column < 1 || column > 2){
 20001004:	683b      	ldr	r3, [r7, #0]
 20001006:	2b00      	cmp	r3, #0
 20001008:	d021      	beq.n	2000104e <gotoxy+0x60>
 2000100a:	683b      	ldr	r3, [r7, #0]
 2000100c:	2b02      	cmp	r3, #2
 2000100e:	d81e      	bhi.n	2000104e <gotoxy+0x60>
-        return;
-    }
-    
-    // Set address to the correct location
-    unsigned char address = row - 1;
 20001010:	687b      	ldr	r3, [r7, #4]
 20001012:	b2da      	uxtb	r2, r3
 20001014:	230f      	movs	r3, #15
 20001016:	18fb      	adds	r3, r7, r3
 20001018:	3a01      	subs	r2, #1
 2000101a:	701a      	strb	r2, [r3, #0]
-    if(column == 2){
 2000101c:	683b      	ldr	r3, [r7, #0]
 2000101e:	2b02      	cmp	r3, #2
 20001020:	d106      	bne.n	20001030 <gotoxy+0x42>
-        address += 0x40;
 20001022:	230f      	movs	r3, #15
 20001024:	18fb      	adds	r3, r7, r3
 20001026:	220f      	movs	r2, #15
@@ -2617,10 +1950,6 @@ void gotoxy(unsigned int row, unsigned int column){
 2000102a:	7812      	ldrb	r2, [r2, #0]
 2000102c:	3240      	adds	r2, #64	; 0x40
 2000102e:	701a      	strb	r2, [r3, #0]
-    }
-    
-    // Send command to mark correct spot
-    ascii_command(0x80 | address, 39, 1);
 20001030:	230f      	movs	r3, #15
 20001032:	18fb      	adds	r3, r7, r3
 20001034:	781b      	ldrb	r3, [r3, #0]
@@ -2633,52 +1962,38 @@ void gotoxy(unsigned int row, unsigned int column){
 20001042:	0018      	movs	r0, r3
 20001044:	f7ff ff86 	bl	20000f54 <ascii_command>
 20001048:	e002      	b.n	20001050 <gotoxy+0x62>
-        return;
 2000104a:	46c0      	nop			; (mov r8, r8)
 2000104c:	e000      	b.n	20001050 <gotoxy+0x62>
-        return;
 2000104e:	46c0      	nop			; (mov r8, r8)
-}
 20001050:	46bd      	mov	sp, r7
 20001052:	b004      	add	sp, #16
 20001054:	bd80      	pop	{r7, pc}
 
 20001056 <ascii_write_string>:
-
-void ascii_write_string(char *s){
 20001056:	b580      	push	{r7, lr}
 20001058:	b082      	sub	sp, #8
 2000105a:	af00      	add	r7, sp, #0
 2000105c:	6078      	str	r0, [r7, #4]
-    // Write each character onto the display until the finishing character is reached
-    while(*s != 0){
 2000105e:	e006      	b.n	2000106e <ascii_write_string+0x18>
-        ascii_write_char(*s++);
 20001060:	687b      	ldr	r3, [r7, #4]
 20001062:	1c5a      	adds	r2, r3, #1
 20001064:	607a      	str	r2, [r7, #4]
 20001066:	781b      	ldrb	r3, [r3, #0]
 20001068:	0018      	movs	r0, r3
 2000106a:	f7ff ff9e 	bl	20000faa <ascii_write_char>
-    while(*s != 0){
 2000106e:	687b      	ldr	r3, [r7, #4]
 20001070:	781b      	ldrb	r3, [r3, #0]
 20001072:	2b00      	cmp	r3, #0
 20001074:	d1f4      	bne.n	20001060 <ascii_write_string+0xa>
-    }
-}
 20001076:	46c0      	nop			; (mov r8, r8)
 20001078:	46bd      	mov	sp, r7
 2000107a:	b002      	add	sp, #8
 2000107c:	bd80      	pop	{r7, pc}
 
 2000107e <ascii_clear_screen>:
-
-void ascii_clear_screen(void){
 2000107e:	b590      	push	{r4, r7, lr}
 20001080:	b089      	sub	sp, #36	; 0x24
 20001082:	af00      	add	r7, sp, #0
-    char empty[] = "                              ";
 20001084:	003b      	movs	r3, r7
 20001086:	4a0f      	ldr	r2, [pc, #60]	; (200010c4 <ascii_clear_screen+0x46>)
 20001088:	ca13      	ldmia	r2!, {r0, r1, r4}
@@ -2691,23 +2006,18 @@ void ascii_clear_screen(void){
 20001096:	8099      	strh	r1, [r3, #4]
 20001098:	7992      	ldrb	r2, [r2, #6]
 2000109a:	719a      	strb	r2, [r3, #6]
-    gotoxy(1, 1);
 2000109c:	2101      	movs	r1, #1
 2000109e:	2001      	movs	r0, #1
 200010a0:	f7ff ffa5 	bl	20000fee <gotoxy>
-    ascii_write_string(empty);
 200010a4:	003b      	movs	r3, r7
 200010a6:	0018      	movs	r0, r3
 200010a8:	f7ff ffd5 	bl	20001056 <ascii_write_string>
-    gotoxy(1, 2);
 200010ac:	2102      	movs	r1, #2
 200010ae:	2001      	movs	r0, #1
 200010b0:	f7ff ff9d 	bl	20000fee <gotoxy>
-    ascii_write_string(empty);
 200010b4:	003b      	movs	r3, r7
 200010b6:	0018      	movs	r0, r3
 200010b8:	f7ff ffcd 	bl	20001056 <ascii_write_string>
-}
 200010bc:	46c0      	nop			; (mov r8, r8)
 200010be:	46bd      	mov	sp, r7
 200010c0:	b009      	add	sp, #36	; 0x24
@@ -2715,19 +2025,14 @@ void ascii_clear_screen(void){
 200010c4:	200017f0 	strdcs	r1, [r0], -r0
 
 200010c8 <keyboard_init>:
-#include "keypad.h"
-
-void keyboard_init (void) {
 200010c8:	b580      	push	{r7, lr}
 200010ca:	af00      	add	r7, sp, #0
-    GPIO_D.moder &= 0x0000FFFF;
 200010cc:	4b15      	ldr	r3, [pc, #84]	; (20001124 <keyboard_init+0x5c>)
 200010ce:	4a15      	ldr	r2, [pc, #84]	; (20001124 <keyboard_init+0x5c>)
 200010d0:	6812      	ldr	r2, [r2, #0]
 200010d2:	0412      	lsls	r2, r2, #16
 200010d4:	0c12      	lsrs	r2, r2, #16
 200010d6:	601a      	str	r2, [r3, #0]
-	GPIO_D.moder |= 0x55000000;
 200010d8:	4b12      	ldr	r3, [pc, #72]	; (20001124 <keyboard_init+0x5c>)
 200010da:	4a12      	ldr	r2, [pc, #72]	; (20001124 <keyboard_init+0x5c>)
 200010dc:	6812      	ldr	r2, [r2, #0]
@@ -2735,26 +2040,22 @@ void keyboard_init (void) {
 200010e0:	05c9      	lsls	r1, r1, #23
 200010e2:	430a      	orrs	r2, r1
 200010e4:	601a      	str	r2, [r3, #0]
-	GPIO_D.otyper &= 0x00FF;
 200010e6:	4b0f      	ldr	r3, [pc, #60]	; (20001124 <keyboard_init+0x5c>)
 200010e8:	4a0e      	ldr	r2, [pc, #56]	; (20001124 <keyboard_init+0x5c>)
 200010ea:	6852      	ldr	r2, [r2, #4]
 200010ec:	21ff      	movs	r1, #255	; 0xff
 200010ee:	400a      	ands	r2, r1
 200010f0:	605a      	str	r2, [r3, #4]
-	GPIO_D.otyper |= 0x0000;
 200010f2:	4b0c      	ldr	r3, [pc, #48]	; (20001124 <keyboard_init+0x5c>)
 200010f4:	4a0b      	ldr	r2, [pc, #44]	; (20001124 <keyboard_init+0x5c>)
 200010f6:	6852      	ldr	r2, [r2, #4]
 200010f8:	605a      	str	r2, [r3, #4]
-	GPIO_D.pupdr &= 0x0000FFFF;
 200010fa:	4b0a      	ldr	r3, [pc, #40]	; (20001124 <keyboard_init+0x5c>)
 200010fc:	4a09      	ldr	r2, [pc, #36]	; (20001124 <keyboard_init+0x5c>)
 200010fe:	68d2      	ldr	r2, [r2, #12]
 20001100:	0412      	lsls	r2, r2, #16
 20001102:	0c12      	lsrs	r2, r2, #16
 20001104:	60da      	str	r2, [r3, #12]
-	GPIO_D.pupdr |= 0x00AA0000;
 20001106:	4b07      	ldr	r3, [pc, #28]	; (20001124 <keyboard_init+0x5c>)
 20001108:	4a06      	ldr	r2, [pc, #24]	; (20001124 <keyboard_init+0x5c>)
 2000110a:	68d2      	ldr	r2, [r2, #12]
@@ -2762,51 +2063,38 @@ void keyboard_init (void) {
 2000110e:	0409      	lsls	r1, r1, #16
 20001110:	430a      	orrs	r2, r1
 20001112:	60da      	str	r2, [r3, #12]
-	GPIO_D.odrHigh &= 0x00FF;
 20001114:	4b03      	ldr	r3, [pc, #12]	; (20001124 <keyboard_init+0x5c>)
 20001116:	4a03      	ldr	r2, [pc, #12]	; (20001124 <keyboard_init+0x5c>)
 20001118:	7d52      	ldrb	r2, [r2, #21]
 2000111a:	b2d2      	uxtb	r2, r2
 2000111c:	755a      	strb	r2, [r3, #21]
-}
 2000111e:	46c0      	nop			; (mov r8, r8)
 20001120:	46bd      	mov	sp, r7
 20001122:	bd80      	pop	{r7, pc}
 20001124:	40020c00 	andmi	r0, r2, r0, lsl #24
 
 20001128 <keyb>:
-
-unsigned char keyb(void){
 20001128:	b580      	push	{r7, lr}
 2000112a:	b082      	sub	sp, #8
 2000112c:	af00      	add	r7, sp, #0
-	unsigned char row, column;
-	
-	for (unsigned char row = 1; row <= 4; row++) {
 2000112e:	1dfb      	adds	r3, r7, #7
 20001130:	2201      	movs	r2, #1
 20001132:	701a      	strb	r2, [r3, #0]
 20001134:	e020      	b.n	20001178 <keyb+0x50>
-		// mind the one indexing of rows and columns, to simplify resetting of values
-		ActivateRow(row);
 20001136:	1dfb      	adds	r3, r7, #7
 20001138:	781b      	ldrb	r3, [r3, #0]
 2000113a:	0018      	movs	r0, r3
 2000113c:	f000 f82a 	bl	20001194 <ActivateRow>
-		column = ReadColumn();
 20001140:	f000 f854 	bl	200011ec <ReadColumn>
 20001144:	0002      	movs	r2, r0
 20001146:	1dbb      	adds	r3, r7, #6
 20001148:	701a      	strb	r2, [r3, #0]
-		if (column > 0){
 2000114a:	1dbb      	adds	r3, r7, #6
 2000114c:	781b      	ldrb	r3, [r3, #0]
 2000114e:	2b00      	cmp	r3, #0
 20001150:	d00d      	beq.n	2000116e <keyb+0x46>
-			ActivateRow(0);
 20001152:	2000      	movs	r0, #0
 20001154:	f000 f81e 	bl	20001194 <ActivateRow>
-			return key[row - 1][column - 1];
 20001158:	1dfb      	adds	r3, r7, #7
 2000115a:	781b      	ldrb	r3, [r3, #0]
 2000115c:	1e5a      	subs	r2, r3, #1
@@ -2818,7 +2106,6 @@ unsigned char keyb(void){
 20001168:	188a      	adds	r2, r1, r2
 2000116a:	5cd3      	ldrb	r3, [r2, r3]
 2000116c:	e00c      	b.n	20001188 <keyb+0x60>
-	for (unsigned char row = 1; row <= 4; row++) {
 2000116e:	1dfb      	adds	r3, r7, #7
 20001170:	781a      	ldrb	r2, [r3, #0]
 20001172:	1dfb      	adds	r3, r7, #7
@@ -2828,15 +2115,9 @@ unsigned char keyb(void){
 2000117a:	781b      	ldrb	r3, [r3, #0]
 2000117c:	2b04      	cmp	r3, #4
 2000117e:	d9da      	bls.n	20001136 <keyb+0xe>
-			//return decode7segMatrix[row - 1][column - 1];
-		}
-	}
-	ActivateRow(0);
 20001180:	2000      	movs	r0, #0
 20001182:	f000 f807 	bl	20001194 <ActivateRow>
-	return 0xFF;
 20001186:	23ff      	movs	r3, #255	; 0xff
-}
 20001188:	0018      	movs	r0, r3
 2000118a:	46bd      	mov	sp, r7
 2000118c:	b002      	add	sp, #8
@@ -2844,15 +2125,12 @@ unsigned char keyb(void){
 20001190:	20001730 	andcs	r1, r0, r0, lsr r7
 
 20001194 <ActivateRow>:
-
-void ActivateRow(unsigned char row) {
 20001194:	b580      	push	{r7, lr}
 20001196:	b082      	sub	sp, #8
 20001198:	af00      	add	r7, sp, #0
 2000119a:	0002      	movs	r2, r0
 2000119c:	1dfb      	adds	r3, r7, #7
 2000119e:	701a      	strb	r2, [r3, #0]
-	switch(row){
 200011a0:	1dfb      	adds	r3, r7, #7
 200011a2:	781b      	ldrb	r3, [r3, #0]
 200011a4:	2b04      	cmp	r3, #4
@@ -2862,33 +2140,26 @@ void ActivateRow(unsigned char row) {
 200011ac:	18d3      	adds	r3, r2, r3
 200011ae:	681b      	ldr	r3, [r3, #0]
 200011b0:	469f      	mov	pc, r3
-		case 0: GPIO_D.odrHigh = 0x0; break; //0 to reset
 200011b2:	4b0d      	ldr	r3, [pc, #52]	; (200011e8 <ActivateRow+0x54>)
 200011b4:	2200      	movs	r2, #0
 200011b6:	755a      	strb	r2, [r3, #21]
 200011b8:	e00f      	b.n	200011da <ActivateRow+0x46>
-		case 1: GPIO_D.odrHigh = 0x10; break;
 200011ba:	4b0b      	ldr	r3, [pc, #44]	; (200011e8 <ActivateRow+0x54>)
 200011bc:	2210      	movs	r2, #16
 200011be:	755a      	strb	r2, [r3, #21]
 200011c0:	e00b      	b.n	200011da <ActivateRow+0x46>
-		case 2: GPIO_D.odrHigh = 0x20; break;
 200011c2:	4b09      	ldr	r3, [pc, #36]	; (200011e8 <ActivateRow+0x54>)
 200011c4:	2220      	movs	r2, #32
 200011c6:	755a      	strb	r2, [r3, #21]
 200011c8:	e007      	b.n	200011da <ActivateRow+0x46>
-		case 3: GPIO_D.odrHigh = 0x40; break;
 200011ca:	4b07      	ldr	r3, [pc, #28]	; (200011e8 <ActivateRow+0x54>)
 200011cc:	2240      	movs	r2, #64	; 0x40
 200011ce:	755a      	strb	r2, [r3, #21]
 200011d0:	e003      	b.n	200011da <ActivateRow+0x46>
-		case 4: GPIO_D.odrHigh = 0x80; break;
 200011d2:	4b05      	ldr	r3, [pc, #20]	; (200011e8 <ActivateRow+0x54>)
 200011d4:	2280      	movs	r2, #128	; 0x80
 200011d6:	755a      	strb	r2, [r3, #21]
 200011d8:	46c0      	nop			; (mov r8, r8)
-	}
-}
 200011da:	46c0      	nop			; (mov r8, r8)
 200011dc:	46bd      	mov	sp, r7
 200011de:	b002      	add	sp, #8
@@ -2898,19 +2169,13 @@ void ActivateRow(unsigned char row) {
 200011e8:	40020c00 	andmi	r0, r2, r0, lsl #24
 
 200011ec <ReadColumn>:
-
-int ReadColumn(void) {
 200011ec:	b580      	push	{r7, lr}
 200011ee:	b082      	sub	sp, #8
 200011f0:	af00      	add	r7, sp, #0
-	// Returns column number of pressed key, observe that the columns of the keyboard are read from right to left!
-	unsigned char c;
-	c = GPIO_D.idrHigh;
 200011f2:	4a12      	ldr	r2, [pc, #72]	; (2000123c <ReadColumn+0x50>)
 200011f4:	1dfb      	adds	r3, r7, #7
 200011f6:	7c52      	ldrb	r2, [r2, #17]
 200011f8:	701a      	strb	r2, [r3, #0]
-	if (c & 0x8){return 4;}
 200011fa:	1dfb      	adds	r3, r7, #7
 200011fc:	781b      	ldrb	r3, [r3, #0]
 200011fe:	2208      	movs	r2, #8
@@ -2918,7 +2183,6 @@ int ReadColumn(void) {
 20001202:	d001      	beq.n	20001208 <ReadColumn+0x1c>
 20001204:	2304      	movs	r3, #4
 20001206:	e015      	b.n	20001234 <ReadColumn+0x48>
-	if (c & 0x4){return 3;}
 20001208:	1dfb      	adds	r3, r7, #7
 2000120a:	781b      	ldrb	r3, [r3, #0]
 2000120c:	2204      	movs	r2, #4
@@ -2926,7 +2190,6 @@ int ReadColumn(void) {
 20001210:	d001      	beq.n	20001216 <ReadColumn+0x2a>
 20001212:	2303      	movs	r3, #3
 20001214:	e00e      	b.n	20001234 <ReadColumn+0x48>
-	if (c & 0x2){return 2;}
 20001216:	1dfb      	adds	r3, r7, #7
 20001218:	781b      	ldrb	r3, [r3, #0]
 2000121a:	2202      	movs	r2, #2
@@ -2934,7 +2197,6 @@ int ReadColumn(void) {
 2000121e:	d001      	beq.n	20001224 <ReadColumn+0x38>
 20001220:	2302      	movs	r3, #2
 20001222:	e007      	b.n	20001234 <ReadColumn+0x48>
-	if (c & 0x1){return 1;}
 20001224:	1dfb      	adds	r3, r7, #7
 20001226:	781b      	ldrb	r3, [r3, #0]
 20001228:	2201      	movs	r2, #1
@@ -2942,7 +2204,6 @@ int ReadColumn(void) {
 2000122c:	d001      	beq.n	20001232 <ReadColumn+0x46>
 2000122e:	2301      	movs	r3, #1
 20001230:	e000      	b.n	20001234 <ReadColumn+0x48>
-	return 0;
 20001232:	2300      	movs	r3, #0
 20001234:	0018      	movs	r0, r3
 20001236:	46bd      	mov	sp, r7
@@ -2951,9 +2212,6 @@ int ReadColumn(void) {
 2000123c:	40020c00 	andmi	r0, r2, r0, lsl #24
 
 20001240 <load_sprite>:
-#include "sprites.h"
-
-void load_sprite(SPRITE* s, unsigned char* data, int width, int height){
 20001240:	b580      	push	{r7, lr}
 20001242:	b084      	sub	sp, #16
 20001244:	af00      	add	r7, sp, #0
@@ -2961,29 +2219,23 @@ void load_sprite(SPRITE* s, unsigned char* data, int width, int height){
 20001248:	60b9      	str	r1, [r7, #8]
 2000124a:	607a      	str	r2, [r7, #4]
 2000124c:	603b      	str	r3, [r7, #0]
-    s->width = width;
 2000124e:	687b      	ldr	r3, [r7, #4]
 20001250:	b2da      	uxtb	r2, r3
 20001252:	68fb      	ldr	r3, [r7, #12]
 20001254:	701a      	strb	r2, [r3, #0]
-    s->height = height;
 20001256:	683b      	ldr	r3, [r7, #0]
 20001258:	b2da      	uxtb	r2, r3
 2000125a:	68fb      	ldr	r3, [r7, #12]
 2000125c:	705a      	strb	r2, [r3, #1]
-    s->data = data;
 2000125e:	68fb      	ldr	r3, [r7, #12]
 20001260:	68ba      	ldr	r2, [r7, #8]
 20001262:	605a      	str	r2, [r3, #4]
-}
 20001264:	46c0      	nop			; (mov r8, r8)
 20001266:	46bd      	mov	sp, r7
 20001268:	b004      	add	sp, #16
 2000126a:	bd80      	pop	{r7, pc}
 
 2000126c <draw_sprite>:
-
-void draw_sprite(SPRITE* s, int x, int y, int set){
 2000126c:	b580      	push	{r7, lr}
 2000126e:	b08a      	sub	sp, #40	; 0x28
 20001270:	af00      	add	r7, sp, #0
@@ -2991,9 +2243,6 @@ void draw_sprite(SPRITE* s, int x, int y, int set){
 20001274:	60b9      	str	r1, [r7, #8]
 20001276:	607a      	str	r2, [r7, #4]
 20001278:	603b      	str	r3, [r7, #0]
-    int width_in_bytes;
-    
-    if(s->width % 8 == 0){
 2000127a:	68fb      	ldr	r3, [r7, #12]
 2000127c:	781b      	ldrb	r3, [r3, #0]
 2000127e:	2207      	movs	r2, #7
@@ -3001,32 +2250,24 @@ void draw_sprite(SPRITE* s, int x, int y, int set){
 20001282:	b2db      	uxtb	r3, r3
 20001284:	2b00      	cmp	r3, #0
 20001286:	d105      	bne.n	20001294 <draw_sprite+0x28>
-        width_in_bytes = s->width / 8;
 20001288:	68fb      	ldr	r3, [r7, #12]
 2000128a:	781b      	ldrb	r3, [r3, #0]
 2000128c:	08db      	lsrs	r3, r3, #3
 2000128e:	b2db      	uxtb	r3, r3
 20001290:	627b      	str	r3, [r7, #36]	; 0x24
 20001292:	e005      	b.n	200012a0 <draw_sprite+0x34>
-    } else {
-        width_in_bytes = s->width / 8 + 1;
 20001294:	68fb      	ldr	r3, [r7, #12]
 20001296:	781b      	ldrb	r3, [r3, #0]
 20001298:	08db      	lsrs	r3, r3, #3
 2000129a:	b2db      	uxtb	r3, r3
 2000129c:	3301      	adds	r3, #1
 2000129e:	627b      	str	r3, [r7, #36]	; 0x24
-    }
-    
-    for(int i = 0; i < s->height; i++){
 200012a0:	2300      	movs	r3, #0
 200012a2:	623b      	str	r3, [r7, #32]
 200012a4:	e045      	b.n	20001332 <draw_sprite+0xc6>
-        for(int j = 0; j < width_in_bytes; j++){
 200012a6:	2300      	movs	r3, #0
 200012a8:	61fb      	str	r3, [r7, #28]
 200012aa:	e03b      	b.n	20001324 <draw_sprite+0xb8>
-            unsigned char byte = s->data[i * width_in_bytes + j];
 200012ac:	68fb      	ldr	r3, [r7, #12]
 200012ae:	685b      	ldr	r3, [r3, #4]
 200012b0:	6a3a      	ldr	r2, [r7, #32]
@@ -3039,11 +2280,9 @@ void draw_sprite(SPRITE* s, int x, int y, int set){
 200012be:	18fb      	adds	r3, r7, r3
 200012c0:	7812      	ldrb	r2, [r2, #0]
 200012c2:	701a      	strb	r2, [r3, #0]
-            for(int k = 0; k < 8; k++){
 200012c4:	2300      	movs	r3, #0
 200012c6:	61bb      	str	r3, [r7, #24]
 200012c8:	e026      	b.n	20001318 <draw_sprite+0xac>
-                if(byte & (1 << k)){
 200012ca:	2317      	movs	r3, #23
 200012cc:	18fb      	adds	r3, r7, r3
 200012ce:	781a      	ldrb	r2, [r3, #0]
@@ -3053,7 +2292,6 @@ void draw_sprite(SPRITE* s, int x, int y, int set){
 200012d6:	2201      	movs	r2, #1
 200012d8:	4013      	ands	r3, r2
 200012da:	d01a      	beq.n	20001312 <draw_sprite+0xa6>
-                    pixel(8 * j + k + x + 1, i + y + 1, set);
 200012dc:	69fb      	ldr	r3, [r7, #28]
 200012de:	b2db      	uxtb	r3, r3
 200012e0:	00db      	lsls	r3, r3, #3
@@ -3080,14 +2318,12 @@ void draw_sprite(SPRITE* s, int x, int y, int set){
 2000130a:	b2d2      	uxtb	r2, r2
 2000130c:	0019      	movs	r1, r3
 2000130e:	f7ff fb6e 	bl	200009ee <pixel>
-            for(int k = 0; k < 8; k++){
 20001312:	69bb      	ldr	r3, [r7, #24]
 20001314:	3301      	adds	r3, #1
 20001316:	61bb      	str	r3, [r7, #24]
 20001318:	69bb      	ldr	r3, [r7, #24]
 2000131a:	2b07      	cmp	r3, #7
 2000131c:	ddd5      	ble.n	200012ca <draw_sprite+0x5e>
-        for(int j = 0; j < width_in_bytes; j++){
 2000131e:	69fb      	ldr	r3, [r7, #28]
 20001320:	3301      	adds	r3, #1
 20001322:	61fb      	str	r3, [r7, #28]
@@ -3095,7 +2331,6 @@ void draw_sprite(SPRITE* s, int x, int y, int set){
 20001326:	6a7b      	ldr	r3, [r7, #36]	; 0x24
 20001328:	429a      	cmp	r2, r3
 2000132a:	dbbf      	blt.n	200012ac <draw_sprite+0x40>
-    for(int i = 0; i < s->height; i++){
 2000132c:	6a3b      	ldr	r3, [r7, #32]
 2000132e:	3301      	adds	r3, #1
 20001330:	623b      	str	r3, [r7, #32]
@@ -3105,24 +2340,16 @@ void draw_sprite(SPRITE* s, int x, int y, int set){
 20001338:	6a3b      	ldr	r3, [r7, #32]
 2000133a:	429a      	cmp	r2, r3
 2000133c:	dcb3      	bgt.n	200012a6 <draw_sprite+0x3a>
-                }
-            }
-        }
-    }
-}
 2000133e:	46c0      	nop			; (mov r8, r8)
 20001340:	46bd      	mov	sp, r7
 20001342:	b00a      	add	sp, #40	; 0x28
 20001344:	bd80      	pop	{r7, pc}
 
 20001346 <draw_sprite_object>:
-
-void draw_sprite_object(PSPRITE_OBJECT p){
 20001346:	b580      	push	{r7, lr}
 20001348:	b082      	sub	sp, #8
 2000134a:	af00      	add	r7, sp, #0
 2000134c:	6078      	str	r0, [r7, #4]
-    draw_sprite(p->sprt, p->pos_x, p->pos_y, 1);
 2000134e:	687b      	ldr	r3, [r7, #4]
 20001350:	6818      	ldr	r0, [r3, #0]
 20001352:	687b      	ldr	r3, [r7, #4]
@@ -3131,20 +2358,16 @@ void draw_sprite_object(PSPRITE_OBJECT p){
 20001358:	691a      	ldr	r2, [r3, #16]
 2000135a:	2301      	movs	r3, #1
 2000135c:	f7ff ff86 	bl	2000126c <draw_sprite>
-}
 20001360:	46c0      	nop			; (mov r8, r8)
 20001362:	46bd      	mov	sp, r7
 20001364:	b002      	add	sp, #8
 20001366:	bd80      	pop	{r7, pc}
 
 20001368 <clear_sprite_object>:
-
-void clear_sprite_object(PSPRITE_OBJECT p){
 20001368:	b580      	push	{r7, lr}
 2000136a:	b082      	sub	sp, #8
 2000136c:	af00      	add	r7, sp, #0
 2000136e:	6078      	str	r0, [r7, #4]
-    draw_sprite(p->sprt, p->pos_x, p->pos_y, 0);
 20001370:	687b      	ldr	r3, [r7, #4]
 20001372:	6818      	ldr	r0, [r3, #0]
 20001374:	687b      	ldr	r3, [r7, #4]
@@ -3153,26 +2376,21 @@ void clear_sprite_object(PSPRITE_OBJECT p){
 2000137a:	691a      	ldr	r2, [r3, #16]
 2000137c:	2300      	movs	r3, #0
 2000137e:	f7ff ff75 	bl	2000126c <draw_sprite>
-}
 20001382:	46c0      	nop			; (mov r8, r8)
 20001384:	46bd      	mov	sp, r7
 20001386:	b002      	add	sp, #8
 20001388:	bd80      	pop	{r7, pc}
 
 2000138a <move_sprite_object>:
-
-void move_sprite_object(PSPRITE_OBJECT p){
 2000138a:	b580      	push	{r7, lr}
 2000138c:	b082      	sub	sp, #8
 2000138e:	af00      	add	r7, sp, #0
 20001390:	6078      	str	r0, [r7, #4]
-    p->clear(p);
 20001392:	687b      	ldr	r3, [r7, #4]
 20001394:	699b      	ldr	r3, [r3, #24]
 20001396:	687a      	ldr	r2, [r7, #4]
 20001398:	0010      	movs	r0, r2
 2000139a:	4798      	blx	r3
-    p->pos_x += p->dir_x;
 2000139c:	687b      	ldr	r3, [r7, #4]
 2000139e:	68da      	ldr	r2, [r3, #12]
 200013a0:	687b      	ldr	r3, [r7, #4]
@@ -3180,7 +2398,6 @@ void move_sprite_object(PSPRITE_OBJECT p){
 200013a4:	18d2      	adds	r2, r2, r3
 200013a6:	687b      	ldr	r3, [r7, #4]
 200013a8:	60da      	str	r2, [r3, #12]
-    p->pos_y += p->dir_y;
 200013aa:	687b      	ldr	r3, [r7, #4]
 200013ac:	691a      	ldr	r2, [r3, #16]
 200013ae:	687b      	ldr	r3, [r7, #4]
@@ -3188,22 +2405,16 @@ void move_sprite_object(PSPRITE_OBJECT p){
 200013b2:	18d2      	adds	r2, r2, r3
 200013b4:	687b      	ldr	r3, [r7, #4]
 200013b6:	611a      	str	r2, [r3, #16]
-    
-    if(p->pos_x < 0){
 200013b8:	687b      	ldr	r3, [r7, #4]
 200013ba:	68db      	ldr	r3, [r3, #12]
 200013bc:	2b00      	cmp	r3, #0
 200013be:	da05      	bge.n	200013cc <move_sprite_object+0x42>
-        p->pos_x = 0;
 200013c0:	687b      	ldr	r3, [r7, #4]
 200013c2:	2200      	movs	r2, #0
 200013c4:	60da      	str	r2, [r3, #12]
-        p->dir_x = 0;
 200013c6:	687b      	ldr	r3, [r7, #4]
 200013c8:	2200      	movs	r2, #0
 200013ca:	605a      	str	r2, [r3, #4]
-    }
-    if(p->pos_x + p->sprt->width > 127){
 200013cc:	687b      	ldr	r3, [r7, #4]
 200013ce:	68da      	ldr	r2, [r3, #12]
 200013d0:	687b      	ldr	r3, [r7, #4]
@@ -3212,7 +2423,6 @@ void move_sprite_object(PSPRITE_OBJECT p){
 200013d6:	18d3      	adds	r3, r2, r3
 200013d8:	2b7f      	cmp	r3, #127	; 0x7f
 200013da:	dd07      	ble.n	200013ec <move_sprite_object+0x62>
-        p->pos_x = 127 - p->sprt->width;
 200013dc:	687b      	ldr	r3, [r7, #4]
 200013de:	681b      	ldr	r3, [r3, #0]
 200013e0:	781b      	ldrb	r3, [r3, #0]
@@ -3221,23 +2431,16 @@ void move_sprite_object(PSPRITE_OBJECT p){
 200013e6:	1a9a      	subs	r2, r3, r2
 200013e8:	687b      	ldr	r3, [r7, #4]
 200013ea:	60da      	str	r2, [r3, #12]
-    }
-    
-    if(p->pos_y < 0){
 200013ec:	687b      	ldr	r3, [r7, #4]
 200013ee:	691b      	ldr	r3, [r3, #16]
 200013f0:	2b00      	cmp	r3, #0
 200013f2:	da05      	bge.n	20001400 <move_sprite_object+0x76>
-        p->pos_y = 0;
 200013f4:	687b      	ldr	r3, [r7, #4]
 200013f6:	2200      	movs	r2, #0
 200013f8:	611a      	str	r2, [r3, #16]
-        p->dir_y = 0;
 200013fa:	687b      	ldr	r3, [r7, #4]
 200013fc:	2200      	movs	r2, #0
 200013fe:	609a      	str	r2, [r3, #8]
-    }
-    if(p->pos_y + p->sprt->height > 63){
 20001400:	687b      	ldr	r3, [r7, #4]
 20001402:	691a      	ldr	r2, [r3, #16]
 20001404:	687b      	ldr	r3, [r7, #4]
@@ -3246,7 +2449,6 @@ void move_sprite_object(PSPRITE_OBJECT p){
 2000140a:	18d3      	adds	r3, r2, r3
 2000140c:	2b3f      	cmp	r3, #63	; 0x3f
 2000140e:	dd07      	ble.n	20001420 <move_sprite_object+0x96>
-        p->pos_y = 63 -p->sprt->height;
 20001410:	687b      	ldr	r3, [r7, #4]
 20001412:	681b      	ldr	r3, [r3, #0]
 20001414:	785b      	ldrb	r3, [r3, #1]
@@ -3255,77 +2457,55 @@ void move_sprite_object(PSPRITE_OBJECT p){
 2000141a:	1a9a      	subs	r2, r3, r2
 2000141c:	687b      	ldr	r3, [r7, #4]
 2000141e:	611a      	str	r2, [r3, #16]
-    }
-}
 20001420:	46c0      	nop			; (mov r8, r8)
 20001422:	46bd      	mov	sp, r7
 20001424:	b002      	add	sp, #8
 20001426:	bd80      	pop	{r7, pc}
 
 20001428 <set_sprite_object_speed>:
-
-void set_sprite_object_speed(PSPRITE_OBJECT p, int x, int y){
 20001428:	b580      	push	{r7, lr}
 2000142a:	b084      	sub	sp, #16
 2000142c:	af00      	add	r7, sp, #0
 2000142e:	60f8      	str	r0, [r7, #12]
 20001430:	60b9      	str	r1, [r7, #8]
 20001432:	607a      	str	r2, [r7, #4]
-    p->dir_x = x;
 20001434:	68fb      	ldr	r3, [r7, #12]
 20001436:	68ba      	ldr	r2, [r7, #8]
 20001438:	605a      	str	r2, [r3, #4]
-    p->dir_y = y;
 2000143a:	68fb      	ldr	r3, [r7, #12]
 2000143c:	687a      	ldr	r2, [r7, #4]
 2000143e:	609a      	str	r2, [r3, #8]
-}
 20001440:	46c0      	nop			; (mov r8, r8)
 20001442:	46bd      	mov	sp, r7
 20001444:	b004      	add	sp, #16
 20001446:	bd80      	pop	{r7, pc}
 
 20001448 <dummy_function1>:
-
-void dummy_function1(PSPRITE_OBJECT p){
 20001448:	b580      	push	{r7, lr}
 2000144a:	b082      	sub	sp, #8
 2000144c:	af00      	add	r7, sp, #0
 2000144e:	6078      	str	r0, [r7, #4]
-    return;
 20001450:	46c0      	nop			; (mov r8, r8)
-}
 20001452:	46bd      	mov	sp, r7
 20001454:	b002      	add	sp, #8
 20001456:	bd80      	pop	{r7, pc}
 
 20001458 <dummy_function2>:
-
-void dummy_function2(PSPRITE_OBJECT p, int x, int y){
 20001458:	b580      	push	{r7, lr}
 2000145a:	b084      	sub	sp, #16
 2000145c:	af00      	add	r7, sp, #0
 2000145e:	60f8      	str	r0, [r7, #12]
 20001460:	60b9      	str	r1, [r7, #8]
 20001462:	607a      	str	r2, [r7, #4]
-    return;
 20001464:	46c0      	nop			; (mov r8, r8)
-}
 20001466:	46bd      	mov	sp, r7
 20001468:	b004      	add	sp, #16
 2000146a:	bd80      	pop	{r7, pc}
 
 2000146c <init_wall>:
-    // Load default sprite for Spoopy
-    
-    return &spoopy;
-}*/
-
-PSPRITE_OBJECT init_wall(void){
 2000146c:	b580      	push	{r7, lr}
 2000146e:	b08c      	sub	sp, #48	; 0x30
 20001470:	af00      	add	r7, sp, #0
-    SPRITE wall_sprite = {
 20001472:	2324      	movs	r3, #36	; 0x24
 20001474:	18fb      	adds	r3, r7, r3
 20001476:	2200      	movs	r2, #0
@@ -3338,24 +2518,14 @@ PSPRITE_OBJECT init_wall(void){
 20001484:	18fb      	adds	r3, r7, r3
 20001486:	2200      	movs	r2, #0
 20001488:	605a      	str	r2, [r3, #4]
-        0,
-        0,
-        {0}
-    };
-    
-    PSPRITE wall_sprite_pointer = &wall_sprite;
 2000148a:	2324      	movs	r3, #36	; 0x24
 2000148c:	18fb      	adds	r3, r7, r3
 2000148e:	62fb      	str	r3, [r7, #44]	; 0x2c
-    
-    load_sprite(wall_sprite_pointer, wall_bits, wall_width, wall_height);
 20001490:	4913      	ldr	r1, [pc, #76]	; (200014e0 <init_wall+0x74>)
 20001492:	6af8      	ldr	r0, [r7, #44]	; 0x2c
 20001494:	2310      	movs	r3, #16
 20001496:	2210      	movs	r2, #16
 20001498:	f7ff fed2 	bl	20001240 <load_sprite>
-    
-    SPRITE_OBJECT wall = {
 2000149c:	003b      	movs	r3, r7
 2000149e:	6afa      	ldr	r2, [r7, #44]	; 0x2c
 200014a0:	601a      	str	r2, [r3, #0]
@@ -3385,14 +2555,7 @@ PSPRITE_OBJECT init_wall(void){
 200014d0:	003b      	movs	r3, r7
 200014d2:	4a07      	ldr	r2, [pc, #28]	; (200014f0 <init_wall+0x84>)
 200014d4:	621a      	str	r2, [r3, #32]
-        clear_sprite_object,
-        dummy_function1,
-        dummy_function2
-    };
-    
-    return &wall;
 200014d6:	2300      	movs	r3, #0
-}
 200014d8:	0018      	movs	r0, r3
 200014da:	46bd      	mov	sp, r7
 200014dc:	b00c      	add	sp, #48	; 0x30
@@ -3404,12 +2567,9 @@ PSPRITE_OBJECT init_wall(void){
 200014f0:	20001459 	andcs	r1, r0, r9, asr r4
 
 200014f4 <init_exit>:
-
-PSPRITE_OBJECT init_exit(void){
 200014f4:	b580      	push	{r7, lr}
 200014f6:	b08c      	sub	sp, #48	; 0x30
 200014f8:	af00      	add	r7, sp, #0
-    SPRITE exit_sprite = {
 200014fa:	2324      	movs	r3, #36	; 0x24
 200014fc:	18fb      	adds	r3, r7, r3
 200014fe:	2200      	movs	r2, #0
@@ -3422,24 +2582,14 @@ PSPRITE_OBJECT init_exit(void){
 2000150c:	18fb      	adds	r3, r7, r3
 2000150e:	2200      	movs	r2, #0
 20001510:	605a      	str	r2, [r3, #4]
-        0,
-        0,
-        {0}
-    };
-    
-    PSPRITE exit_sprite_pointer = &exit_sprite;
 20001512:	2324      	movs	r3, #36	; 0x24
 20001514:	18fb      	adds	r3, r7, r3
 20001516:	62fb      	str	r3, [r7, #44]	; 0x2c
-    
-    load_sprite(exit_sprite_pointer, exit_bits, exit_width, exit_height);
 20001518:	4913      	ldr	r1, [pc, #76]	; (20001568 <init_exit+0x74>)
 2000151a:	6af8      	ldr	r0, [r7, #44]	; 0x2c
 2000151c:	2310      	movs	r3, #16
 2000151e:	2210      	movs	r2, #16
 20001520:	f7ff fe8e 	bl	20001240 <load_sprite>
-    
-    SPRITE_OBJECT exit = {
 20001524:	003b      	movs	r3, r7
 20001526:	6afa      	ldr	r2, [r7, #44]	; 0x2c
 20001528:	601a      	str	r2, [r3, #0]
@@ -3469,14 +2619,7 @@ PSPRITE_OBJECT init_exit(void){
 20001558:	003b      	movs	r3, r7
 2000155a:	4a07      	ldr	r2, [pc, #28]	; (20001578 <init_exit+0x84>)
 2000155c:	621a      	str	r2, [r3, #32]
-        clear_sprite_object,
-        dummy_function1,
-        dummy_function2
-    };
-    
-    return &exit;
 2000155e:	2300      	movs	r3, #0
-}
 20001560:	0018      	movs	r0, r3
 20001562:	46bd      	mov	sp, r7
 20001564:	b00c      	add	sp, #48	; 0x30
@@ -3488,31 +2631,25 @@ PSPRITE_OBJECT init_exit(void){
 20001578:	20001459 	andcs	r1, r0, r9, asr r4
 
 2000157c <update_sprite_object>:
-
-void update_sprite_object(PSPRITE_OBJECT obj){
 2000157c:	b580      	push	{r7, lr}
 2000157e:	b082      	sub	sp, #8
 20001580:	af00      	add	r7, sp, #0
 20001582:	6078      	str	r0, [r7, #4]
-    obj->clear(obj);
 20001584:	687b      	ldr	r3, [r7, #4]
 20001586:	699b      	ldr	r3, [r3, #24]
 20001588:	687a      	ldr	r2, [r7, #4]
 2000158a:	0010      	movs	r0, r2
 2000158c:	4798      	blx	r3
-    obj->move(obj);
 2000158e:	687b      	ldr	r3, [r7, #4]
 20001590:	69db      	ldr	r3, [r3, #28]
 20001592:	687a      	ldr	r2, [r7, #4]
 20001594:	0010      	movs	r0, r2
 20001596:	4798      	blx	r3
-    obj->draw(obj);
 20001598:	687b      	ldr	r3, [r7, #4]
 2000159a:	695b      	ldr	r3, [r3, #20]
 2000159c:	687a      	ldr	r2, [r7, #4]
 2000159e:	0010      	movs	r0, r2
 200015a0:	4798      	blx	r3
-}
 200015a2:	46c0      	nop			; (mov r8, r8)
 200015a4:	46bd      	mov	sp, r7
 200015a6:	b002      	add	sp, #8
@@ -3520,57 +2657,44 @@ void update_sprite_object(PSPRITE_OBJECT obj){
 200015aa:	46c0      	nop			; (mov r8, r8)
 
 200015ac <delay_250ns>:
-#include "delay.h"
-
-void delay_250ns(void){
 200015ac:	b580      	push	{r7, lr}
 200015ae:	af00      	add	r7, sp, #0
-    STK_CTRL &= 0xFFFEFFF8;
 200015b0:	4b13      	ldr	r3, [pc, #76]	; (20001600 <delay_250ns+0x54>)
 200015b2:	4a13      	ldr	r2, [pc, #76]	; (20001600 <delay_250ns+0x54>)
 200015b4:	6812      	ldr	r2, [r2, #0]
 200015b6:	4913      	ldr	r1, [pc, #76]	; (20001604 <delay_250ns+0x58>)
 200015b8:	400a      	ands	r2, r1
 200015ba:	601a      	str	r2, [r3, #0]
-    STK_LOAD &= 0xFF000000;
 200015bc:	4b12      	ldr	r3, [pc, #72]	; (20001608 <delay_250ns+0x5c>)
 200015be:	4a12      	ldr	r2, [pc, #72]	; (20001608 <delay_250ns+0x5c>)
 200015c0:	6812      	ldr	r2, [r2, #0]
 200015c2:	0e12      	lsrs	r2, r2, #24
 200015c4:	0612      	lsls	r2, r2, #24
 200015c6:	601a      	str	r2, [r3, #0]
-    STK_LOAD |= COUNT_VAL-1;
 200015c8:	4b0f      	ldr	r3, [pc, #60]	; (20001608 <delay_250ns+0x5c>)
 200015ca:	4a0f      	ldr	r2, [pc, #60]	; (20001608 <delay_250ns+0x5c>)
 200015cc:	6812      	ldr	r2, [r2, #0]
 200015ce:	2129      	movs	r1, #41	; 0x29
 200015d0:	430a      	orrs	r2, r1
 200015d2:	601a      	str	r2, [r3, #0]
-    STK_VAL = 0;
 200015d4:	4b0d      	ldr	r3, [pc, #52]	; (2000160c <delay_250ns+0x60>)
 200015d6:	2200      	movs	r2, #0
 200015d8:	601a      	str	r2, [r3, #0]
-    STK_CTRL |= 0x5;
 200015da:	4b09      	ldr	r3, [pc, #36]	; (20001600 <delay_250ns+0x54>)
 200015dc:	4a08      	ldr	r2, [pc, #32]	; (20001600 <delay_250ns+0x54>)
 200015de:	6812      	ldr	r2, [r2, #0]
 200015e0:	2105      	movs	r1, #5
 200015e2:	430a      	orrs	r2, r1
 200015e4:	601a      	str	r2, [r3, #0]
-    
-    while(STK_CTRL & 0x00010000 == 0);
 200015e6:	46c0      	nop			; (mov r8, r8)
 200015e8:	4b05      	ldr	r3, [pc, #20]	; (20001600 <delay_250ns+0x54>)
 200015ea:	681b      	ldr	r3, [r3, #0]
-    
-    STK_CTRL &= 0xFFFEFFF8;
 200015ec:	4b04      	ldr	r3, [pc, #16]	; (20001600 <delay_250ns+0x54>)
 200015ee:	4a04      	ldr	r2, [pc, #16]	; (20001600 <delay_250ns+0x54>)
 200015f0:	6812      	ldr	r2, [r2, #0]
 200015f2:	4904      	ldr	r1, [pc, #16]	; (20001604 <delay_250ns+0x58>)
 200015f4:	400a      	ands	r2, r1
 200015f6:	601a      	str	r2, [r3, #0]
-}
 200015f8:	46c0      	nop			; (mov r8, r8)
 200015fa:	46bd      	mov	sp, r7
 200015fc:	bd80      	pop	{r7, pc}
@@ -3581,33 +2705,23 @@ void delay_250ns(void){
 2000160c:	e000e018 	and	lr, r0, r8, lsl r0
 
 20001610 <delay_500ns>:
-
-void delay_500ns(void){
 20001610:	b580      	push	{r7, lr}
 20001612:	af00      	add	r7, sp, #0
-    delay_250ns();
 20001614:	f7ff ffca 	bl	200015ac <delay_250ns>
-    delay_250ns();
 20001618:	f7ff ffc8 	bl	200015ac <delay_250ns>
-}
 2000161c:	46c0      	nop			; (mov r8, r8)
 2000161e:	46bd      	mov	sp, r7
 20001620:	bd80      	pop	{r7, pc}
 
 20001622 <delay_mikro>:
-
-void delay_mikro(unsigned int us){
 20001622:	b580      	push	{r7, lr}
 20001624:	b084      	sub	sp, #16
 20001626:	af00      	add	r7, sp, #0
 20001628:	6078      	str	r0, [r7, #4]
-    for(int i=0; i < us*2; i++){
 2000162a:	2300      	movs	r3, #0
 2000162c:	60fb      	str	r3, [r7, #12]
 2000162e:	e004      	b.n	2000163a <delay_mikro+0x18>
-        delay_500ns();
 20001630:	f7ff ffee 	bl	20001610 <delay_500ns>
-    for(int i=0; i < us*2; i++){
 20001634:	68fb      	ldr	r3, [r7, #12]
 20001636:	3301      	adds	r3, #1
 20001638:	60fb      	str	r3, [r7, #12]
@@ -3616,33 +2730,23 @@ void delay_mikro(unsigned int us){
 2000163e:	68fb      	ldr	r3, [r7, #12]
 20001640:	429a      	cmp	r2, r3
 20001642:	d8f5      	bhi.n	20001630 <delay_mikro+0xe>
-    }
-}
 20001644:	46c0      	nop			; (mov r8, r8)
 20001646:	46bd      	mov	sp, r7
 20001648:	b004      	add	sp, #16
 2000164a:	bd80      	pop	{r7, pc}
 
 2000164c <delay_milli>:
-
-void delay_milli(unsigned int ms){
 2000164c:	b580      	push	{r7, lr}
 2000164e:	b082      	sub	sp, #8
 20001650:	af00      	add	r7, sp, #0
 20001652:	6078      	str	r0, [r7, #4]
-#ifndef SIMULATOR
-	delay_mikro(ms*MILLI_TO_MIKRO);
 20001654:	687b      	ldr	r3, [r7, #4]
 20001656:	22fa      	movs	r2, #250	; 0xfa
 20001658:	0092      	lsls	r2, r2, #2
 2000165a:	4353      	muls	r3, r2
 2000165c:	0018      	movs	r0, r3
 2000165e:	f7ff ffe0 	bl	20001622 <delay_mikro>
-	return;
 20001662:	46c0      	nop			; (mov r8, r8)
-#endif // For simulator
-    delay_mikro(ms);
-}
 20001664:	46bd      	mov	sp, r7
 20001666:	b002      	add	sp, #8
 20001668:	bd80      	pop	{r7, pc}
