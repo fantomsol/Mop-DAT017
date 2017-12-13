@@ -42,18 +42,20 @@ void move_sprite_object(PSPRITE_OBJECT p){
     
     if(p->pos_x < 0){
         p->pos_x = 0;
-        p->dir_x = 0;
+        p->dir_x = -p->dir_x;
     }
     if(p->pos_x + p->sprt->width > 127){
         p->pos_x = 127 - p->sprt->width;
+        p->dir_x = -p->dir_x;
     }
     
     if(p->pos_y < 0){
         p->pos_y = 0;
-        p->dir_y = 0;
+        p->dir_y = -p->dir_y;
     }
     if(p->pos_y + p->sprt->height > 63){
         p->pos_y = 63 -p->sprt->height;
+        p->dir_y = -p->dir_y;
     }
 }
 
@@ -68,64 +70,6 @@ void dummy_function1(PSPRITE_OBJECT p){
 
 void dummy_function2(PSPRITE_OBJECT p, int x, int y){
     return;
-}
-
-/*PSPRITE_OBJECT init_spoopy(PSPRITE spoopy_sprite_pointer){
-    
-    
-      = &spoopy_sprite;
-    
-    // Load default sprite for Spoopy
-    
-    return &spoopy;
-}*/
-
-PSPRITE_OBJECT init_wall(void){
-    SPRITE wall_sprite = {
-        0,
-        0,
-        {0}
-    };
-    
-    PSPRITE wall_sprite_pointer = &wall_sprite;
-    
-    load_sprite(wall_sprite_pointer, wall_bits, wall_width, wall_height);
-    
-    SPRITE_OBJECT wall = {
-        wall_sprite_pointer,
-        0, 0,
-        500, 500,
-        draw_sprite_object,
-        clear_sprite_object,
-        dummy_function1,
-        dummy_function2
-    };
-    
-    return &wall;
-}
-
-PSPRITE_OBJECT init_exit(void){
-    SPRITE exit_sprite = {
-        0,
-        0,
-        {0}
-    };
-    
-    PSPRITE exit_sprite_pointer = &exit_sprite;
-    
-    load_sprite(exit_sprite_pointer, exit_bits, exit_width, exit_height);
-    
-    SPRITE_OBJECT exit = {
-        exit_sprite_pointer,
-        0, 0,
-        500, 500,
-        draw_sprite_object,
-        clear_sprite_object,
-        dummy_function1,
-        dummy_function2
-    };
-    
-    return &exit;
 }
 
 void update_sprite_object(PSPRITE_OBJECT obj){

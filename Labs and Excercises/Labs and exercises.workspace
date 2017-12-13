@@ -9,8 +9,6 @@
   <Project Name="interruptions_and_exceptions" Path="interruptions_and_exceptions/interruptions_and_exceptions.project" Active="No"/>
   <Project Name="flipflop_irq" Path="flipflop_irq/flipflop_irq.project" Active="No"/>
   <Project Name="spoopys_bizarre_adventure" Path="spoopys_bizarre_adventure/spoopys_bizarre_adventure.project" Active="Yes"/>
-  <Project Name="spoopy_v2" Path="spoopy_v2/spoopy_v2.project" Active="No"/>
-  <Project Name="spoopy_v3" Path="spoopy_v3/spoopy_v3.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
